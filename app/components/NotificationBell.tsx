@@ -89,35 +89,50 @@ export default function NotificationBell() {
                             </div>
                         ) : (
                             <div className="flex flex-col gap-1">
-                                {/* Out of Stock */}
-                                {data?.outOfStock.map((item) => (
-                                    <div key={`oos-${item.id}`} className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors">
+                                {/* Out of Stock — grouped */}
+                                {data?.outOfStock && data.outOfStock.length > 0 && (
+                                    <div className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors">
                                         <div className="mt-0.5 p-2 bg-red-100 text-red-600 rounded-lg shrink-0">
                                             <PackageX size={16} />
                                         </div>
-                                        <div>
-                                            <p className="text-sm font-semibold text-slate-800">Out of Stock</p>
-                                            <p className="text-xs text-slate-600 mt-0.5">
-                                                <span className="font-medium text-slate-900">{item.name}</span> {item.size && `(${item.size})`} is completely finished.
-                                            </p>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-semibold text-slate-800 mb-1">Out of Stock</p>
+                                            <ol className="flex flex-col gap-0.5">
+                                                {data.outOfStock.map((item, idx) => (
+                                                    <li key={`oos-${item.id}`} className="text-xs text-slate-700">
+                                                        <span className="text-slate-400 font-semibold mr-1">{idx + 1}.</span>
+                                                        <span className="font-medium text-slate-900">{item.name}</span>
+                                                        {item.size && <span className="text-slate-500"> ({item.size})</span>}
+                                                    </li>
+                                                ))}
+                                            </ol>
                                         </div>
                                     </div>
-                                ))}
+                                )}
 
-                                {/* Low Stock */}
-                                {data?.lowStock.map((item) => (
-                                    <div key={`low-${item.id}`} className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors">
+                                {/* Low Stock — grouped */}
+                                {data?.lowStock && data.lowStock.length > 0 && (
+                                    <div className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors">
                                         <div className="mt-0.5 p-2 bg-amber-100 text-amber-600 rounded-lg shrink-0">
                                             <AlertTriangle size={16} />
                                         </div>
-                                        <div>
-                                            <p className="text-sm font-semibold text-slate-800">Low Stock Alert</p>
-                                            <p className="text-xs text-slate-600 mt-0.5">
-                                                <span className="font-medium text-slate-900">{item.name}</span> {item.size && `(${item.size})`} only has <span className="font-bold text-amber-600">{item.quantity}</span> left.
-                                            </p>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-semibold text-slate-800 mb-1">Low Stock Alert</p>
+                                            <ol className="flex flex-col gap-0.5">
+                                                {data.lowStock.map((item, idx) => (
+                                                    <li key={`low-${item.id}`} className="text-xs text-slate-700">
+                                                        <span className="text-slate-400 font-semibold mr-1">{idx + 1}.</span>
+                                                        <span className="font-medium text-slate-900">{item.name}</span>
+                                                        {item.size && <span className="text-slate-500"> ({item.size})</span>}
+                                                        <span> only has </span>
+                                                        <span className="font-bold text-amber-600">{item.quantity}</span>
+                                                        <span> left.</span>
+                                                    </li>
+                                                ))}
+                                            </ol>
                                         </div>
                                     </div>
-                                ))}
+                                )}
 
                                 {/* Overdue Loans */}
                                 {data?.overdueLoans.map((item) => {

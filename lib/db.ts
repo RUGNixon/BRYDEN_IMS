@@ -37,6 +37,7 @@ export interface Sale {
     size: string;
     quantity: number;
     sellingPrice: number;
+    profits?: number;           // added self-populating profits column
     status: boolean;            // true = bought on loan
     order: boolean;             // true = is an order
     date?: string;

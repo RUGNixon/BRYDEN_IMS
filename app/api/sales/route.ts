@@ -8,6 +8,7 @@ export async function GET() {
             `SELECT id, client_name AS "clientName", product_name AS "productName",
                     size, quantity,
                     selling_price AS "sellingPrice",
+                    profits,
                     status, "order", date, phone, email
              FROM sales
              ORDER BY id DESC`
@@ -28,9 +29,9 @@ export async function POST(req: NextRequest) {
 
         await client.query("BEGIN");
 
-        // 1. Fetch current stock
+        // 1. Fetch current stock and purchase price
         const productRes = await client.query(
-            `SELECT id, quantity FROM products
+            `SELECT id, quantity, purchase_price FROM products
              WHERE LOWER(name) = LOWER($1) AND size = $2
              LIMIT 1`,
             [productName, size]
@@ -59,6 +60,7 @@ export async function POST(req: NextRequest) {
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
              RETURNING id, client_name AS "clientName", product_name AS "productName",
                        size, quantity, selling_price AS "sellingPrice",
+                       profits,
                        status, "order", date, phone, email`,
             [
                 clientName,
