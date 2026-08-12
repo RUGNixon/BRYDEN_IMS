@@ -1,12 +1,22 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Bell, PackageX, AlertTriangle, HandCoins, X } from "lucide-react";
+import Link from "next/link";
+import { Bell, PackageX, AlertTriangle, HandCoins, NotebookPen, X } from "lucide-react";
+
+interface DueNote {
+    id: number;
+    title: string;
+    content: string;
+    reminderDate: string;
+    createdAt: string;
+}
 
 interface NotificationData {
     outOfStock: any[];
     lowStock: any[];
     overdueLoans: any[];
+    dueNotes: DueNote[];
     totalNotifications: number;
 }
 
@@ -32,7 +42,7 @@ export default function NotificationBell() {
 
     useEffect(() => {
         fetchNotifications();
-        // Optional: Poll every 5 minutes
+        // Poll every 5 minutes
         const interval = setInterval(fetchNotifications, 5 * 60 * 1000);
         return () => clearInterval(interval);
     }, []);
@@ -52,6 +62,18 @@ export default function NotificationBell() {
 
     const totalCount = data?.totalNotifications || 0;
 
+    const formatDate = (dateStr: string) => {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+    };
+
+    const isOverdue = (dateStr: string) => {
+        const d = new Date(dateStr);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return d < today;
+    };
+
     return (
         <div className="relative" ref={popupRef}>
             {/* Bell Icon Button */}
@@ -63,7 +85,7 @@ export default function NotificationBell() {
                 <Bell size={20} className="group-hover:animate-pulse" />
                 {totalCount > 0 && !isLoading && (
                     <span className="absolute top-0 right-0 inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-red-500 rounded-full border-2 border-slate-900 translate-x-1/4 -translate-y-1/4">
-                        {totalCount > 99 ? '99+' : totalCount}
+                        {totalCount > 99 ? "99+" : totalCount}
                     </span>
                 )}
             </button>
@@ -89,7 +111,54 @@ export default function NotificationBell() {
                             </div>
                         ) : (
                             <div className="flex flex-col gap-1">
-                                {/* Out of Stock — grouped */}
+                                {/* ── Due Notes ── */}
+                                {data?.dueNotes && data.dueNotes.length > 0 && (
+                                    <div className="mb-1">
+                                        <p className="px-3 pt-2 pb-1 text-[10px] font-bold text-orange-500 uppercase tracking-widest">
+                                            Note Reminders
+                                        </p>
+                                        {data.dueNotes.map((note) => (
+                                            <div
+                                                key={`note-${note.id}`}
+                                                className="flex items-start gap-3 p-3 rounded-xl hover:bg-orange-50 transition-colors"
+                                            >
+                                                <div className="mt-0.5 p-2 bg-orange-100 text-orange-600 rounded-lg shrink-0">
+                                                    <NotebookPen size={16} />
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="text-sm font-semibold text-slate-800 truncate">
+                                                        {note.title}
+                                                    </p>
+                                                    {note.content && (
+                                                        <p className="text-xs text-slate-500 mt-0.5 line-clamp-2">
+                                                            {note.content}
+                                                        </p>
+                                                    )}
+                                                    <p className="text-[10px] font-semibold mt-1.5">
+                                                        {isOverdue(note.reminderDate) ? (
+                                                            <span className="text-red-500">
+                                                                Overdue · {formatDate(note.reminderDate)}
+                                                            </span>
+                                                        ) : (
+                                                            <span className="text-orange-500">
+                                                                Due Today · {formatDate(note.reminderDate)}
+                                                            </span>
+                                                        )}
+                                                    </p>
+                                                </div>
+                                                <Link
+                                                    href="/notes"
+                                                    onClick={() => setIsOpen(false)}
+                                                    className="shrink-0 self-center text-[10px] font-bold text-orange-600 hover:text-orange-800 underline underline-offset-2 transition-colors"
+                                                >
+                                                    View
+                                                </Link>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {/* ── Out of Stock ── */}
                                 {data?.outOfStock && data.outOfStock.length > 0 && (
                                     <div className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors">
                                         <div className="mt-0.5 p-2 bg-red-100 text-red-600 rounded-lg shrink-0">
@@ -110,7 +179,7 @@ export default function NotificationBell() {
                                     </div>
                                 )}
 
-                                {/* Low Stock — grouped */}
+                                {/* ── Low Stock ── */}
                                 {data?.lowStock && data.lowStock.length > 0 && (
                                     <div className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors">
                                         <div className="mt-0.5 p-2 bg-amber-100 text-amber-600 rounded-lg shrink-0">
@@ -134,20 +203,29 @@ export default function NotificationBell() {
                                     </div>
                                 )}
 
-                                {/* Overdue Loans */}
+                                {/* ── Overdue Loans ── */}
                                 {data?.overdueLoans.map((item) => {
-                                    const daysOverdue = Math.floor((new Date().getTime() - new Date(item.date).getTime()) / (1000 * 3600 * 24));
+                                    const daysOverdue = Math.floor(
+                                        (new Date().getTime() - new Date(item.date).getTime()) / (1000 * 3600 * 24)
+                                    );
                                     return (
-                                        <div key={`loan-${item.id}`} className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors">
+                                        <div
+                                            key={`loan-${item.id}`}
+                                            className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors"
+                                        >
                                             <div className="mt-0.5 p-2 bg-indigo-100 text-indigo-600 rounded-lg shrink-0">
                                                 <HandCoins size={16} />
                                             </div>
                                             <div>
                                                 <p className="text-sm font-semibold text-slate-800">Overdue Loan</p>
                                                 <p className="text-xs text-slate-600 mt-0.5">
-                                                    Loan to <span className="font-medium text-slate-900">{item.clientName}</span> is <span className="font-bold text-indigo-600">{daysOverdue} days</span> overdue.
+                                                    Loan to{" "}
+                                                    <span className="font-medium text-slate-900">{item.clientName}</span> is{" "}
+                                                    <span className="font-bold text-indigo-600">{daysOverdue} days</span> overdue.
                                                 </p>
-                                                <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-wider">{item.productName} ({item.quantity})</p>
+                                                <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-wider">
+                                                    {item.productName} ({item.quantity})
+                                                </p>
                                             </div>
                                         </div>
                                     );

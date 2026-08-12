@@ -38,6 +38,7 @@ export interface Sale {
     quantity: number;
     sellingPrice: number;
     profits?: number;           // added self-populating profits column
+    vat?: number;               // value added tax: selling_price - (selling_price / (1 + 18/100))
     status: boolean;            // true = bought on loan
     order: boolean;             // true = is an order
     date?: string;

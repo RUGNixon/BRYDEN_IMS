@@ -1,5 +1,6 @@
 import AnalyticsChart from "@/app/components/AnalyticsChart";
 import AnalyticsProfitsChart from "@/app/components/AnalyticsProfitsChart";
+import AnalyticsStockCards from "@/app/components/AnalyticsStockCards";
 
 export default function AnalyticsPage() {
     return (
@@ -7,6 +8,7 @@ export default function AnalyticsPage() {
             <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Analytics</h1>
             <AnalyticsChart />
             <AnalyticsProfitsChart />
+            <AnalyticsStockCards />
         </div>
     );
 }

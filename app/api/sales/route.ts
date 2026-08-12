@@ -9,6 +9,7 @@ export async function GET() {
                     size, quantity,
                     selling_price AS "sellingPrice",
                     profits,
+                    vat,
                     status, "order", date, phone, email
              FROM sales
              ORDER BY id DESC`
@@ -61,6 +62,7 @@ export async function POST(req: NextRequest) {
              RETURNING id, client_name AS "clientName", product_name AS "productName",
                        size, quantity, selling_price AS "sellingPrice",
                        profits,
+                       vat,
                        status, "order", date, phone, email`,
             [
                 clientName,

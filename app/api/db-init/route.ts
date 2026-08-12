@@ -32,6 +32,7 @@ export async function GET() {
                 quantity INTEGER NOT NULL DEFAULT 0,
                 selling_price NUMERIC(10,2) NOT NULL DEFAULT 0,
                 profits NUMERIC(10,2) NOT NULL DEFAULT 0,
+                vat NUMERIC(10,2) NOT NULL DEFAULT 0,
                 status BOOLEAN NOT NULL DEFAULT FALSE,
                 "order" BOOLEAN NOT NULL DEFAULT FALSE,
                 date TEXT NOT NULL,
@@ -41,6 +42,7 @@ export async function GET() {
 
             -- Ensure columns exist for older installations
             ALTER TABLE sales ADD COLUMN IF NOT EXISTS profits NUMERIC(10,2) NOT NULL DEFAULT 0;
+            ALTER TABLE sales ADD COLUMN IF NOT EXISTS vat NUMERIC(10,2) NOT NULL DEFAULT 0;
             ALTER TABLE sales ADD COLUMN IF NOT EXISTS phone TEXT;
             ALTER TABLE sales ADD COLUMN IF NOT EXISTS email TEXT;
 
@@ -52,7 +54,7 @@ export async function GET() {
                 date TEXT NOT NULL
             );
 
-            -- Create trigger for self-populating profits
+            -- Create trigger for self-populating profits and VAT
             CREATE OR REPLACE FUNCTION calculate_sales_profit()
             RETURNS TRIGGER AS $$
             DECLARE
@@ -71,6 +73,9 @@ export async function GET() {
                     NEW.profits := 0;
                 END IF;
 
+                -- Calculate VAT: selling_price - (selling_price / (1 + 18/100)), per unit × quantity
+                NEW.vat := ROUND((NEW.selling_price - (NEW.selling_price / 1.18)) * NEW.quantity, 2);
+
                 RETURN NEW;
             END;
             $$ LANGUAGE plpgsql;
@@ -83,6 +88,14 @@ export async function GET() {
             FOR EACH ROW
             EXECUTE FUNCTION calculate_sales_profit();
 
+
+            CREATE TABLE IF NOT EXISTS notes (
+                id SERIAL PRIMARY KEY,
+                title TEXT NOT NULL,
+                content TEXT NOT NULL DEFAULT '',
+                reminder_date DATE,
+                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            );
 
         `);
 

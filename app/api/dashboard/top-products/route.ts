@@ -3,7 +3,7 @@ import pool from "@/lib/postgres";
 
 export async function GET() {
     try {
-        const result = await pool.query(`
+        let result = await pool.query(`
             SELECT 
                 product_name,
                 size,
@@ -17,6 +17,21 @@ export async function GET() {
             ORDER BY total_quantity DESC
             LIMIT 10
         `);
+
+        if (result.rows.length === 0) {
+            result = await pool.query(`
+                SELECT 
+                    product_name,
+                    size,
+                    SUM(quantity) AS total_quantity,
+                    COUNT(*) AS times_sold,
+                    SUM(quantity * selling_price) AS total_revenue
+                FROM sales
+                GROUP BY product_name, size
+                ORDER BY total_quantity DESC
+                LIMIT 10
+            `);
+        }
 
         return NextResponse.json(
             result.rows.map(r => ({

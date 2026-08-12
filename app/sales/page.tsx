@@ -328,6 +328,7 @@ export default function SalesPage() {
                                     <th className="p-4">Quantity</th>
                                     <th className="p-4">Unit Price</th>
                                     <th className="p-4">Profits</th>
+                                    <th className="p-4">VAT (18%)</th>
                                     <th className="p-4 pr-6 text-right">Total Sales</th>
                                 </tr>
                             </thead>
@@ -351,6 +352,7 @@ export default function SalesPage() {
                                             <td className="p-4 text-slate-700 font-medium">{fmtQty(sale.quantity)}</td>
                                             <td className="p-4 text-emerald-600 font-medium">{fmtCurrency(sale.sellingPrice)}</td>
                                             <td className="p-4 text-blue-600 font-medium">{fmtCurrency(sale.profits || 0)}</td>
+                                            <td className="p-4 text-purple-600 font-medium">{fmtCurrency(sale.vat || 0)}</td>
                                             <td className="p-4 pr-6 text-right"><span className="font-semibold text-emerald-700">{fmtCurrency(sale.quantity * sale.sellingPrice)}</span></td>
                                         </tr>
                                     );

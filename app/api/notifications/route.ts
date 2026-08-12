@@ -20,7 +20,6 @@ export async function GET() {
         `);
 
         // Query for Overdue Loans (status = true, NOT an order, date older than 30 days)
-        // Ensure "order" = false (or correctly filtered based on how we treat loans)
         const overdueLoansRes = await pool.query(`
             SELECT id, client_name AS "clientName", product_name AS "productName", size, quantity, date 
             FROM sales 
@@ -30,11 +29,25 @@ export async function GET() {
             ORDER BY date ASC
         `);
 
+        // Query for Due Notes (reminder_date is today or in the past)
+        const dueNotesRes = await pool.query(`
+            SELECT id, title, content, reminder_date AS "reminderDate", created_at AS "createdAt"
+            FROM notes
+            WHERE reminder_date IS NOT NULL
+              AND reminder_date <= CURRENT_DATE
+            ORDER BY reminder_date ASC, created_at DESC
+        `);
+
         return NextResponse.json({
             outOfStock: outOfStockRes.rows,
             lowStock: lowStockRes.rows,
             overdueLoans: overdueLoansRes.rows,
-            totalNotifications: (outOfStockRes.rowCount || 0) + (lowStockRes.rowCount || 0) + (overdueLoansRes.rowCount || 0)
+            dueNotes: dueNotesRes.rows,
+            totalNotifications:
+                (outOfStockRes.rowCount || 0) +
+                (lowStockRes.rowCount || 0) +
+                (overdueLoansRes.rowCount || 0) +
+                (dueNotesRes.rowCount || 0),
         });
 
     } catch (error) {

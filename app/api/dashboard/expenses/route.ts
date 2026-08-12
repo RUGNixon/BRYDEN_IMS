@@ -3,7 +3,7 @@ import pool from "@/lib/postgres";
 
 export async function GET() {
     try {
-        const expensesRes = await pool.query(`
+        let expensesRes = await pool.query(`
             SELECT 
                 description as name, 
                 COALESCE(SUM(amount), 0) as value 
@@ -13,9 +13,21 @@ export async function GET() {
             ORDER BY value DESC
         `);
 
+        if (expensesRes.rows.length === 0) {
+            expensesRes = await pool.query(`
+                SELECT 
+                    description as name, 
+                    COALESCE(SUM(amount), 0) as value 
+                FROM expenses 
+                GROUP BY description
+                ORDER BY value DESC
+                LIMIT 10
+            `);
+        }
+
         return NextResponse.json(
             expensesRes.rows.map(r => ({
-                name: r.name || "Uncategorized", // Fallback for empty descriptions
+                name: r.name || "General Operating Expense",
                 value: Number(r.value)
             }))
         );
