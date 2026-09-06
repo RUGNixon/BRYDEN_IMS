@@ -79,7 +79,7 @@ export default function NotificationBell() {
             {/* Bell Icon Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="relative p-2 rounded-full hover:bg-slate-800 transition-colors text-slate-300 hover:text-white group"
+                className="relative p-2.5 rounded-full text-amber-500 hover:bg-amber-500 hover:text-white transition-colors group"
                 aria-label="Notifications"
             >
                 <Bell size={20} className="group-hover:animate-pulse" />

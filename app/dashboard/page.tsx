@@ -47,28 +47,95 @@ const toastConfig: Record<ToastType, { bg: string; border: string; icon: React.R
     info: { bg: "bg-blue-50", border: "border-blue-200", titleColor: "text-blue-800", icon: <AlertTriangle className="text-blue-500 shrink-0 mt-0.5" size={18} /> },
 };
 
-function StatCard({ icon, label, amount, accentColor, isLoading }: { icon: React.ReactNode, label: string, amount: number, accentColor: string, isLoading: boolean }) {
+interface StatCardProps {
+    icon: React.ReactNode;
+    label: string;
+    subtext: string;
+    amount: number;
+    color: "indigo" | "emerald" | "rose" | "orange" | "teal";
+    badgeText?: string;
+    isLoading: boolean;
+}
+
+const statColorConfig = {
+    indigo: {
+        glow: "from-indigo-500/15 via-indigo-500/5 to-transparent",
+        iconBox: "bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 border-indigo-100 dark:border-indigo-900/50",
+        badge: "bg-indigo-50/90 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200/60 dark:border-indigo-800/50",
+        dot: "bg-indigo-500",
+        hoverBorder: "hover:border-indigo-300 dark:hover:border-indigo-700 hover:shadow-indigo-500/10",
+    },
+    emerald: {
+        glow: "from-emerald-500/15 via-emerald-500/5 to-transparent",
+        iconBox: "bg-emerald-50 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-900/50",
+        badge: "bg-emerald-50/90 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200/60 dark:border-emerald-800/50",
+        dot: "bg-emerald-500",
+        hoverBorder: "hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-emerald-500/10",
+    },
+    rose: {
+        glow: "from-rose-500/15 via-rose-500/5 to-transparent",
+        iconBox: "bg-rose-50 dark:bg-rose-950/70 text-rose-600 dark:text-rose-400 border-rose-100 dark:border-rose-900/50",
+        badge: "bg-rose-50/90 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-200/60 dark:border-rose-800/50",
+        dot: "bg-rose-500",
+        hoverBorder: "hover:border-rose-300 dark:hover:border-rose-700 hover:shadow-rose-500/10",
+    },
+    orange: {
+        glow: "from-orange-500/15 via-orange-500/5 to-transparent",
+        iconBox: "bg-orange-50 dark:bg-orange-950/70 text-orange-600 dark:text-orange-400 border-orange-100 dark:border-orange-900/50",
+        badge: "bg-orange-50/90 dark:bg-orange-950/60 text-orange-700 dark:text-orange-300 border-orange-200/60 dark:border-orange-800/50",
+        dot: "bg-orange-500",
+        hoverBorder: "hover:border-orange-300 dark:hover:border-orange-700 hover:shadow-orange-500/10",
+    },
+    teal: {
+        glow: "from-teal-500/15 via-teal-500/5 to-transparent",
+        iconBox: "bg-teal-50 dark:bg-teal-950/70 text-teal-600 dark:text-teal-400 border-teal-100 dark:border-teal-900/50",
+        badge: "bg-teal-50/90 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border-teal-200/60 dark:border-teal-800/50",
+        dot: "bg-teal-500",
+        hoverBorder: "hover:border-teal-300 dark:hover:border-teal-700 hover:shadow-teal-500/10",
+    },
+};
+
+function StatCard({ icon, label, subtext, amount, color, badgeText, isLoading }: StatCardProps) {
+    const c = statColorConfig[color];
+
     return (
-        <div className={`p-6 rounded-3xl border bg-white shadow-sm flex flex-col gap-4 relative overflow-hidden group hover:shadow-md hover:-translate-y-1 transition-all duration-300 ${accentColor}`}>
-            <div className="flex items-center gap-3">
-                <div className={`p-3 rounded-2xl bg-white shadow-sm border ${accentColor.replace("border-", "text-").replace("-200", "-500")} shrink-0`}>
+        <div className={`relative p-5 lg:p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/90 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between group ${c.hoverBorder}`}>
+            {/* Ambient Background Gradient Glow */}
+            <div className={`absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl ${c.glow} rounded-full blur-2xl pointer-events-none transition-all duration-500 group-hover:scale-125`}></div>
+
+            {/* Top Row: Icon & Status Badge */}
+            <div className="flex items-center justify-between gap-2 relative z-10">
+                <div className={`p-2.5 rounded-2xl border shadow-xs transition-transform duration-300 group-hover:scale-105 shrink-0 ${c.iconBox}`}>
                     {icon}
                 </div>
-                <h3 className="font-semibold text-slate-600 text-sm tracking-wide uppercase">{label}</h3>
-            </div>
-
-            <div className="mt-2">
-                {isLoading ? (
-                    <div className="h-8 bg-slate-100 rounded animate-pulse w-3/4"></div>
-                ) : (
-                    <p className="text-2xl font-extrabold text-slate-800 tracking-tight">
-                        {fmtCurrency(amount)}
-                    </p>
+                {badgeText && (
+                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider border flex items-center gap-1.5 shrink-0 ${c.badge}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${c.dot} animate-pulse`}></span>
+                        {badgeText}
+                    </span>
                 )}
             </div>
 
-            {/* Subtle background glow effect */}
-            <div className={`absolute -right-8 -bottom-8 w-32 h-32 rounded-full opacity-10 group-hover:scale-150 transition-transform duration-500 bg-current pointer-events-none ${accentColor.replace('border-', 'text-').replace('-200', '-500')}`}></div>
+            {/* Content: Label & Main Stat Value */}
+            <div className="mt-4 relative z-10">
+                <h3 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider truncate">
+                    {label}
+                </h3>
+                <div className="mt-1">
+                    {isLoading ? (
+                        <div className="h-8 bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse w-3/4"></div>
+                    ) : (
+                        <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-tight truncate">
+                            {fmtCurrency(amount)}
+                        </p>
+                    )}
+                </div>
+            </div>
+
+            {/* Bottom Subtext / Status Line */}
+            <div className="mt-3.5 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 relative z-10 font-medium">
+                <span className="truncate">{subtext}</span>
+            </div>
         </div>
     );
 }
@@ -207,55 +274,62 @@ export default function DashboardPage() {
             </div>
 
             {/* Metrics Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 lg:gap-5">
                 <StatCard
-                    icon={<PackageSearch size={24} className="text-indigo-600" />}
+                    icon={<PackageSearch size={20} />}
                     label="Current Stock Worth"
+                    subtext="Real-time inventory valuation"
                     amount={stats?.stockWorth || 0}
-                    accentColor="border-indigo-100 hover:border-indigo-300"
+                    color="indigo"
+                    badgeText="Live Assets"
                     isLoading={isLoading}
                 />
                 <StatCard
-                    icon={<TrendingUp size={24} className="text-emerald-600" />}
+                    icon={<TrendingUp size={20} />}
                     label="Monthly Sales"
+                    subtext="Gross sales revenue"
                     amount={stats?.monthlySales || 0}
-                    accentColor="border-emerald-100 hover:border-emerald-300"
+                    color="emerald"
+                    badgeText="This Month"
                     isLoading={isLoading}
                 />
                 <StatCard
-                    icon={<CreditCard size={24} className="text-rose-600" />}
+                    icon={<CreditCard size={20} />}
                     label="Monthly Purchases"
+                    subtext="Stock acquisitions cost"
                     amount={stats?.monthlyPurchases || 0}
-                    accentColor="border-rose-100 hover:border-rose-300"
+                    color="rose"
+                    badgeText="Restock"
                     isLoading={isLoading}
                 />
                 <StatCard
-                    icon={<ReceiptText size={24} className="text-orange-600" />}
+                    icon={<ReceiptText size={20} />}
                     label="Monthly Expenses"
+                    subtext="Total operating expenses"
                     amount={stats?.monthlyExpenses || 0}
-                    accentColor="border-orange-100 hover:border-orange-300"
+                    color="orange"
+                    badgeText="Operating"
                     isLoading={isLoading}
                 />
                 <StatCard
-                    icon={<BadgeDollarSign size={24} className="text-teal-600" />}
+                    icon={<BadgeDollarSign size={20} />}
                     label="Monthly Profits"
+                    subtext="Net business gain"
                     amount={stats?.monthlyProfits || 0}
-                    accentColor="border-teal-100 hover:border-teal-300"
+                    color="teal"
+                    badgeText="Net Margin"
                     isLoading={isLoading}
                 />
             </div>
 
-            {/* Layout Grid for complex UI below the cards */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Main Monthly Trends Chart spans 2 columns */}
-                <div className="lg:col-span-2">
-                    <DashboardChart key={`chart-${refreshKey}`} />
-                </div>
+            {/* Main Monthly Trends Chart spans full width */}
+            <div className="w-full">
+                <DashboardChart key={`chart-${refreshKey}`} />
+            </div>
 
-                {/* Expenses Donut Chart spans 1 column */}
-                <div className="lg:col-span-1">
-                    <DashboardExpensesChart key={`expenses-${refreshKey}`} />
-                </div>
+            {/* Expenses Donut Chart below it */}
+            <div className="w-full">
+                <DashboardExpensesChart key={`expenses-${refreshKey}`} />
             </div>
 
             {/* Recent Loans & Orders */}
