@@ -12,12 +12,28 @@ import {
     ResponsiveContainer,
     ReferenceLine
 } from "recharts";
+import { ChartColumnIncreasing, CircleDollarSign, Gauge, TrendingUp } from "lucide-react";
 import { fmtCurrency } from "@/lib/format";
 
 interface ChartData {
     month: string;
     profit: number;
 }
+
+interface ProfitTooltipPayload {
+    value: number;
+}
+
+interface ProfitTooltipProps {
+    active?: boolean;
+    payload?: ProfitTooltipPayload[];
+    label?: string;
+}
+
+const POSITIVE_BAR_RADIUS = [8, 8, 0, 0] as const;
+const NEGATIVE_BAR_RADIUS = [0, 0, 8, 8] as const;
+const getBarRadius = (profit: number) =>
+    (profit >= 0 ? POSITIVE_BAR_RADIUS : NEGATIVE_BAR_RADIUS) as unknown as number;
 
 export default function AnalyticsProfitsChart() {
     const [data, setData] = useState<ChartData[]>([]);
@@ -43,31 +59,44 @@ export default function AnalyticsProfitsChart() {
 
     if (isLoading) {
         return (
-            <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/60 min-h-[400px] flex flex-col items-center justify-center animate-pulse mt-8">
-                <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
-                <p className="mt-4 text-slate-500 font-medium tracking-wide">Loading profit histogram...</p>
-            </div>
+            <section className="analytics-card analytics-state-card">
+                <div className="analytics-spinner" />
+                <p className="mt-4 font-semibold tracking-wide text-[var(--analytics-muted)]">Loading profit histogram...</p>
+            </section>
         );
     }
 
     if (!data.length) {
         return (
-            <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/60 min-h-[400px] flex flex-col items-center justify-center text-center mt-8">
-                <p className="text-slate-400 font-medium tracking-wide">No profit data available for the past year.</p>
-            </div>
+            <section className="analytics-card analytics-state-card text-center">
+                <div className="analytics-empty-icon">
+                    <ChartColumnIncreasing size={26} aria-hidden="true" />
+                </div>
+                <p className="mt-3 font-semibold tracking-wide text-[var(--analytics-muted)]">No profit data available for the past year.</p>
+            </section>
         );
     }
 
-    const CustomTooltip = ({ active, payload, label }: any) => {
+    const totalProfit = data.reduce((sum, item) => sum + item.profit, 0);
+    const averageProfit = totalProfit / data.length;
+    const profitableMonths = data.filter((item) => item.profit >= 0).length;
+
+    const profitStats = [
+        { label: "Net Profit", value: fmtCurrency(totalProfit), icon: CircleDollarSign },
+        { label: "Monthly Average", value: fmtCurrency(averageProfit), icon: Gauge },
+        { label: "Profitable Months", value: `${profitableMonths}/${data.length}`, icon: TrendingUp },
+    ];
+
+    const CustomTooltip = ({ active, payload, label }: ProfitTooltipProps) => {
         if (active && payload && payload.length) {
             const val = payload[0].value;
             const isPositive = val >= 0;
             return (
-                <div className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-xl flex flex-col gap-2 min-w-[180px]">
-                    <span className="font-bold text-slate-800 border-b border-slate-100 pb-2 text-center">{label}</span>
+                <div className="analytics-tooltip min-w-[180px]">
+                    <span className="analytics-tooltip-title">{label}</span>
                     <div className="flex justify-between items-center gap-4 pt-1">
-                        <span className="text-sm font-semibold text-slate-600">Net Profit</span>
-                        <span className={`text-sm font-extrabold ${isPositive ? 'text-emerald-600' : 'text-rose-600'}`}>
+                        <span className="text-sm font-semibold text-[var(--analytics-muted)]">Net Profit</span>
+                        <span className={`text-sm font-extrabold ${isPositive ? "text-[var(--analytics-positive)]" : "text-[var(--analytics-negative)]"}`}>
                             {fmtCurrency(val)}
                         </span>
                     </div>
@@ -89,13 +118,35 @@ export default function AnalyticsProfitsChart() {
     };
 
     return (
-        <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/60">
-            <div className="mb-8">
-                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Profit Output</h2>
-                <p className="text-slate-500 mt-1 font-medium">Monthly Net Profits over the last 12 months</p>
+        <section className="analytics-card analytics-chart-card">
+            <div className="mb-6 flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
+                <div>
+                    <div className="flex items-center gap-2">
+                        <div className="analytics-section-icon analytics-section-icon-profit">
+                            <ChartColumnIncreasing size={18} aria-hidden="true" />
+                        </div>
+                        <h2 className="text-xl font-black tracking-tight text-[var(--analytics-text)] sm:text-2xl">Profit Momentum</h2>
+                    </div>
+                    <p className="mt-2 text-sm font-medium text-[var(--analytics-muted)]">
+                        Monthly net profit distribution over the last 12 months.
+                    </p>
+                </div>
+
+                <div className="analytics-inline-stats">
+                    {profitStats.map((stat) => {
+                        const Icon = stat.icon;
+                        return (
+                            <div key={stat.label} className="analytics-inline-stat">
+                                <Icon size={16} aria-hidden="true" />
+                                <span>{stat.label}</span>
+                                <strong>{stat.value}</strong>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
 
-            <div style={{ width: '100%', height: 380 }}>
+            <div className="analytics-chart-shell">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                         data={data}
@@ -107,41 +158,41 @@ export default function AnalyticsProfitsChart() {
                         }}
                         barSize={32}
                     >
-                        <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#e2e8f0" />
+                        <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="var(--analytics-chart-grid)" />
                         <XAxis
                             dataKey="month"
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fill: '#64748b', fontSize: 13, fontWeight: 600 }}
+                            tick={{ fill: "var(--analytics-chart-axis)", fontSize: 12, fontWeight: 650 }}
                             dy={15}
                         />
                         <YAxis
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fill: '#64748b', fontSize: 13, fontWeight: 600 }}
+                            tick={{ fill: "var(--analytics-chart-axis)", fontSize: 12, fontWeight: 650 }}
                             tickFormatter={formatYAxis}
                             dx={-10}
                         />
                         <Tooltip
                             content={<CustomTooltip />}
-                            cursor={{ fill: '#f1f5f9' }}
+                            cursor={{ fill: "var(--analytics-chart-hover)" }}
                         />
-                        <ReferenceLine y={0} stroke="#94a3b8" strokeWidth={2} />
+                        <ReferenceLine y={0} stroke="var(--analytics-chart-cursor)" strokeWidth={2} />
                         <Bar
                             dataKey="profit"
-                            radius={[6, 6, 0, 0]}
+                            radius={[8, 8, 0, 0]}
                         >
                             {data.map((entry, index) => (
                                 <Cell
                                     key={`cell-${index}`}
-                                    fill={entry.profit >= 0 ? '#10b981' : '#f43f5e'}
-                                    radius={entry.profit >= 0 ? [6, 6, 0, 0] as any : [0, 0, 6, 6] as any}
+                                    fill={entry.profit >= 0 ? "var(--analytics-positive)" : "var(--analytics-negative)"}
+                                    radius={getBarRadius(entry.profit)}
                                 />
                             ))}
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>
             </div>
-        </div>
+        </section>
     );
 }

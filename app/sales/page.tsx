@@ -24,6 +24,9 @@ interface SaleItemData {
     sellingPrice: string;
 }
 
+const INITIAL_TRANSACTION_LIMIT = 15;
+const TRANSACTION_INCREMENT = 20;
+
 function SaleItemRow({
     item,
     index,
@@ -72,41 +75,41 @@ function SaleItemRow({
     };
 
     return (
-        <div className="pt-5 mt-4 border-t border-slate-100 relative">
+        <div className="relative mt-4 border-t border-[var(--ops-border-soft)] pt-5">
             <div className="flex justify-between items-center mb-3">
-                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Product {index + 1}</h3>
+                <h3 className="ops-form-section-title">Product {index + 1}</h3>
                 {canRemove && (
-                    <button type="button" onClick={() => onRemove(item.id)} className="text-red-400 hover:text-red-600 hover:bg-red-50 px-2 py-1 rounded-lg transition-colors flex items-center gap-1 text-xs font-semibold">
+                    <button type="button" onClick={() => onRemove(item.id)} className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold text-[var(--ops-danger)] transition-colors hover:bg-[color-mix(in_srgb,var(--ops-danger)_10%,transparent)]">
                         <X size={14} /> Remove
                     </button>
                 )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5 relative">
-                    <label className="text-sm font-medium text-slate-700">Product Name <span className="text-red-400">*</span></label>
-                    <input required autoComplete="off" value={item.productName} onChange={(e) => onChange(item.id, "productName", e.target.value)} onFocus={() => item.productName.trim() && setShowSuggestions(true)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-slate-900" placeholder="Type product name..." />
+                    <label className="ops-label">Product Name <span className="text-[var(--ops-danger)]">*</span></label>
+                    <input required autoComplete="off" value={item.productName} onChange={(e) => onChange(item.id, "productName", e.target.value)} onFocus={() => item.productName.trim() && setShowSuggestions(true)} className="ops-input" placeholder="Type product name..." />
                     {showSuggestions && suggestions.length > 0 && (
-                        <div ref={suggestionRef} className="absolute z-10 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-48 overflow-y-auto">
+                        <div ref={suggestionRef} className="ops-suggestion-panel absolute z-10 mt-1 max-h-48 w-full overflow-y-auto">
                             {suggestions.map((p) => (
-                                <div key={p.id} onClick={() => handleSelectProduct(p)} className="px-4 py-2 hover:bg-slate-50 cursor-pointer flex flex-col border-b border-slate-50 last:border-0">
-                                    <span className="font-medium text-slate-900">{p.name}</span>
-                                    <span className="text-xs text-slate-500">Size: {p.size} | Stock: {p.quantity} | ${p.sellingPrice}</span>
+                                <div key={p.id} onClick={() => handleSelectProduct(p)} className="ops-suggestion-item flex flex-col">
+                                    <span className="ops-strong">{p.name}</span>
+                                    <span className="text-xs text-[var(--ops-subtle)]">Size: {p.size} | Stock: {p.quantity} | ${p.sellingPrice}</span>
                                 </div>
                             ))}
                         </div>
                     )}
                 </div>
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700">Size <span className="text-red-400">*</span></label>
-                    <input required value={item.size} onChange={(e) => onChange(item.id, "size", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-slate-900 bg-slate-50" placeholder="Select a product..." />
+                    <label className="ops-label">Size <span className="text-[var(--ops-danger)]">*</span></label>
+                    <input required value={item.size} onChange={(e) => onChange(item.id, "size", e.target.value)} className="ops-input bg-[var(--ops-surface-muted)]" placeholder="Select a product..." />
                 </div>
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700">Quantity Sold <span className="text-red-400">*</span></label>
-                    <input type="number" min="1" required value={item.quantity} onChange={(e) => onChange(item.id, "quantity", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-slate-900" placeholder="0" />
+                    <label className="ops-label">Quantity Sold <span className="text-[var(--ops-danger)]">*</span></label>
+                    <input type="number" min="1" required value={item.quantity} onChange={(e) => onChange(item.id, "quantity", e.target.value)} className="ops-input" placeholder="0" />
                 </div>
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700">Selling Price / Unit ($) <span className="text-red-400">*</span></label>
-                    <input type="number" min="0" step="0.01" required value={item.sellingPrice} onChange={(e) => onChange(item.id, "sellingPrice", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-slate-900" placeholder="0.00" />
+                    <label className="ops-label">Selling Price / Unit ($) <span className="text-[var(--ops-danger)]">*</span></label>
+                    <input type="number" min="0" step="0.01" required value={item.sellingPrice} onChange={(e) => onChange(item.id, "sellingPrice", e.target.value)} className="ops-input" placeholder="0.00" />
                 </div>
             </div>
         </div>
@@ -117,6 +120,7 @@ export default function SalesPage() {
     const [sales, setSales] = useState<Sale[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [visibleCount, setVisibleCount] = useState(INITIAL_TRANSACTION_LIMIT);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -153,6 +157,10 @@ export default function SalesPage() {
     }, []);
 
     useEffect(() => { fetchData(); }, [fetchData]);
+
+    useEffect(() => {
+        setVisibleCount(INITIAL_TRANSACTION_LIMIT);
+    }, [searchTerm]);
 
     const showToast = (type: ToastType, title: string, message: string) => {
         const id = Date.now();
@@ -252,6 +260,9 @@ export default function SalesPage() {
             s.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             s.productName.toLowerCase().includes(searchTerm.toLowerCase())
         );
+    const visibleSales = filteredSales.slice(0, visibleCount);
+    const remainingSales = Math.max(filteredSales.length - visibleSales.length, 0);
+    const nextSalesCount = Math.min(TRANSACTION_INCREMENT, remainingSales);
 
     const toastConfig: Record<ToastType, { bg: string; border: string; icon: React.ReactNode; titleColor: string }> = {
         success: { bg: "bg-emerald-50", border: "border-emerald-200", titleColor: "text-emerald-800", icon: <CheckCircle2 className="text-emerald-500 shrink-0 mt-0.5" size={18} /> },
@@ -261,7 +272,8 @@ export default function SalesPage() {
     };
 
     return (
-        <div className="p-8 max-w-7xl mx-auto">
+        <div className="operations-page ops-accent-emerald min-h-full">
+            <div className="ops-shell">
 
             {/* Contact Popup */}
             {contact && (
@@ -291,37 +303,42 @@ export default function SalesPage() {
                 })}
             </div>
 
-            <div className="flex justify-between items-center mb-8">
+            <div className="ops-header">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Sales</h1>
-                    <p className="text-slate-500 mt-1">Record and track your product sales.</p>
+                    <div className="ops-eyebrow"><ShoppingCart size={16} aria-hidden="true" /> Sales</div>
+                    <h1 className="ops-title">Sales ledger</h1>
+                    <p className="ops-subtitle">Record and track product sales with profit, VAT, and customer contact context.</p>
                 </div>
-                <button onClick={() => setIsModalOpen(true)} className="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-emerald-600/20 active:scale-95 transition-all flex items-center gap-2">
+                <button onClick={() => setIsModalOpen(true)} className="ops-action-button">
                     <Plus size={18} /> Record Sale
                 </button>
             </div>
 
             {/* Search */}
-            <div className="mb-6 relative max-w-md">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><Search className="h-5 w-5 text-slate-400" /></div>
-                <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm text-slate-900 transition-all shadow-sm" placeholder="Search by client or product..." />
+            <div className="ops-toolbar">
+                <div className="ops-search">
+                    <div className="ops-search-icon"><Search className="h-5 w-5" /></div>
+                    <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="ops-input text-sm" placeholder="Search by client or product..." />
+                </div>
+                <p className="text-sm font-bold text-[var(--ops-subtle)]">{filteredSales.length} sales found</p>
             </div>
 
             {/* Sales Table */}
-            <div className="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+            <div className="ops-card">
                 {isLoading ? (
-                    <div className="p-12 text-center text-slate-400">Loading sales...</div>
+                    <div className="ops-state"><div className="ops-spinner" /><p className="mt-4 font-semibold">Loading sales...</p></div>
                 ) : filteredSales.length === 0 ? (
-                    <div className="p-12 text-center flex flex-col items-center">
-                        <div className="bg-emerald-50 text-emerald-500 p-4 rounded-full mb-4"><ShoppingCart size={32} /></div>
-                        <h3 className="text-lg font-medium text-slate-900 mb-1">No sales recorded</h3>
-                        <p className="text-slate-500 max-w-sm mb-6">You haven't recorded any sales yet.</p>
+                    <div className="ops-state">
+                        <div className="ops-state-icon"><ShoppingCart size={32} /></div>
+                        <h3 className="text-lg font-bold text-[var(--ops-text)] mb-1">No sales recorded</h3>
+                        <p className="max-w-sm">You haven&apos;t recorded any sales yet.</p>
                     </div>
                 ) : (
+                    <>
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
+                        <table className="ops-table">
                             <thead>
-                                <tr className="bg-slate-50 border-b border-slate-200/60 text-slate-500 text-sm font-medium">
+                                <tr>
                                     <th className="p-4 pl-6">Client Name</th>
                                     <th className="p-4">Product Name</th>
                                     <th className="p-4">Size</th>
@@ -332,61 +349,70 @@ export default function SalesPage() {
                                     <th className="p-4 pr-6 text-right">Total Sales</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-slate-100">
-                                {filteredSales.map((sale) => {
+                            <tbody>
+                                {visibleSales.map((sale) => {
                                     const hasContact = sale.phone || sale.email;
                                     return (
-                                        <tr key={sale.id} className="hover:bg-slate-50/50 transition-colors">
+                                        <tr key={sale.id}>
                                             <td className="p-4 pl-6">
                                                 <button
                                                     onClick={(e) => handleNameClick(sale, e)}
-                                                    className={`flex items-center gap-1.5 font-medium text-left transition-colors ${hasContact ? "text-indigo-700 hover:text-indigo-900 cursor-pointer" : "text-slate-900 cursor-default"}`}
+                                                    className={`flex items-center gap-1.5 font-bold text-left transition-colors ${hasContact ? "text-[var(--ops-accent-text)] hover:text-[var(--ops-accent-hover)] cursor-pointer" : "text-[var(--ops-text)] cursor-default"}`}
                                                     title={hasContact ? "Click to view contact" : undefined}
                                                 >
                                                     {sale.clientName}
                                                     {hasContact && <Phone size={11} className="text-indigo-400 shrink-0" />}
                                                 </button>
                                             </td>
-                                            <td className="p-4 text-slate-700">{sale.productName}</td>
-                                            <td className="p-4 text-slate-500">{sale.size}</td>
-                                            <td className="p-4 text-slate-700 font-medium">{fmtQty(sale.quantity)}</td>
-                                            <td className="p-4 text-emerald-600 font-medium">{fmtCurrency(sale.sellingPrice)}</td>
-                                            <td className="p-4 text-blue-600 font-medium">{fmtCurrency(sale.profits || 0)}</td>
-                                            <td className="p-4 text-purple-600 font-medium">{fmtCurrency(sale.vat || 0)}</td>
-                                            <td className="p-4 pr-6 text-right"><span className="font-semibold text-emerald-700">{fmtCurrency(sale.quantity * sale.sellingPrice)}</span></td>
+                                            <td className="p-4 ops-strong">{sale.productName}</td>
+                                            <td className="p-4 ops-muted">{sale.size}</td>
+                                            <td className="p-4"><span className="ops-pill">{fmtQty(sale.quantity)}</span></td>
+                                            <td className="p-4 ops-positive-text">{fmtCurrency(sale.sellingPrice)}</td>
+                                            <td className="p-4 ops-accent-text">{fmtCurrency(sale.profits || 0)}</td>
+                                            <td className="p-4 text-[var(--ops-warning)] font-extrabold">{fmtCurrency(sale.vat || 0)}</td>
+                                            <td className="p-4 pr-6 text-right"><span className="ops-positive-text">{fmtCurrency(sale.quantity * sale.sellingPrice)}</span></td>
                                         </tr>
                                     );
                                 })}
                             </tbody>
                         </table>
                     </div>
+                    <div className="ops-pagination">
+                        <p className="ops-pagination-text">Showing {visibleSales.length} of {filteredSales.length} sales</p>
+                        {remainingSales > 0 && (
+                            <button className="ops-show-more-button" onClick={() => setVisibleCount(count => count + TRANSACTION_INCREMENT)}>
+                                Show {nextSalesCount} more transactions
+                            </button>
+                        )}
+                    </div>
+                    </>
                 )}
             </div>
 
             {/* Record Sale Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col">
-                        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
-                            <h2 className="text-xl font-semibold text-slate-900">Record New Sale</h2>
-                            <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-2 rounded-full transition-all"><X size={20} /></button>
+                <div className="ops-modal-backdrop">
+                    <div className="ops-modal-card max-w-2xl animate-in fade-in zoom-in-95 duration-200 flex flex-col">
+                        <div className="ops-modal-header shrink-0">
+                            <h2 className="ops-modal-title"><ShoppingCart size={20} className="text-[var(--ops-accent)]" /> Record New Sale</h2>
+                            <button onClick={() => setIsModalOpen(false)} className="ops-icon-button"><X size={20} /></button>
                         </div>
-                        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 flex flex-col">
+                        <form onSubmit={handleSubmit} className="ops-modal-body flex-1 overflow-y-auto flex flex-col">
                             {/* Client Info */}
                             <div className="mb-5 shrink-0">
-                                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Client Information</h3>
+                                <h3 className="ops-form-section-title mb-3">Client Information</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div className="space-y-1.5 md:col-span-3">
-                                        <label className="text-sm font-medium text-slate-700">Client Name <span className="text-red-400">*</span></label>
-                                        <input required value={clientName} onChange={(e) => setClientName(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-slate-900" placeholder="e.g. John Doe" />
+                                        <label className="ops-label">Client Name <span className="text-[var(--ops-danger)]">*</span></label>
+                                        <input required value={clientName} onChange={(e) => setClientName(e.target.value)} className="ops-input" placeholder="e.g. John Doe" />
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-sm font-medium text-slate-700 flex items-center gap-1"><Phone size={13} className="text-slate-400" />Phone <span className="text-slate-400 font-normal text-xs">(optional)</span></label>
-                                        <input value={clientPhone} onChange={(e) => setClientPhone(e.target.value)} type="tel" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-slate-900" placeholder="+1 555 0000" />
+                                        <label className="ops-label"><Phone size={13} className="text-[var(--ops-subtle)]" />Phone <span className="text-xs font-normal text-[var(--ops-subtle)]">(optional)</span></label>
+                                        <input value={clientPhone} onChange={(e) => setClientPhone(e.target.value)} type="tel" className="ops-input" placeholder="+1 555 0000" />
                                     </div>
                                     <div className="space-y-1.5 md:col-span-2">
-                                        <label className="text-sm font-medium text-slate-700 flex items-center gap-1"><Mail size={13} className="text-slate-400" />Email <span className="text-slate-400 font-normal text-xs">(optional)</span></label>
-                                        <input value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} type="email" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-slate-900" placeholder="client@email.com" />
+                                        <label className="ops-label"><Mail size={13} className="text-[var(--ops-subtle)]" />Email <span className="text-xs font-normal text-[var(--ops-subtle)]">(optional)</span></label>
+                                        <input value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} type="email" className="ops-input" placeholder="client@email.com" />
                                     </div>
                                 </div>
                             </div>
@@ -409,7 +435,7 @@ export default function SalesPage() {
                                     <button
                                         type="button"
                                         onClick={addSaleItem}
-                                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl border-2 border-dashed border-emerald-200 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-300 transition-all font-medium text-sm w-full justify-center"
+                                    className="ops-secondary-button w-full border-dashed"
                                     >
                                         <Plus size={16} /> Add Another Product
                                     </button>
@@ -417,25 +443,26 @@ export default function SalesPage() {
                             </div>
 
                             {/* Status Toggles */}
-                            <div className="mt-6 pt-5 border-t border-slate-100 grid grid-cols-2 gap-4 shrink-0">
-                                <button type="button" onClick={() => setIsOnLoan(v => !v)} className={`flex items-center justify-between px-4 py-3 rounded-xl border-2 transition-all ${isOnLoan ? "border-amber-400 bg-amber-50 text-amber-800" : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"}`}>
-                                    <span className="text-sm font-medium">Bought on Loan</span>
-                                    <div className={`w-10 h-6 rounded-full transition-colors flex items-center px-0.5 ${isOnLoan ? "bg-amber-400" : "bg-slate-200"}`}><div className={`w-5 h-5 bg-white rounded-full shadow transition-transform ${isOnLoan ? "translate-x-4" : "translate-x-0"}`} /></div>
+                            <div className="mt-6 pt-5 border-t border-[var(--ops-border-soft)] grid grid-cols-1 sm:grid-cols-2 gap-4 shrink-0">
+                                <button type="button" onClick={() => setIsOnLoan(v => !v)} className={`ops-toggle ${isOnLoan ? "ops-toggle-active" : ""}`}>
+                                    <span className="text-sm font-bold">Bought on Loan</span>
+                                    <div className="ops-toggle-track"><div className="ops-toggle-thumb" /></div>
                                 </button>
-                                <button type="button" onClick={() => setIsOrder(v => !v)} className={`flex items-center justify-between px-4 py-3 rounded-xl border-2 transition-all ${isOrder ? "border-indigo-400 bg-indigo-50 text-indigo-800" : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"}`}>
-                                    <span className="text-sm font-medium">This is an Order</span>
-                                    <div className={`w-10 h-6 rounded-full transition-colors flex items-center px-0.5 ${isOrder ? "bg-indigo-400" : "bg-slate-200"}`}><div className={`w-5 h-5 bg-white rounded-full shadow transition-transform ${isOrder ? "translate-x-4" : "translate-x-0"}`} /></div>
+                                <button type="button" onClick={() => setIsOrder(v => !v)} className={`ops-toggle ${isOrder ? "ops-toggle-active" : ""}`}>
+                                    <span className="text-sm font-bold">This is an Order</span>
+                                    <div className="ops-toggle-track"><div className="ops-toggle-thumb" /></div>
                                 </button>
                             </div>
 
-                            <div className="mt-6 pt-5 border-t border-slate-100 flex gap-3 justify-end shrink-0 sticky bottom-0 bg-white shadow-[-10px_-10px_10px_-10px_rgba(0,0,0,0.05)]">
-                                <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-slate-100 transition-colors">Cancel</button>
-                                <button type="submit" disabled={isSubmitting} className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-70 text-white px-6 py-2.5 rounded-xl font-medium shadow-lg shadow-emerald-600/20 active:scale-95 transition-all">{isSubmitting ? "Recording..." : `Record Sale${saleItems.length > 1 ? 's' : ''}`}</button>
+                            <div className="ops-modal-footer shrink-0">
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="ops-secondary-button">Cancel</button>
+                                <button type="submit" disabled={isSubmitting} className="ops-action-button disabled:cursor-not-allowed disabled:opacity-70">{isSubmitting ? "Recording..." : `Record Sale${saleItems.length > 1 ? 's' : ''}`}</button>
                             </div>
                         </form>
                     </div>
                 </div>
             )}
+            </div>
         </div>
     );
 }

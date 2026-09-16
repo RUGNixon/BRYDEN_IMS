@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AlertTriangle, CheckCircle2, XCircle } from "lucide-react";
 
 interface Product {
     name: string;
@@ -27,10 +28,10 @@ export default function AnalyticsStockCards() {
 
     if (isLoading) {
         return (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 {[0, 1].map(i => (
-                    <div key={i} className="bg-white rounded-3xl border border-slate-200/60 shadow-sm p-6 min-h-[300px] flex items-center justify-center animate-pulse">
-                        <div className="w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
+                    <div key={i} className="analytics-card flex min-h-[300px] items-center justify-center p-6">
+                        <div className="analytics-spinner" />
                     </div>
                 ))}
             </div>
@@ -41,45 +42,38 @@ export default function AnalyticsStockCards() {
     const lowStock = data?.lowStock ?? [];
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 
-            {/* ── Out of Stock Card ── */}
-            <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm flex flex-col overflow-hidden">
-                {/* Header */}
-                <div className="flex items-center gap-3 px-6 pt-6 pb-4 border-b border-slate-100">
-                    <div className="w-10 h-10 rounded-2xl bg-rose-50 flex items-center justify-center flex-shrink-0">
-                        <svg className="w-5 h-5 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+            <section className="analytics-card analytics-stock-card analytics-stock-danger">
+                <div className="analytics-stock-header">
+                    <div className="analytics-stock-icon">
+                        <XCircle size={20} aria-hidden="true" />
                     </div>
                     <div>
-                        <h2 className="text-lg font-extrabold text-slate-900 tracking-tight">Out of Stock</h2>
-                        <p className="text-xs text-slate-400 font-medium mt-0.5">Products with zero inventory</p>
+                        <h2 className="text-lg font-black tracking-tight text-[var(--analytics-text)]">Out of Stock</h2>
+                        <p className="mt-0.5 text-xs font-semibold text-[var(--analytics-subtle)]">Products with zero inventory</p>
                     </div>
-                    <span className="ml-auto text-sm font-bold bg-rose-50 text-rose-600 px-3 py-1 rounded-full">
+                    <span className="analytics-stock-count">
                         {outOfStock.length}
                     </span>
                 </div>
 
-                {/* Body */}
-                <div className="flex-1 overflow-y-auto max-h-72 px-4 py-3">
+                <div className="analytics-stock-body">
                     {outOfStock.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-10 text-center">
-                            <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center mb-3">
-                                <svg className="w-6 h-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
+                        <div className="analytics-stock-empty">
+                            <div className="analytics-stock-empty-icon">
+                                <CheckCircle2 size={24} aria-hidden="true" />
                             </div>
-                            <p className="text-sm font-semibold text-slate-500">All products are in stock!</p>
+                            <p>All products are in stock.</p>
                         </div>
                     ) : (
-                        <ul className="divide-y divide-slate-50">
+                        <ul className="analytics-stock-list">
                             {outOfStock.map((p, i) => (
-                                <li key={i} className="flex items-center gap-3 py-3 px-2 rounded-xl hover:bg-rose-50/40 transition-colors">
-                                    <div className="w-2 h-2 rounded-full bg-rose-400 flex-shrink-0" />
-                                    <span className="font-semibold text-slate-800 text-sm flex-1">{p.name}</span>
+                                <li key={i} className="analytics-stock-row">
+                                    <div className="analytics-stock-dot" />
+                                    <span className="flex-1 text-sm font-bold text-[var(--analytics-text)]">{p.name}</span>
                                     {p.size && (
-                                        <span className="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-lg">
+                                        <span className="analytics-stock-pill">
                                             {p.size}
                                         </span>
                                     )}
@@ -88,51 +82,44 @@ export default function AnalyticsStockCards() {
                         </ul>
                     )}
                 </div>
-            </div>
+            </section>
 
-            {/* ── Nearly Out of Stock Card ── */}
-            <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm flex flex-col overflow-hidden">
-                {/* Header */}
-                <div className="flex items-center gap-3 px-6 pt-6 pb-4 border-b border-slate-100">
-                    <div className="w-10 h-10 rounded-2xl bg-amber-50 flex items-center justify-center flex-shrink-0">
-                        <svg className="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                        </svg>
+            <section className="analytics-card analytics-stock-card analytics-stock-warning">
+                <div className="analytics-stock-header">
+                    <div className="analytics-stock-icon">
+                        <AlertTriangle size={20} aria-hidden="true" />
                     </div>
                     <div>
-                        <h2 className="text-lg font-extrabold text-slate-900 tracking-tight">Nearly Out of Stock</h2>
-                        <p className="text-xs text-slate-400 font-medium mt-0.5">20 units or fewer remaining</p>
+                        <h2 className="text-lg font-black tracking-tight text-[var(--analytics-text)]">Nearly Out of Stock</h2>
+                        <p className="mt-0.5 text-xs font-semibold text-[var(--analytics-subtle)]">20 units or fewer remaining</p>
                     </div>
-                    <span className="ml-auto text-sm font-bold bg-amber-50 text-amber-600 px-3 py-1 rounded-full">
+                    <span className="analytics-stock-count">
                         {lowStock.length}
                     </span>
                 </div>
 
-                {/* Body */}
-                <div className="flex-1 overflow-y-auto max-h-72 px-4 py-3">
+                <div className="analytics-stock-body">
                     {lowStock.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-10 text-center">
-                            <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center mb-3">
-                                <svg className="w-6 h-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
+                        <div className="analytics-stock-empty">
+                            <div className="analytics-stock-empty-icon">
+                                <CheckCircle2 size={24} aria-hidden="true" />
                             </div>
-                            <p className="text-sm font-semibold text-slate-500">Stock levels look healthy!</p>
+                            <p>Stock levels look healthy.</p>
                         </div>
                     ) : (
-                        <ul className="divide-y divide-slate-50">
+                        <ul className="analytics-stock-list">
                             {lowStock.map((p, i) => (
-                                <li key={i} className="flex items-center gap-3 py-3 px-2 rounded-xl hover:bg-amber-50/40 transition-colors">
-                                    <div className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" />
-                                    <span className="font-semibold text-slate-800 text-sm flex-1">{p.name}</span>
+                                <li key={i} className="analytics-stock-row">
+                                    <div className="analytics-stock-dot" />
+                                    <span className="flex-1 text-sm font-bold text-[var(--analytics-text)]">{p.name}</span>
                                     {p.size && (
-                                        <span className="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-lg">
+                                        <span className="analytics-stock-pill">
                                             {p.size}
                                         </span>
                                     )}
-                                    <span className={`text-xs font-extrabold px-2.5 py-1 rounded-lg ${(p.quantity ?? 0) <= 3
-                                            ? 'bg-rose-100 text-rose-600'
-                                            : 'bg-amber-100 text-amber-700'
+                                    <span className={`analytics-stock-quantity ${(p.quantity ?? 0) <= 3
+                                            ? "analytics-stock-critical"
+                                            : "analytics-stock-caution"
                                         }`}>
                                         {p.quantity} left
                                     </span>
@@ -141,7 +128,7 @@ export default function AnalyticsStockCards() {
                         </ul>
                     )}
                 </div>
-            </div>
+            </section>
 
         </div>
     );

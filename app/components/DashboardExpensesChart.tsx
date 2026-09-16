@@ -44,43 +44,43 @@ const renderActiveShape = (props: any) => {
         <g>
             <text
                 x={cx}
-                y={cy - 12}
+                y={cy - 10}
                 textAnchor="middle"
                 fill="#64748b"
-                style={{ fontSize: 11, fontWeight: 600 }}
+                style={{ fontSize: 10, fontWeight: 600 }}
             >
-                {payload.name.length > 16 ? payload.name.slice(0, 16) + '…' : payload.name}
+                {payload.name.length > 14 ? payload.name.slice(0, 14) + '…' : payload.name}
             </text>
             <text
                 x={cx}
-                y={cy + 8}
+                y={cy + 6}
                 textAnchor="middle"
                 fill="#f97316"
-                style={{ fontSize: 16, fontWeight: 800 }}
+                style={{ fontSize: 13, fontWeight: 800 }}
             >
                 {fmtCurrency(value)}
             </text>
             <text
                 x={cx}
-                y={cy + 25}
+                y={cy + 20}
                 textAnchor="middle"
                 fill="#94a3b8"
-                style={{ fontSize: 11, fontWeight: 500 }}
+                style={{ fontSize: 10, fontWeight: 500 }}
             >
                 {(percent * 100).toFixed(1)}%
             </text>
             <Sector
                 cx={cx} cy={cy}
                 innerRadius={innerRadius}
-                outerRadius={outerRadius + 8}
+                outerRadius={outerRadius + 5}
                 startAngle={startAngle}
                 endAngle={endAngle}
                 fill={fill}
             />
             <Sector
                 cx={cx} cy={cy}
-                innerRadius={outerRadius + 11}
-                outerRadius={outerRadius + 14}
+                innerRadius={outerRadius + 8}
+                outerRadius={outerRadius + 11}
                 startAngle={startAngle}
                 endAngle={endAngle}
                 fill={fill}
@@ -234,9 +234,9 @@ export default function DashboardExpensesChart() {
                             <p className="text-xs text-slate-400 mt-1">Expenses recorded this month will appear here.</p>
                         </div>
                     ) : (
-                        <div className="flex flex-col md:flex-row items-center gap-6">
-                            {/* Donut Pie Chart */}
-                            <div className="w-full md:w-56 h-56 shrink-0">
+                        <div className="flex flex-col md:flex-row items-center gap-5">
+                            {/* Donut Pie Chart - Compact proportionate sizing */}
+                            <div className="w-44 h-44 sm:w-48 sm:h-48 shrink-0 mx-auto md:mx-0">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <PieChart>
                                         <Pie
@@ -244,8 +244,8 @@ export default function DashboardExpensesChart() {
                                             data={categories}
                                             cx="50%"
                                             cy="50%"
-                                            innerRadius={60}
-                                            outerRadius={85}
+                                            innerRadius={46}
+                                            outerRadius={66}
                                             paddingAngle={3}
                                             dataKey="value"
                                             nameKey="name"
@@ -263,8 +263,8 @@ export default function DashboardExpensesChart() {
                                 </ResponsiveContainer>
                             </div>
 
-                            {/* Category Legend List */}
-                            <div className="flex-1 w-full max-h-[260px] overflow-y-auto space-y-1.5 pr-1">
+                            {/* Category Legend List - Given ample horizontal space to be fully visible */}
+                            <div className="flex-1 min-w-0 w-full max-h-[280px] overflow-y-auto space-y-1.5 pr-1">
                                 {categories.map((entry, index) => {
                                     const color = PALETTE[index % PALETTE.length];
                                     const pct = monthTotal > 0 ? ((entry.value / monthTotal) * 100).toFixed(1) : "0.0";
@@ -275,7 +275,7 @@ export default function DashboardExpensesChart() {
                                             key={index}
                                             type="button"
                                             onMouseEnter={() => setActiveIndex(index)}
-                                            className={`flex items-center gap-3 p-2.5 rounded-xl text-left transition-all duration-200 w-full group cursor-pointer ${
+                                            className={`flex items-center gap-2.5 p-2 rounded-xl text-left transition-all duration-200 w-full group cursor-pointer ${
                                                 isActive
                                                     ? "bg-orange-50/60 dark:bg-orange-950/30 border border-orange-200/80 dark:border-orange-800/60 shadow-xs"
                                                     : "hover:bg-slate-50 dark:hover:bg-slate-800/50 border border-transparent"
@@ -290,14 +290,17 @@ export default function DashboardExpensesChart() {
                                             />
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex items-center justify-between gap-2">
-                                                    <p className={`text-xs font-semibold truncate ${isActive ? "text-slate-900 dark:text-white" : "text-slate-700 dark:text-slate-300"}`}>
+                                                    <p
+                                                        className={`text-xs font-semibold truncate ${isActive ? "text-slate-900 dark:text-white" : "text-slate-700 dark:text-slate-300"}`}
+                                                        title={entry.name}
+                                                    >
                                                         {entry.name}
                                                     </p>
-                                                    <span className="text-xs font-bold shrink-0" style={{ color }}>
+                                                    <span className="text-xs font-bold shrink-0 ml-1" style={{ color }}>
                                                         {fmtCurrency(entry.value)}
                                                     </span>
                                                 </div>
-                                                <div className="flex items-center gap-2 mt-1">
+                                                <div className="flex items-center gap-2 mt-0.5">
                                                     <div className="flex-1 bg-slate-100 dark:bg-slate-800 rounded-full h-1 overflow-hidden">
                                                         <div
                                                             className="h-full rounded-full transition-all duration-300"

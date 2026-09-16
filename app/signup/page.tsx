@@ -16,7 +16,7 @@ import {
     Lock,
 } from "lucide-react";
 
-export default function LoginPage() {
+export default function SignUpPage() {
     const { theme, toggleTheme } = useTheme();
     const { language, setLanguage, t } = useLanguage();
 
@@ -38,7 +38,7 @@ export default function LoginPage() {
                         Bryden IMS
                     </span>
                     <span className="hidden sm:inline-block text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest pl-2 border-l border-slate-200 dark:border-slate-800">
-                        Portal
+                        Onboarding
                     </span>
                 </div>
 
@@ -80,78 +80,58 @@ export default function LoginPage() {
             <div className="flex-1 flex flex-col lg:flex-row items-stretch w-full max-w-7xl mx-auto px-4 sm:px-8 py-8 sm:py-12 gap-8 lg:gap-12 relative z-20">
                 {/* LEFT SHOWCASE PANEL (Desktop & Tablet) */}
                 <div className="hidden lg:flex flex-1 flex-col justify-between p-8 xl:p-12 rounded-3xl bg-gradient-to-br from-indigo-950/20 via-slate-900/30 to-indigo-900/10 border border-slate-200/80 dark:border-slate-800/80 relative overflow-hidden backdrop-blur-xl">
-                    {/* Decorative Background Mesh */}
                     <div className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" />
                     <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none" />
 
                     <div className="relative z-10 space-y-6">
                         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/80 text-indigo-700 dark:text-indigo-300 text-xs font-bold shadow-xs">
                             <Shield size={14} />
-                            <span>Enterprise Inventory Security &bull; v2.0</span>
+                            <span>Role-Based Permissions &bull; Admin & Manager</span>
                         </div>
 
                         <h2 className="text-3xl xl:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
-                            Smart, Real-Time Inventory Control & Compliance.
+                            Start Managing Your Inventory with Enterprise Rigor.
                         </h2>
 
                         <p className="text-sm xl:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg">
-                            Track multi-warehouse stock, automate sales profitability, monitor Rwanda VAT (18%) declarations, and secure operations with role-based access control.
+                            Register an authorized profile to coordinate purchase orders, log product sales, track loan statuses, and ensure financial accountability across your team.
                         </p>
 
-                        {/* Interactive Feature Highlights */}
-                        <div className="grid grid-cols-2 gap-4 pt-4">
-                            <div className="p-4 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 shadow-xs space-y-1">
-                                <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
-                                    <Boxes size={18} />
-                                    <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                                        Live Stock
-                                    </h4>
-                                </div>
-                                <p className="text-xs text-slate-500 dark:text-slate-400">
-                                    Instant low-stock alerts and unit size categorization.
-                                </p>
-                            </div>
-
-                            <div className="p-4 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 shadow-xs space-y-1">
-                                <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
-                                    <Receipt size={18} />
-                                    <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                                        VAT & Profits
-                                    </h4>
-                                </div>
-                                <p className="text-xs text-slate-500 dark:text-slate-400">
-                                    Automated 18% tax deduction & self-populating profits.
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Floating Metric Preview Card */}
-                        <div className="mt-6 p-5 rounded-2xl bg-gradient-to-r from-indigo-500/10 via-slate-800/5 to-emerald-500/10 border border-indigo-500/20 backdrop-blur-md flex items-center justify-between">
-                            <div className="flex items-center gap-3.5">
-                                <div className="p-2.5 rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-600/30">
-                                    <TrendingUp size={20} />
+                        <div className="space-y-3 pt-2">
+                            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80">
+                                <div className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400">
+                                    <Shield size={18} />
                                 </div>
                                 <div>
-                                    <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                                        System Status
-                                    </div>
-                                    <div className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5">
-                                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                                        All Modules Online &bull; 99.9% Uptime
-                                    </div>
+                                    <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                                        Administrator Access
+                                    </h4>
+                                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                                        Manage tax frequencies, system language, user credentials, and full audits.
+                                    </p>
                                 </div>
                             </div>
-                            <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
-                                Active
-                            </span>
+
+                            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80">
+                                <div className="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400">
+                                    <Boxes size={18} />
+                                </div>
+                                <div>
+                                    <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                                        Inventory Manager
+                                    </h4>
+                                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                                        Record inventory additions, sales, client loan repayments, and operational expenses.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Bottom Security Footer */}
                     <div className="relative z-10 pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between text-xs text-slate-400 dark:text-slate-500">
                         <span className="flex items-center gap-1.5">
                             <CheckCircle2 size={14} className="text-emerald-500" />
-                            256-bit Scrypt & SHA-256 Encryption
+                            Strict Role Separation (Admin & Manager)
                         </span>
                         <span>Bryden IMS &copy; 2026</span>
                     </div>
@@ -159,8 +139,8 @@ export default function LoginPage() {
 
                 {/* RIGHT AUTH CARD PANEL */}
                 <div className="flex-1 flex items-center justify-center">
-                    <Suspense fallback={<div className="text-center text-sm py-12">Loading authentication portal...</div>}>
-                        <AuthCard initialMode="signin" />
+                    <Suspense fallback={<div className="text-center text-sm py-12">Loading registration portal...</div>}>
+                        <AuthCard initialMode="signup" />
                     </Suspense>
                 </div>
             </div>

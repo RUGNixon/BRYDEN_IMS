@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Expense } from "@/lib/db";
-import { Plus, X, ReceiptText, Phone, Mail } from "lucide-react";
+import { Plus, X, ReceiptText, Phone, Mail, Search } from "lucide-react";
 import { fmtCurrency } from "@/lib/format";
 import ContactPopup from "@/app/components/ContactPopup";
 
@@ -13,8 +13,13 @@ interface ContactState {
     position: { x: number; y: number };
 }
 
+const INITIAL_TRANSACTION_LIMIT = 15;
+const TRANSACTION_INCREMENT = 20;
+
 export default function ExpensesPage() {
     const [expenses, setExpenses] = useState<Expense[]>([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [visibleCount, setVisibleCount] = useState(INITIAL_TRANSACTION_LIMIT);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [contact, setContact] = useState<ContactState | null>(null);
@@ -42,6 +47,10 @@ export default function ExpensesPage() {
     }, []);
 
     useEffect(() => { fetchExpenses(); }, [fetchExpenses]);
+
+    useEffect(() => {
+        setVisibleCount(INITIAL_TRANSACTION_LIMIT);
+    }, [searchTerm]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -85,9 +94,17 @@ export default function ExpensesPage() {
     };
 
     const totalExpenses = expenses.reduce((sum, exp) => sum + Number(exp.amount), 0);
+    const filteredExpenses = expenses.filter(exp =>
+        exp.personName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        exp.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const visibleExpenses = filteredExpenses.slice(0, visibleCount);
+    const remainingExpenses = Math.max(filteredExpenses.length - visibleExpenses.length, 0);
+    const nextExpensesCount = Math.min(TRANSACTION_INCREMENT, remainingExpenses);
 
     return (
-        <div className="p-8 max-w-7xl mx-auto">
+        <div className="operations-page ops-accent-rose min-h-full">
+            <div className="ops-shell">
 
             {/* Contact Popup */}
             {contact && (
@@ -100,130 +117,151 @@ export default function ExpensesPage() {
                 />
             )}
 
-            <div className="flex justify-between items-end mb-8">
+            <div className="ops-header">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Expenses</h1>
-                    <p className="text-slate-500 mt-1">Record and track company payments and expenses.</p>
+                    <div className="ops-eyebrow"><ReceiptText size={16} aria-hidden="true" /> Expenses</div>
+                    <h1 className="ops-title">Expense ledger</h1>
+                    <p className="ops-subtitle">Record and track company payments, payees, and operating costs.</p>
                 </div>
-                <div className="flex items-center gap-6">
-                    <div className="text-right">
-                        <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Expenses</p>
-                        <p className="text-2xl font-bold text-red-600">{fmtCurrency(totalExpenses)}</p>
+                <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+                    <div className="ops-metric-chip">
+                        <div>
+                            <span>Total Expenses</span>
+                            <strong>{fmtCurrency(totalExpenses)}</strong>
+                        </div>
                     </div>
-                    <div className="h-10 w-px bg-slate-200" />
-                    <button onClick={() => setIsModalOpen(true)} className="bg-red-600 hover:bg-red-500 text-white px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-red-600/20 active:scale-95 transition-all flex items-center gap-2">
+                    <button onClick={() => setIsModalOpen(true)} className="ops-action-button">
                         <Plus size={18} /> Record Expense
                     </button>
                 </div>
             </div>
 
+            <div className="ops-toolbar">
+                <div className="ops-search">
+                    <div className="ops-search-icon"><Search className="h-5 w-5" /></div>
+                    <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="ops-input text-sm" placeholder="Search by payee or description..." />
+                </div>
+                <p className="text-sm font-bold text-[var(--ops-subtle)]">{filteredExpenses.length} expenses found</p>
+            </div>
+
             {/* Table */}
-            <div className="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+            <div className="ops-card">
                 {isLoading ? (
-                    <div className="p-12 text-center text-slate-400">Loading expenses...</div>
-                ) : expenses.length === 0 ? (
-                    <div className="p-12 text-center flex flex-col items-center">
-                        <div className="bg-red-50 text-red-500 p-4 rounded-full mb-4"><ReceiptText size={32} /></div>
-                        <h3 className="text-lg font-medium text-slate-900 mb-1">No expenses recorded</h3>
-                        <p className="text-slate-500 max-w-sm mb-6">You haven&apos;t added any company expenses yet.</p>
-                        <button onClick={() => setIsModalOpen(true)} className="text-red-600 font-medium hover:text-red-700 transition-colors">+ Record your first expense</button>
+                    <div className="ops-state"><div className="ops-spinner" /><p className="mt-4 font-semibold">Loading expenses...</p></div>
+                ) : filteredExpenses.length === 0 ? (
+                    <div className="ops-state">
+                        <div className="ops-state-icon"><ReceiptText size={32} /></div>
+                        <h3 className="text-lg font-bold text-[var(--ops-text)] mb-1">No expenses recorded</h3>
+                        <p className="max-w-sm mb-6">You haven&apos;t added any company expenses yet.</p>
+                        <button onClick={() => setIsModalOpen(true)} className="ops-ghost-link">+ Record your first expense</button>
                     </div>
                 ) : (
+                    <>
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
+                        <table className="ops-table">
                             <thead>
-                                <tr className="bg-slate-50 border-b border-slate-200/60 text-slate-500 text-sm font-medium">
+                                <tr>
                                     <th className="p-4 pl-6">Date</th>
                                     <th className="p-4">Payee / Person Name</th>
                                     <th className="p-4">Description</th>
                                     <th className="p-4 pr-6 text-right">Amount</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-slate-100">
-                                {expenses.map((expense) => {
+                            <tbody>
+                                {visibleExpenses.map((expense) => {
                                     const hasContact = expense.phone || expense.email;
                                     return (
-                                        <tr key={expense.id} className="hover:bg-slate-50/50 transition-colors">
-                                            <td className="p-4 pl-6 text-slate-500 font-medium whitespace-nowrap">
+                                        <tr key={expense.id}>
+                                            <td className="p-4 pl-6 ops-muted whitespace-nowrap">
                                                 {expense.date ? new Date(expense.date).toLocaleDateString() : 'N/A'}
                                             </td>
                                             <td className="p-4">
                                                 <button
                                                     onClick={(e) => handleNameClick(expense, e)}
-                                                    className={`flex items-center gap-2 transition-colors ${hasContact ? "text-indigo-700 hover:text-indigo-900 cursor-pointer" : "text-slate-900 cursor-default"}`}
+                                                    className={`flex items-center gap-2 transition-colors ${hasContact ? "text-[var(--ops-accent-text)] hover:text-[var(--ops-accent-hover)] cursor-pointer" : "text-[var(--ops-text)] cursor-default"}`}
                                                     title={hasContact ? "Click to view contact" : undefined}
                                                 >
-                                                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-xs uppercase shrink-0">{expense.personName.charAt(0)}</div>
-                                                    <span className="font-medium">{expense.personName}</span>
+                                                    <div className="ops-avatar">{expense.personName.charAt(0)}</div>
+                                                    <span className="font-bold">{expense.personName}</span>
                                                     {hasContact && <Phone size={11} className="text-indigo-400 shrink-0" />}
                                                 </button>
                                             </td>
-                                            <td className="p-4 text-slate-600 max-w-md truncate">{expense.description}</td>
-                                            <td className="p-4 pr-6 text-right text-slate-900 font-semibold">{fmtCurrency(Number(expense.amount))}</td>
+                                            <td className="p-4 ops-muted max-w-md truncate">{expense.description}</td>
+                                            <td className="p-4 pr-6 text-right ops-danger-text">{fmtCurrency(Number(expense.amount))}</td>
                                         </tr>
                                     );
                                 })}
                             </tbody>
                         </table>
                     </div>
+                    <div className="ops-pagination">
+                        <p className="ops-pagination-text">Showing {visibleExpenses.length} of {filteredExpenses.length} expenses</p>
+                        {remainingExpenses > 0 && (
+                            <button className="ops-show-more-button" onClick={() => setVisibleCount(count => count + TRANSACTION_INCREMENT)}>
+                                Show {nextExpensesCount} more transactions
+                            </button>
+                        )}
+                    </div>
+                    </>
                 )}
             </div>
 
             {/* Record Expense Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
-                        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 sticky top-0 z-10">
-                            <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2"><ReceiptText size={20} className="text-red-500" />Record New Expense</h2>
-                            <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-2 rounded-full transition-all"><X size={20} /></button>
+                <div className="ops-modal-backdrop">
+                    <div className="ops-modal-card max-w-lg animate-in fade-in zoom-in-95 duration-200 overflow-y-auto">
+                        <div className="ops-modal-header sticky top-0 z-10">
+                            <h2 className="ops-modal-title"><ReceiptText size={20} className="text-[var(--ops-accent)]" />Record New Expense</h2>
+                            <button onClick={() => setIsModalOpen(false)} className="ops-icon-button"><X size={20} /></button>
                         </div>
-                        <form onSubmit={handleSubmit} className="p-6">
+                        <form onSubmit={handleSubmit} className="ops-modal-body">
                             {/* Payee Info */}
                             <div className="mb-5">
-                                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Payee Information</h3>
+                                <h3 className="ops-form-section-title mb-3">Payee Information</h3>
                                 <div className="space-y-3">
                                     <div className="space-y-1.5">
-                                        <label className="text-sm font-medium text-slate-700">Payee / Person Name <span className="text-red-400">*</span></label>
-                                        <input required value={personName} onChange={(e) => setPersonName(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-slate-900" placeholder="e.g. John Doe, Office Depot" />
+                                        <label className="ops-label">Payee / Person Name <span className="text-[var(--ops-danger)]">*</span></label>
+                                        <input required value={personName} onChange={(e) => setPersonName(e.target.value)} className="ops-input" placeholder="e.g. John Doe, Office Depot" />
                                     </div>
                                     <div className="grid grid-cols-2 gap-3">
                                         <div className="space-y-1.5">
-                                            <label className="text-sm font-medium text-slate-700 flex items-center gap-1"><Phone size={13} className="text-slate-400" />Phone <span className="text-slate-400 font-normal text-xs">(optional)</span></label>
-                                            <input value={personPhone} onChange={(e) => setPersonPhone(e.target.value)} type="tel" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-slate-900" placeholder="+1 555 0000" />
+                                            <label className="ops-label"><Phone size={13} className="text-[var(--ops-subtle)]" />Phone <span className="text-xs font-normal text-[var(--ops-subtle)]">(optional)</span></label>
+                                            <input value={personPhone} onChange={(e) => setPersonPhone(e.target.value)} type="tel" className="ops-input" placeholder="+1 555 0000" />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-sm font-medium text-slate-700 flex items-center gap-1"><Mail size={13} className="text-slate-400" />Email <span className="text-slate-400 font-normal text-xs">(optional)</span></label>
-                                            <input value={personEmail} onChange={(e) => setPersonEmail(e.target.value)} type="email" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-slate-900" placeholder="email@example.com" />
+                                            <label className="ops-label"><Mail size={13} className="text-[var(--ops-subtle)]" />Email <span className="text-xs font-normal text-[var(--ops-subtle)]">(optional)</span></label>
+                                            <input value={personEmail} onChange={(e) => setPersonEmail(e.target.value)} type="email" className="ops-input" placeholder="email@example.com" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Expense Details */}
-                            <div className="pt-4 border-t border-slate-100 space-y-4">
-                                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Expense Details</h3>
+                            <div className="pt-4 border-t border-[var(--ops-border-soft)] space-y-4">
+                                <h3 className="ops-form-section-title">Expense Details</h3>
                                 <div className="space-y-1.5">
-                                    <label className="text-sm font-medium text-slate-700">Date <span className="text-red-400">*</span></label>
-                                    <input type="date" required value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-slate-900" />
+                                    <label className="ops-label">Date <span className="text-[var(--ops-danger)]">*</span></label>
+                                    <input type="date" required value={date} onChange={(e) => setDate(e.target.value)} className="ops-input" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-sm font-medium text-slate-700">Amount ($) <span className="text-red-400">*</span></label>
-                                    <input type="number" min="0" step="0.01" required value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-slate-900 text-lg font-medium" placeholder="0.00" />
+                                    <label className="ops-label">Amount ($) <span className="text-[var(--ops-danger)]">*</span></label>
+                                    <input type="number" min="0" step="0.01" required value={amount} onChange={(e) => setAmount(e.target.value)} className="ops-input text-lg font-bold" placeholder="0.00" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-sm font-medium text-slate-700">Description / Reason <span className="text-red-400">*</span></label>
-                                    <textarea required rows={3} value={description} onChange={(e) => setDescription(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-slate-900 resize-none" placeholder="e.g. Monthly internet bill, office supplies..." />
+                                    <label className="ops-label">Description / Reason <span className="text-[var(--ops-danger)]">*</span></label>
+                                    <textarea required rows={3} value={description} onChange={(e) => setDescription(e.target.value)} className="ops-textarea" placeholder="e.g. Monthly internet bill, office supplies..." />
                                 </div>
                             </div>
 
-                            <div className="mt-6 flex gap-3 justify-end">
-                                <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-slate-100 transition-colors">Cancel</button>
-                                <button type="submit" disabled={isSubmitting} className="bg-red-600 hover:bg-red-500 disabled:opacity-70 text-white px-6 py-2.5 rounded-xl font-medium shadow-lg shadow-red-600/20 active:scale-95 transition-all">{isSubmitting ? "Saving..." : "Record Expense"}</button>
+                            <div className="ops-modal-footer">
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="ops-secondary-button">Cancel</button>
+                                <button type="submit" disabled={isSubmitting} className="ops-action-button disabled:cursor-not-allowed disabled:opacity-70">{isSubmitting ? "Saving..." : "Record Expense"}</button>
                             </div>
                         </form>
                     </div>
                 </div>
             )}
+            </div>
         </div>
     );
 }

@@ -80,6 +80,36 @@ interface Translations {
     confirmWithPasswordLabel: string;
     updateEmailBtn: string;
     emailSuccess: string;
+
+    // Authentication & Authorization
+    authSignIn: string;
+    authSignUp: string;
+    authWelcomeBack: string;
+    authWelcomeBackSubtitle: string;
+    authCreateAccountTitle: string;
+    authCreateAccountSubtitle: string;
+    authFullName: string;
+    authEmail: string;
+    authPassword: string;
+    authConfirmPassword: string;
+    authPhone: string;
+    authRole: string;
+    authRoleAdmin: string;
+    authRoleAdminDesc: string;
+    authRoleManager: string;
+    authRoleManagerDesc: string;
+    authRememberMe: string;
+    authForgotPassword: string;
+    authSignInBtn: string;
+    authSignUpBtn: string;
+    authHaveAccount: string;
+    authNoAccount: string;
+    authQuickDemo: string;
+    authSigningIn: string;
+    authRegistering: string;
+    authSignOut: string;
+    authSignOutConfirm: string;
+    authSessionActive: string;
 }
 
 const dictionaries: Record<LanguageCode, Translations> = {
@@ -151,6 +181,35 @@ const dictionaries: Record<LanguageCode, Translations> = {
         confirmWithPasswordLabel: "Confirm with Current Password",
         updateEmailBtn: "Save New Email",
         emailSuccess: "Your sign-in email has been updated successfully!",
+        
+        authSignIn: "Sign In",
+        authSignUp: "Create Account",
+        authWelcomeBack: "Welcome Back",
+        authWelcomeBackSubtitle: "Sign in to access your inventory management workspace and real-time operations.",
+        authCreateAccountTitle: "Create Account",
+        authCreateAccountSubtitle: "Register a new administrative or manager profile for your organization.",
+        authFullName: "Full Name",
+        authEmail: "Email Address",
+        authPassword: "Password",
+        authConfirmPassword: "Confirm Password",
+        authPhone: "Phone Number (Optional)",
+        authRole: "Account Role",
+        authRoleAdmin: "Administrator",
+        authRoleAdminDesc: "Full administrative access to settings, user management, and all system tools.",
+        authRoleManager: "Inventory Manager",
+        authRoleManagerDesc: "Manage stock levels, sales records, purchase orders, client accounts, and expenses.",
+        authRememberMe: "Remember me for 30 days",
+        authForgotPassword: "Forgot password?",
+        authSignInBtn: "Sign In to Bryden IMS",
+        authSignUpBtn: "Complete Registration",
+        authHaveAccount: "Already registered?",
+        authNoAccount: "Need a new account?",
+        authQuickDemo: "Fill Demo Credentials (Admin)",
+        authSigningIn: "Authenticating...",
+        authRegistering: "Creating account...",
+        authSignOut: "Sign Out",
+        authSignOutConfirm: "Are you sure you want to sign out of your Bryden IMS session?",
+        authSessionActive: "Session Active",
     },
 
     fr: {
@@ -221,6 +280,35 @@ const dictionaries: Record<LanguageCode, Translations> = {
         confirmWithPasswordLabel: "Confirmer avec le Mot de Passe Actuel",
         updateEmailBtn: "Enregistrer le Nouvel Email",
         emailSuccess: "Votre adresse email a été modifiée avec succès !",
+
+        authSignIn: "Se Connecter",
+        authSignUp: "Créer un Compte",
+        authWelcomeBack: "Bon retour",
+        authWelcomeBackSubtitle: "Connectez-vous pour accéder à votre espace de gestion des stocks et opérations en direct.",
+        authCreateAccountTitle: "Créer un Compte",
+        authCreateAccountSubtitle: "Enregistrez un nouveau profil administrateur ou gestionnaire pour votre entreprise.",
+        authFullName: "Nom Complet",
+        authEmail: "Adresse Email",
+        authPassword: "Mot de Passe",
+        authConfirmPassword: "Confirmer le Mot de Passe",
+        authPhone: "Numéro de Téléphone (Optionnel)",
+        authRole: "Rôle du Compte",
+        authRoleAdmin: "Administrateur",
+        authRoleAdminDesc: "Accès complet aux paramètres, gestion des utilisateurs et tous les outils du système.",
+        authRoleManager: "Gestionnaire de Stock",
+        authRoleManagerDesc: "Gestion des produits, ventes, achats, commandes clients et dépenses de l'inventaire.",
+        authRememberMe: "Rester connecté pendant 30 jours",
+        authForgotPassword: "Mot de passe oublié ?",
+        authSignInBtn: "Se Connecter à Bryden IMS",
+        authSignUpBtn: "Finaliser l'Inscription",
+        authHaveAccount: "Déjà inscrit ?",
+        authNoAccount: "Besoin d'un nouveau compte ?",
+        authQuickDemo: "Identifiants Démo (Admin)",
+        authSigningIn: "Authentification en cours...",
+        authRegistering: "Création du compte en cours...",
+        authSignOut: "Déconnexion",
+        authSignOutConfirm: "Êtes-vous sûr de vouloir vous déconnecter de votre session Bryden IMS ?",
+        authSessionActive: "Session Active",
     },
 
     rw: {
@@ -291,6 +379,35 @@ const dictionaries: Record<LanguageCode, Translations> = {
         confirmWithPasswordLabel: "Emeza Ukoresheje Ijambobanga ryawe",
         updateEmailBtn: "Bika Imeri Nshya",
         emailSuccess: "Imeri yawe yo kwinjira yahinduwe neza!",
+
+        authSignIn: "Kwinjira",
+        authSignUp: "Kurema Konti",
+        authWelcomeBack: "Kaze Neza",
+        authWelcomeBackSubtitle: "Injira kugira ngo ukomeze gukurikirana ibicuruzwa n'imikorere y'ububiko bwawe.",
+        authCreateAccountTitle: "Kurema Konti Nshya",
+        authCreateAccountSubtitle: "Iyandikishe nk'umuyobozi cyangwa umucungamutungo muri Bryden IMS.",
+        authFullName: "Amazina Yose",
+        authEmail: "Aderesi ya Imeri",
+        authPassword: "Ijambobanga",
+        authConfirmPassword: "Emeza Ijambobanga",
+        authPhone: "Nimero ya Telefone (Niba Uyifite)",
+        authRole: "Inshingano za Konti",
+        authRoleAdmin: "Umuyobozi Mukuru (Admin)",
+        authRoleAdminDesc: "Uburenganzira bwose kuri sisitemu, gucunga abakoresha n'igenamiterere ryose.",
+        authRoleManager: "Umucungamutungo (Manager)",
+        authRoleManagerDesc: "Gucunga ibicuruzwa, ibyagurishijwe, ibyaguzwe, inguzanyo n'amafaranga asohoka.",
+        authRememberMe: "Komeza unzigame mu minsi 30",
+        authForgotPassword: "Wibagiwe ijambobanga?",
+        authSignInBtn: "Injira Muri Bryden IMS",
+        authSignUpBtn: "Komeza Iyandikishe",
+        authHaveAccount: "Wamaze kwiyandikisha?",
+        authNoAccount: "Ukeneye konti nshya?",
+        authQuickDemo: "Koresha Konti ya Gerageza (Admin)",
+        authSigningIn: "Birimo kwemeza...",
+        authRegistering: "Konti irimo kuremwa...",
+        authSignOut: "Sohoka muri Sisitemu",
+        authSignOutConfirm: "Uremeza neza ko ushaka gusohoka muri Bryden IMS?",
+        authSessionActive: "Uri Kwinjira",
     },
 };
 

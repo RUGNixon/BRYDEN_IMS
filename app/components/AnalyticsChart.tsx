@@ -8,9 +8,9 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    Legend,
     ResponsiveContainer,
 } from "recharts";
+import { BarChart3, Boxes, ShoppingBag, Truck } from "lucide-react";
 import { fmtCurrency } from "@/lib/format";
 
 interface ChartData {
@@ -21,26 +21,41 @@ interface ChartData {
     profit: number;
 }
 
+interface AnalyticsTooltipPayload {
+    color?: string;
+    name?: string;
+    value: number;
+}
+
+interface AnalyticsTooltipProps {
+    active?: boolean;
+    payload?: AnalyticsTooltipPayload[];
+    label?: string;
+}
+
 const SERIES = [
     {
         key: "sales",
         label: "Sales",
-        color: "#6366f1",
+        color: "var(--analytics-series-sales)",
         gradient: "salesGradient",
+        chipClass: "analytics-chip-sales",
     },
     {
         key: "purchases",
         label: "Purchases",
-        color: "#10b981",
+        color: "var(--analytics-series-purchases)",
         gradient: "purchasesGradient",
+        chipClass: "analytics-chip-purchases",
     },
     {
         key: "stockWorth",
         label: "Stock Worth",
-        color: "#f59e0b",
+        color: "var(--analytics-series-stock)",
         gradient: "stockGradient",
+        chipClass: "analytics-chip-stock",
     },
-];
+] as const;
 
 export default function AnalyticsChart() {
     const [data, setData] = useState<ChartData[]>([]);
@@ -65,52 +80,51 @@ export default function AnalyticsChart() {
 
     if (isLoading) {
         return (
-            <div className="bg-white rounded-3xl shadow-sm border border-slate-200/60 p-6 md:p-8" style={{ minHeight: 520 }}>
-                <div className="h-full flex flex-col items-center justify-center gap-4" style={{ minHeight: 420 }}>
-                    <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-                    <p className="text-slate-400 font-medium tracking-wide text-sm">Loading year in review…</p>
+            <section className="analytics-card analytics-state-card">
+                <div className="flex min-h-[420px] flex-col items-center justify-center gap-4">
+                    <div className="analytics-spinner" />
+                    <p className="text-sm font-semibold tracking-wide text-[var(--analytics-muted)]">Loading year in review...</p>
                 </div>
-            </div>
+            </section>
         );
     }
 
     if (!data.length) {
         return (
-            <div className="bg-white rounded-3xl shadow-sm border border-slate-200/60 p-6 md:p-8" style={{ minHeight: 520 }}>
-                <div className="h-full flex flex-col items-center justify-center gap-2" style={{ minHeight: 420 }}>
-                    <svg className="w-12 h-12 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    <p className="text-slate-400 font-medium tracking-wide">No data available for the past year.</p>
+            <section className="analytics-card analytics-state-card">
+                <div className="flex min-h-[420px] flex-col items-center justify-center gap-3 text-center">
+                    <div className="analytics-empty-icon">
+                        <BarChart3 size={26} aria-hidden="true" />
+                    </div>
+                    <p className="font-semibold tracking-wide text-[var(--analytics-muted)]">No data available for the past year.</p>
                 </div>
-            </div>
+            </section>
         );
     }
 
-    // --- Summary Cards ---
     const totalSales = data.reduce((s, d) => s + d.sales, 0);
     const totalPurchases = data.reduce((s, d) => s + d.purchases, 0);
     const latestStockWorth = data[data.length - 1]?.stockWorth ?? 0;
 
     const summaryCards = [
-        { label: "Total Sales", value: fmtCurrency(totalSales), color: "#6366f1", bg: "#eef2ff" },
-        { label: "Total Purchases", value: fmtCurrency(totalPurchases), color: "#10b981", bg: "#ecfdf5" },
-        { label: "Current Stock Worth", value: fmtCurrency(latestStockWorth), color: "#f59e0b", bg: "#fffbeb" },
+        { label: "Total Sales", value: fmtCurrency(totalSales), icon: ShoppingBag, className: "analytics-summary-sales" },
+        { label: "Total Purchases", value: fmtCurrency(totalPurchases), icon: Truck, className: "analytics-summary-purchases" },
+        { label: "Current Stock Worth", value: fmtCurrency(latestStockWorth), icon: Boxes, className: "analytics-summary-stock" },
     ];
 
-    const CustomTooltip = ({ active, payload, label }: any) => {
+    const CustomTooltip = ({ active, payload, label }: AnalyticsTooltipProps) => {
         if (active && payload && payload.length) {
             return (
-                <div className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-xl flex flex-col gap-2" style={{ minWidth: 220 }}>
-                    <span className="font-bold text-slate-800 border-b border-slate-100 pb-2 text-center text-sm">{label}</span>
-                    <div className="flex flex-col gap-2 pt-1">
-                        {payload.map((entry: any, index: number) => (
+                <div className="analytics-tooltip min-w-[220px]">
+                    <span className="analytics-tooltip-title">{label}</span>
+                    <div className="flex flex-col gap-2 pt-2">
+                        {payload.map((entry, index) => (
                             <div key={index} className="flex justify-between items-center gap-6">
                                 <div className="flex items-center gap-2">
                                     <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color }} />
-                                    <span className="text-sm font-semibold text-slate-600">{entry.name}</span>
+                                    <span className="text-sm font-semibold text-[var(--analytics-muted)]">{entry.name}</span>
                                 </div>
-                                <span className="text-sm font-extrabold text-slate-900">{fmtCurrency(entry.value)}</span>
+                                <span className="text-sm font-extrabold text-[var(--analytics-text)]">{fmtCurrency(entry.value)}</span>
                             </div>
                         ))}
                     </div>
@@ -127,99 +141,102 @@ export default function AnalyticsChart() {
     };
 
     return (
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-200/60 p-6 md:p-8">
-            {/* Header */}
-            <div className="mb-6 flex items-start justify-between flex-wrap gap-4">
-                <div>
-                    <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Year in Review</h2>
-                    <p className="text-slate-500 mt-1 font-medium text-sm">
-                        Monthly comparison · past 12 months
-                    </p>
-                </div>
-
-                {/* Legend pills */}
-                <div className="flex items-center gap-3 flex-wrap">
-                    {SERIES.map(s => (
-                        <div key={s.key} className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
-                            style={{ backgroundColor: s.color + "18", color: s.color }}>
-                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color }} />
-                            {s.label}
+        <div className="flex flex-col gap-5">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {summaryCards.map((card) => {
+                    const Icon = card.icon;
+                    return (
+                        <div key={card.label} className={`analytics-summary-card ${card.className}`}>
+                            <div className="analytics-summary-icon">
+                                <Icon size={18} aria-hidden="true" />
+                            </div>
+                            <div>
+                                <span className="analytics-summary-label">{card.label}</span>
+                                <span className="analytics-summary-value">{card.value}</span>
+                            </div>
                         </div>
-                    ))}
-                </div>
+                    );
+                })}
             </div>
 
-            {/* Summary Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-                {summaryCards.map(card => (
-                    <div key={card.label} className="rounded-2xl p-4 flex flex-col gap-1" style={{ backgroundColor: card.bg }}>
-                        <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: card.color }}>{card.label}</span>
-                        <span className="text-xl font-extrabold text-slate-900">{card.value}</span>
+            <section className="analytics-card analytics-chart-card">
+                <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+                    <div>
+                        <div className="flex items-center gap-2">
+                            <div className="analytics-section-icon">
+                                <BarChart3 size={18} aria-hidden="true" />
+                            </div>
+                            <h2 className="text-xl font-black tracking-tight text-[var(--analytics-text)] sm:text-2xl">Year in Review</h2>
+                        </div>
+                        <p className="mt-2 text-sm font-medium text-[var(--analytics-muted)]">
+                            Monthly comparison across sales, purchases, and inventory value.
+                        </p>
                     </div>
-                ))}
-            </div>
 
-            {/* Chart — explicit height so ResponsiveContainer always has a valid dimension */}
-            <div style={{ width: "100%", height: 380 }}>
-                <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart
-                        data={data}
-                        margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
-                    >
-                        <defs>
-                            <linearGradient id="salesGradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.18} />
-                                <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
-                            </linearGradient>
-                            <linearGradient id="purchasesGradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#10b981" stopOpacity={0.18} />
-                                <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                            </linearGradient>
-                            <linearGradient id="stockGradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.18} />
-                                <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
-                            </linearGradient>
-                        </defs>
-
-                        <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#e2e8f0" />
-
-                        <XAxis
-                            dataKey="month"
-                            axisLine={false}
-                            tickLine={false}
-                            tick={{ fill: "#64748b", fontSize: 12, fontWeight: 600 }}
-                            dy={12}
-                        />
-                        <YAxis
-                            axisLine={false}
-                            tickLine={false}
-                            tick={{ fill: "#64748b", fontSize: 12, fontWeight: 600 }}
-                            tickFormatter={formatYAxis}
-                            dx={-8}
-                            width={70}
-                        />
-                        <Tooltip
-                            content={<CustomTooltip />}
-                            cursor={{ stroke: "#94a3b8", strokeWidth: 1.5, strokeDasharray: "4 4" }}
-                        />
-                        {/* No legend here — using custom pills above */}
-
-                        {SERIES.map(s => (
-                            <Area
-                                key={s.key}
-                                type="monotone"
-                                dataKey={s.key}
-                                name={s.label}
-                                stroke={s.color}
-                                strokeWidth={3}
-                                fill={`url(#${s.gradient})`}
-                                dot={{ r: 4, fill: s.color, strokeWidth: 2, stroke: "#fff" }}
-                                activeDot={{ r: 7, stroke: "#fff", strokeWidth: 2, fill: s.color }}
-                            />
+                    <div className="flex flex-wrap items-center gap-2">
+                        {SERIES.map((s) => (
+                            <div key={s.key} className={`analytics-chip ${s.chipClass}`}>
+                                <div className="h-2 w-2 rounded-full" style={{ backgroundColor: s.color }} />
+                                {s.label}
+                            </div>
                         ))}
-                    </AreaChart>
-                </ResponsiveContainer>
-            </div>
+                    </div>
+                </div>
+
+                <div className="analytics-chart-shell">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart
+                            data={data}
+                            margin={{ top: 10, right: 10, left: 4, bottom: 10 }}
+                        >
+                            <defs>
+                                {SERIES.map((s) => (
+                                    <linearGradient key={s.gradient} id={s.gradient} x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor={s.color} stopOpacity={0.22} />
+                                        <stop offset="95%" stopColor={s.color} stopOpacity={0.01} />
+                                    </linearGradient>
+                                ))}
+                            </defs>
+
+                            <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="var(--analytics-chart-grid)" />
+
+                            <XAxis
+                                dataKey="month"
+                                axisLine={false}
+                                tickLine={false}
+                                tick={{ fill: "var(--analytics-chart-axis)", fontSize: 12, fontWeight: 650 }}
+                                dy={12}
+                            />
+                            <YAxis
+                                axisLine={false}
+                                tickLine={false}
+                                tick={{ fill: "var(--analytics-chart-axis)", fontSize: 12, fontWeight: 650 }}
+                                tickFormatter={formatYAxis}
+                                dx={-8}
+                                width={70}
+                            />
+                            <Tooltip
+                                content={<CustomTooltip />}
+                                cursor={{ stroke: "var(--analytics-chart-cursor)", strokeWidth: 1.5, strokeDasharray: "4 4" }}
+                            />
+
+                            {SERIES.map((s) => (
+                                <Area
+                                    key={s.key}
+                                    type="monotone"
+                                    dataKey={s.key}
+                                    name={s.label}
+                                    stroke={s.color}
+                                    strokeWidth={3}
+                                    fill={`url(#${s.gradient})`}
+                                    dot={{ r: 4, fill: s.color, strokeWidth: 2, stroke: "var(--analytics-surface)" }}
+                                    activeDot={{ r: 7, stroke: "var(--analytics-surface)", strokeWidth: 2, fill: s.color }}
+                                />
+                            ))}
+                        </AreaChart>
+                    </ResponsiveContainer>
+                </div>
+            </section>
         </div>
     );
 }

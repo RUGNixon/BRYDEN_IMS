@@ -10,18 +10,20 @@ import { fmtCurrency, fmtQty } from "@/lib/format";
 
 type ToastType = "success" | "error";
 interface Toast { id: number; type: ToastType; title: string; message: string; }
+const INITIAL_TRANSACTION_LIMIT = 15;
+const TRANSACTION_INCREMENT = 20;
 
 function StatCard({
     icon, label, count, accent,
 }: { icon: React.ReactNode; label: string; count: number; accent: string }) {
     return (
-        <div className={`flex items-center gap-4 p-5 rounded-2xl border ${accent} bg-white shadow-sm`}>
-            <div className={`p-3 rounded-xl ${accent.replace("border-", "bg-").replace("-200", "-50")} flex-shrink-0`}>
+        <div className="ops-metric-card">
+            <div className="ops-metric-icon">
                 {icon}
             </div>
             <div>
-                <p className="text-2xl font-bold text-slate-900">{count}</p>
-                <p className="text-sm text-slate-500">{label}</p>
+                <p className="ops-metric-value">{count}</p>
+                <p className="ops-metric-label">{label}</p>
             </div>
         </div>
     );
@@ -40,25 +42,25 @@ interface RecordCardProps {
 
 function RecordCard({ sale, actionLabel, onAction, loading, secondActionLabel, onSecondAction, secondLoading, badges }: RecordCardProps) {
     return (
-        <div className="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col gap-3">
+        <div className="ops-record-card">
             <div className="flex items-start justify-between gap-2">
                 <div>
-                    <p className="font-semibold text-slate-900 text-sm leading-tight">{sale.clientName}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">{sale.productName} · {sale.size}</p>
+                    <p className="ops-strong text-sm leading-tight">{sale.clientName}</p>
+                    <p className="ops-muted text-xs mt-0.5">{sale.productName} · {sale.size}</p>
                 </div>
                 {badges && <div className="flex gap-1 flex-wrap justify-end">{badges}</div>}
             </div>
             <div className="flex items-center justify-between gap-2">
-                <div className="flex gap-3 text-xs text-slate-600">
-                    <span className="font-medium">Qty: <span className="text-slate-800">{fmtQty(sale.quantity)}</span></span>
-                    <span className="font-medium">Unit: <span className="text-emerald-600">{fmtCurrency(sale.sellingPrice)}</span></span>
+                <div className="flex gap-3 text-xs ops-muted">
+                    <span className="font-medium">Qty: <span className="ops-strong">{fmtQty(sale.quantity)}</span></span>
+                    <span className="font-medium">Unit: <span className="ops-accent-text">{fmtCurrency(sale.sellingPrice)}</span></span>
                 </div>
                 <div className="flex gap-1.5 flex-wrap justify-end">
                     {actionLabel && onAction && (
                         <button
                             onClick={onAction}
                             disabled={loading}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="ops-secondary-button ops-record-action ops-record-action-primary disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <PackageCheck size={12} />
                             {loading ? "Updating…" : actionLabel}
@@ -68,7 +70,7 @@ function RecordCard({ sale, actionLabel, onAction, loading, secondActionLabel, o
                         <button
                             onClick={onSecondAction}
                             disabled={secondLoading}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="ops-secondary-button ops-record-action ops-record-action-warning disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <HandCoins size={12} />
                             {secondLoading ? "Updating…" : secondActionLabel}
@@ -82,6 +84,11 @@ function RecordCard({ sale, actionLabel, onAction, loading, secondActionLabel, o
 
 export default function OrdersLoansPage() {
     const [allRecords, setAllRecords] = useState<Sale[]>([]);
+    const [visibleCounts, setVisibleCounts] = useState({
+        orders: INITIAL_TRANSACTION_LIMIT,
+        loans: INITIAL_TRANSACTION_LIMIT,
+        both: INITIAL_TRANSACTION_LIMIT,
+    });
     const [toasts, setToasts] = useState<Toast[]>([]);
     const [fulfilling, setFulfilling] = useState<string | number | null>(null);
     const [settling, setSettling] = useState<string | number | null>(null);
@@ -153,44 +160,58 @@ export default function OrdersLoansPage() {
     const orders = allRecords.filter(s => s.order && !s.status);
     const loans = allRecords.filter(s => s.status && !s.order);
     const both = allRecords.filter(s => s.order && s.status);
+    const visibleOrders = orders.slice(0, visibleCounts.orders);
+    const visibleLoans = loans.slice(0, visibleCounts.loans);
+    const visibleBoth = both.slice(0, visibleCounts.both);
+
+    const showMore = (group: keyof typeof visibleCounts) => {
+        setVisibleCounts(current => ({
+            ...current,
+            [group]: current[group] + TRANSACTION_INCREMENT,
+        }));
+    };
 
     const toastStyle: Record<ToastType, { bg: string; border: string; icon: React.ReactNode; title: string }> = {
-        success: { bg: "bg-emerald-50", border: "border-emerald-200", title: "text-emerald-800", icon: <CheckCircle2 className="text-emerald-500 shrink-0 mt-0.5" size={18} /> },
-        error: { bg: "bg-red-50", border: "border-red-200", title: "text-red-800", icon: <XCircle className="text-red-500 shrink-0 mt-0.5" size={18} /> },
+        success: { bg: "ops-toast-success", border: "", title: "", icon: <CheckCircle2 className="text-[var(--ops-positive)] shrink-0 mt-0.5" size={18} /> },
+        error: { bg: "ops-toast-error", border: "", title: "", icon: <XCircle className="text-[var(--ops-danger)] shrink-0 mt-0.5" size={18} /> },
     };
 
     const SectionEmpty = ({ label }: { label: string }) => (
-        <p className="text-sm text-slate-400 italic text-center py-6">{label}</p>
+        <p className="ops-muted text-sm italic text-center py-6">{label}</p>
     );
 
     return (
-        <div className="p-8 max-w-7xl mx-auto">
+        <div className="operations-page ops-accent-indigo min-h-full">
+            <div className="ops-shell">
 
             {/* Toasts */}
             <div className="fixed top-6 right-6 z-[100] flex flex-col gap-3 w-full max-w-sm pointer-events-none">
                 {toasts.map(t => {
                     const s = toastStyle[t.type];
                     return (
-                        <div key={t.id} className={`pointer-events-auto flex items-start gap-3 px-4 py-3.5 rounded-2xl border shadow-lg ${s.bg} ${s.border} animate-in slide-in-from-right-8 fade-in duration-300`}>
+                        <div key={t.id} className={`pointer-events-auto ops-toast ${s.bg} animate-in slide-in-from-right-8 fade-in duration-300`}>
                             {s.icon}
                             <div className="flex-1">
-                                <p className={`text-sm font-semibold ${s.title}`}>{t.title}</p>
-                                <p className="text-sm text-slate-600 mt-0.5 leading-snug">{t.message}</p>
+                                <p className="ops-strong text-sm">{t.title}</p>
+                                <p className="ops-muted text-sm mt-0.5 leading-snug">{t.message}</p>
                             </div>
-                            <button onClick={() => dismissToast(t.id)} className="text-slate-400 hover:text-slate-600 transition-colors"><X size={16} /></button>
+                    <button onClick={() => dismissToast(t.id)} className="ops-icon-button"><X size={16} /></button>
                         </div>
                     );
                 })}
             </div>
 
             {/* Header */}
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Orders &amp; Loans</h1>
-                <p className="text-slate-500 mt-1">Track pending orders and products given on loan.</p>
-            </div>
+            <header className="ops-header">
+                <div>
+                    <div className="ops-eyebrow"><ClipboardList size={16} aria-hidden="true" /> Fulfilment</div>
+                    <h1>Orders &amp; loans</h1>
+                    <p>Track pending orders, active loans, and the actions needed to close them.</p>
+                </div>
+            </header>
 
             {/* Summary stat cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
                 <StatCard accent="border-indigo-200" count={orders.length} label="Pending Orders"
                     icon={<ClipboardList size={20} className="text-indigo-500" />} />
                 <StatCard accent="border-amber-200" count={loans.length} label="Active Loans"
@@ -200,19 +221,19 @@ export default function OrdersLoansPage() {
             </div>
 
             {/* Side-by-side: Orders | Loans */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
 
                 {/* Orders column */}
-                <div className="bg-slate-50 border border-slate-200/70 rounded-3xl p-5">
-                    <div className="flex items-center gap-2 mb-4">
-                        <div className="bg-indigo-100 text-indigo-600 p-2 rounded-xl"><ClipboardList size={16} /></div>
-                        <h2 className="font-semibold text-slate-800 text-base">Pending Orders</h2>
-                        <span className="ml-auto text-xs font-medium bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">{orders.length}</span>
+                <div className="ops-card ops-section-card">
+                    <div className="ops-section-header">
+                        <div className="ops-section-icon ops-section-icon-primary"><ClipboardList size={16} /></div>
+                        <h2>Pending orders</h2>
+                        <span className="ops-pill ml-auto">{orders.length}</span>
                     </div>
                     <div className="flex flex-col gap-3">
                         {orders.length === 0
                             ? <SectionEmpty label="No pending orders" />
-                            : orders.map(s => (
+                            : visibleOrders.map(s => (
                                 <RecordCard
                                     key={s.id} sale={s}
                                     actionLabel="Mark Fulfilled"
@@ -222,44 +243,46 @@ export default function OrdersLoansPage() {
                             ))
                         }
                     </div>
+                    {orders.length > visibleOrders.length && <div className="ops-section-footer"><span className="ops-pagination-text">Showing {visibleOrders.length} of {orders.length}</span><button className="ops-show-more-button" onClick={() => showMore("orders")}>Show {Math.min(TRANSACTION_INCREMENT, orders.length - visibleOrders.length)} more transactions</button></div>}
                 </div>
 
                 {/* Loans column */}
-                <div className="bg-slate-50 border border-slate-200/70 rounded-3xl p-5">
-                    <div className="flex items-center gap-2 mb-4">
-                        <div className="bg-amber-100 text-amber-600 p-2 rounded-xl"><HandCoins size={16} /></div>
-                        <h2 className="font-semibold text-slate-800 text-base">Active Loans</h2>
-                        <span className="ml-auto text-xs font-medium bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">{loans.length}</span>
+                <div className="ops-card ops-section-card">
+                    <div className="ops-section-header">
+                        <div className="ops-section-icon ops-section-icon-warning"><HandCoins size={16} /></div>
+                        <h2>Active loans</h2>
+                        <span className="ops-pill ml-auto">{loans.length}</span>
                     </div>
                     <div className="flex flex-col gap-3">
                         {loans.length === 0
                             ? <SectionEmpty label="No active loans" />
-                            : loans.map(s => (
+                            : visibleLoans.map(s => (
                                 <RecordCard
                                     key={s.id} sale={s}
                                     actionLabel="Mark Settled"
                                     onAction={() => handleSettleLoan(s)}
                                     loading={settling === s.id}
-                                    badges={<span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">Loan</span>}
+                                    badges={<span className="ops-pill ops-pill-warning">Loan</span>}
                                 />
                             ))
                         }
                     </div>
+                    {loans.length > visibleLoans.length && <div className="ops-section-footer"><span className="ops-pagination-text">Showing {visibleLoans.length} of {loans.length}</span><button className="ops-show-more-button" onClick={() => showMore("loans")}>Show {Math.min(TRANSACTION_INCREMENT, loans.length - visibleLoans.length)} more transactions</button></div>}
                 </div>
             </div>
 
             {/* Both: Order + Loan */}
             {(both.length > 0 || true) && (
-                <div className="bg-slate-50 border border-slate-200/70 rounded-3xl p-5">
-                    <div className="flex items-center gap-2 mb-4">
-                        <div className="bg-purple-100 text-purple-600 p-2 rounded-xl"><Layers size={16} /></div>
-                        <h2 className="font-semibold text-slate-800 text-base">Ordered &amp; On Loan</h2>
-                        <span className="ml-auto text-xs font-medium bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">{both.length}</span>
+                <div className="ops-card ops-section-card">
+                    <div className="ops-section-header">
+                        <div className="ops-section-icon ops-section-icon-mixed"><Layers size={16} /></div>
+                        <h2>Ordered &amp; on loan</h2>
+                        <span className="ops-pill ml-auto">{both.length}</span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         {both.length === 0
                             ? <SectionEmpty label="No records match both conditions" />
-                            : both.map(s => (
+                            : visibleBoth.map(s => (
                                 <RecordCard
                                     key={s.id} sale={s}
                                     actionLabel="Mark Fulfilled"
@@ -270,16 +293,18 @@ export default function OrdersLoansPage() {
                                     secondLoading={settling === s.id}
                                     badges={
                                         <>
-                                            <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-medium">Order</span>
-                                            <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">Loan</span>
+                                            <span className="ops-pill">Order</span>
+                                            <span className="ops-pill ops-pill-warning">Loan</span>
                                         </>
                                     }
                                 />
                             ))
                         }
                     </div>
+                    {both.length > visibleBoth.length && <div className="ops-section-footer"><span className="ops-pagination-text">Showing {visibleBoth.length} of {both.length}</span><button className="ops-show-more-button" onClick={() => showMore("both")}>Show {Math.min(TRANSACTION_INCREMENT, both.length - visibleBoth.length)} more transactions</button></div>}
                 </div>
             )}
+            </div>
         </div>
     );
 }

@@ -25,6 +25,9 @@ interface PurchaseItemData {
     sellingPrice: string;
 }
 
+const INITIAL_TRANSACTION_LIMIT = 15;
+const TRANSACTION_INCREMENT = 20;
+
 function PurchaseItemRow({
     item,
     index,
@@ -39,41 +42,41 @@ function PurchaseItemRow({
     canRemove: boolean;
 }) {
     return (
-        <div className="pt-5 mt-4 border-t border-slate-100 relative">
+        <div className="relative mt-4 border-t border-[var(--ops-border-soft)] pt-5">
             <div className="flex justify-between items-center mb-3">
-                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Product {index + 1}</h3>
+                <h3 className="ops-form-section-title">Product {index + 1}</h3>
                 {canRemove && (
-                    <button type="button" onClick={() => onRemove(item.id)} className="text-red-400 hover:text-red-600 hover:bg-red-50 px-2 py-1 rounded-lg transition-colors flex items-center gap-1 text-xs font-semibold">
+                    <button type="button" onClick={() => onRemove(item.id)} className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold text-[var(--ops-danger)] transition-colors hover:bg-[color-mix(in_srgb,var(--ops-danger)_10%,transparent)]">
                         <X size={14} /> Remove
                     </button>
                 )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700">Product Name <span className="text-red-400">*</span></label>
-                    <input required value={item.productName} onChange={(e) => onChange(item.id, "productName", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-900" placeholder="e.g. Canvas Sneakers" />
+                    <label className="ops-label">Product Name <span className="text-[var(--ops-danger)]">*</span></label>
+                    <input required value={item.productName} onChange={(e) => onChange(item.id, "productName", e.target.value)} className="ops-input" placeholder="e.g. Canvas Sneakers" />
                 </div>
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700">Size <span className="text-red-400">*</span></label>
-                    <input required value={item.size} onChange={(e) => onChange(item.id, "size", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-900" placeholder="e.g. Size 10" />
+                    <label className="ops-label">Size <span className="text-[var(--ops-danger)]">*</span></label>
+                    <input required value={item.size} onChange={(e) => onChange(item.id, "size", e.target.value)} className="ops-input" placeholder="e.g. Size 10" />
                 </div>
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700">Quantity <span className="text-red-400">*</span></label>
-                    <input type="number" min="1" required value={item.quantity} onChange={(e) => onChange(item.id, "quantity", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-900" placeholder="0" />
+                    <label className="ops-label">Quantity <span className="text-[var(--ops-danger)]">*</span></label>
+                    <input type="number" min="1" required value={item.quantity} onChange={(e) => onChange(item.id, "quantity", e.target.value)} className="ops-input" placeholder="0" />
                 </div>
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700">Purchase Price / Unit ($) <span className="text-red-400">*</span></label>
-                    <input type="number" min="0" step="0.01" required value={item.purchasePrice} onChange={(e) => onChange(item.id, "purchasePrice", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-900" placeholder="0.00" />
+                    <label className="ops-label">Purchase Price / Unit ($) <span className="text-[var(--ops-danger)]">*</span></label>
+                    <input type="number" min="0" step="0.01" required value={item.purchasePrice} onChange={(e) => onChange(item.id, "purchasePrice", e.target.value)} className="ops-input" placeholder="0.00" />
                 </div>
                 <div className="space-y-1.5 md:col-span-2">
-                    <label className="text-sm font-medium text-slate-700">Selling Price / Unit ($) <span className="text-slate-400 font-normal text-xs">(optional)</span></label>
-                    <input type="number" min="0" step="0.01" value={item.sellingPrice} onChange={(e) => onChange(item.id, "sellingPrice", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-900" placeholder="0.00" />
+                    <label className="ops-label">Selling Price / Unit ($) <span className="text-xs font-normal text-[var(--ops-subtle)]">(optional)</span></label>
+                    <input type="number" min="0" step="0.01" value={item.sellingPrice} onChange={(e) => onChange(item.id, "sellingPrice", e.target.value)} className="ops-input" placeholder="0.00" />
                 </div>
 
                 {item.purchasePrice && item.sellingPrice && (
-                    <div className="mt-1 px-4 py-3 bg-indigo-50 border border-indigo-100 rounded-xl text-sm md:col-span-2">
-                        <span className="font-medium text-indigo-700">Margin per unit: </span>
-                        <span className="text-slate-700">{fmtCurrency(parseFloat(item.sellingPrice) - parseFloat(item.purchasePrice))} ({item.purchasePrice && item.sellingPrice ? Math.round(((parseFloat(item.sellingPrice) - parseFloat(item.purchasePrice)) / parseFloat(item.purchasePrice)) * 100) : 0}%)</span>
+                    <div className="ops-note mt-1 text-sm md:col-span-2">
+                        <span className="font-bold text-[var(--ops-accent-text)]">Margin per unit: </span>
+                        <span>{fmtCurrency(parseFloat(item.sellingPrice) - parseFloat(item.purchasePrice))} ({item.purchasePrice && item.sellingPrice ? Math.round(((parseFloat(item.sellingPrice) - parseFloat(item.purchasePrice)) / parseFloat(item.purchasePrice)) * 100) : 0}%)</span>
                     </div>
                 )}
             </div>
@@ -84,6 +87,7 @@ function PurchaseItemRow({
 export default function PurchasePage() {
     const [purchases, setPurchases] = useState<Purchase[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [visibleCount, setVisibleCount] = useState(INITIAL_TRANSACTION_LIMIT);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [contact, setContact] = useState<ContactState | null>(null);
@@ -114,6 +118,10 @@ export default function PurchasePage() {
     }, []);
 
     useEffect(() => { fetchPurchases(); }, [fetchPurchases]);
+
+    useEffect(() => {
+        setVisibleCount(INITIAL_TRANSACTION_LIMIT);
+    }, [searchTerm]);
 
     const showToast = (type: ToastType, title: string, message: string) => {
         const id = Date.now();
@@ -208,6 +216,9 @@ export default function PurchasePage() {
         p.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         p.supplierName.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    const visiblePurchases = filteredPurchases.slice(0, visibleCount);
+    const remainingPurchases = Math.max(filteredPurchases.length - visiblePurchases.length, 0);
+    const nextPurchasesCount = Math.min(TRANSACTION_INCREMENT, remainingPurchases);
 
     const toastConfig: Record<ToastType, { bg: string; border: string; icon: React.ReactNode; titleColor: string }> = {
         success: { bg: "bg-emerald-50", border: "border-emerald-200", titleColor: "text-emerald-800", icon: <CheckCircle2 className="text-emerald-500 shrink-0 mt-0.5" size={18} /> },
@@ -217,7 +228,8 @@ export default function PurchasePage() {
     };
 
     return (
-        <div className="p-8 max-w-7xl mx-auto">
+        <div className="operations-page ops-accent-indigo min-h-full">
+            <div className="ops-shell">
 
             {/* Contact Popup */}
             {contact && (
@@ -247,38 +259,43 @@ export default function PurchasePage() {
                 })}
             </div>
 
-            <div className="flex justify-between items-end mb-8">
+            <div className="ops-header">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Purchases</h1>
-                    <p className="text-slate-500 mt-1">Record supplier purchases and automatically update product stock.</p>
+                    <div className="ops-eyebrow"><Truck size={16} aria-hidden="true" /> Purchases</div>
+                    <h1 className="ops-title">Supplier purchases</h1>
+                    <p className="ops-subtitle">Record supplier purchases and automatically update product stock.</p>
                 </div>
-                <button onClick={() => setIsModalOpen(true)} className="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-indigo-600/20 active:scale-95 transition-all flex items-center gap-2">
+                <button onClick={() => setIsModalOpen(true)} className="ops-action-button">
                     <Plus size={18} /> Record Purchase
                 </button>
             </div>
 
             {/* Search */}
-            <div className="mb-6 relative max-w-md">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><Search className="h-5 w-5 text-slate-400" /></div>
-                <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-slate-900 transition-all shadow-sm" placeholder="Search by supplier or product..." />
+            <div className="ops-toolbar">
+                <div className="ops-search">
+                    <div className="ops-search-icon"><Search className="h-5 w-5" /></div>
+                    <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="ops-input text-sm" placeholder="Search by supplier or product..." />
+                </div>
+                <p className="text-sm font-bold text-[var(--ops-subtle)]">{filteredPurchases.length} purchases found</p>
             </div>
 
             {/* Table */}
-            <div className="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+            <div className="ops-card">
                 {isLoading ? (
-                    <div className="p-12 text-center text-slate-400">Loading purchases...</div>
+                    <div className="ops-state"><div className="ops-spinner" /><p className="mt-4 font-semibold">Loading purchases...</p></div>
                 ) : filteredPurchases.length === 0 ? (
-                    <div className="p-12 text-center flex flex-col items-center">
-                        <div className="bg-indigo-50 text-indigo-500 p-4 rounded-full mb-4"><Truck size={32} /></div>
-                        <h3 className="text-lg font-medium text-slate-900 mb-1">No purchases found</h3>
-                        <p className="text-slate-500 max-w-sm mb-6">You haven't recorded any supplier purchases yet.</p>
-                        <button onClick={() => setIsModalOpen(true)} className="text-indigo-600 font-medium hover:text-indigo-700 transition-colors">+ Record your first purchase</button>
+                    <div className="ops-state">
+                        <div className="ops-state-icon"><Truck size={32} /></div>
+                        <h3 className="text-lg font-bold text-[var(--ops-text)] mb-1">No purchases found</h3>
+                        <p className="max-w-sm mb-6">You haven&apos;t recorded any supplier purchases yet.</p>
+                        <button onClick={() => setIsModalOpen(true)} className="ops-ghost-link">+ Record your first purchase</button>
                     </div>
                 ) : (
+                    <>
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
+                        <table className="ops-table">
                             <thead>
-                                <tr className="bg-slate-50 border-b border-slate-200/60 text-slate-500 text-sm font-medium">
+                                <tr>
                                     <th className="p-4 pl-6">Date</th>
                                     <th className="p-4">Supplier Name</th>
                                     <th className="p-4">Product Name</th>
@@ -288,66 +305,75 @@ export default function PurchasePage() {
                                     <th className="p-4 pr-6 text-right">Total Purchase</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-slate-100">
-                                {filteredPurchases.map((purchase) => {
+                            <tbody>
+                                {visiblePurchases.map((purchase) => {
                                     const hasContact = purchase.phone || purchase.email;
                                     return (
-                                        <tr key={purchase.id} className="hover:bg-slate-50/50 transition-colors">
-                                            <td className="p-4 pl-6 text-slate-500 font-medium whitespace-nowrap">{purchase.date ? new Date(purchase.date).toLocaleDateString() : 'N/A'}</td>
+                                        <tr key={purchase.id}>
+                                            <td className="p-4 pl-6 ops-muted whitespace-nowrap">{purchase.date ? new Date(purchase.date).toLocaleDateString() : 'N/A'}</td>
                                             <td className="p-4">
                                                 <button
                                                     onClick={(e) => handleNameClick(purchase, e)}
-                                                    className={`flex items-center gap-2 transition-colors ${hasContact ? "text-indigo-700 hover:text-indigo-900 cursor-pointer" : "text-slate-900 cursor-default"}`}
+                                                    className={`flex items-center gap-2 transition-colors ${hasContact ? "text-[var(--ops-accent-text)] hover:text-[var(--ops-accent-hover)] cursor-pointer" : "text-[var(--ops-text)] cursor-default"}`}
                                                     title={hasContact ? "Click to view contact" : undefined}
                                                 >
-                                                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-xs uppercase shrink-0">{purchase.supplierName.charAt(0)}</div>
-                                                    <span className="font-medium">{purchase.supplierName}</span>
+                                                    <div className="ops-avatar">{purchase.supplierName.charAt(0)}</div>
+                                                    <span className="font-bold">{purchase.supplierName}</span>
                                                     {hasContact && <Phone size={11} className="text-indigo-400 shrink-0" />}
                                                 </button>
                                             </td>
-                                            <td className="p-4 text-slate-900 font-medium">{purchase.productName}</td>
-                                            <td className="p-4 text-slate-500">{purchase.size}</td>
-                                            <td className="p-4"><span className="inline-flex items-center font-medium px-2 py-0.5 rounded-full text-sm text-slate-700 bg-slate-100">{fmtQty(purchase.quantity)}</span></td>
-                                            <td className="p-4 text-right text-slate-900 font-semibold">{fmtCurrency(Number(purchase.purchasePrice))}</td>
-                                            <td className="p-4 pr-6 text-right"><span className="font-semibold text-indigo-700">{fmtCurrency(purchase.quantity * Number(purchase.purchasePrice))}</span></td>
+                                            <td className="p-4 ops-strong">{purchase.productName}</td>
+                                            <td className="p-4 ops-muted">{purchase.size}</td>
+                                            <td className="p-4"><span className="ops-pill">{fmtQty(purchase.quantity)}</span></td>
+                                            <td className="p-4 text-right ops-strong">{fmtCurrency(Number(purchase.purchasePrice))}</td>
+                                            <td className="p-4 pr-6 text-right"><span className="ops-accent-text">{fmtCurrency(purchase.quantity * Number(purchase.purchasePrice))}</span></td>
                                         </tr>
                                     );
                                 })}
                             </tbody>
                         </table>
                     </div>
+                    <div className="ops-pagination">
+                        <p className="ops-pagination-text">Showing {visiblePurchases.length} of {filteredPurchases.length} purchases</p>
+                        {remainingPurchases > 0 && (
+                            <button className="ops-show-more-button" onClick={() => setVisibleCount(count => count + TRANSACTION_INCREMENT)}>
+                                Show {nextPurchasesCount} more transactions
+                            </button>
+                        )}
+                    </div>
+                    </>
                 )}
             </div>
 
             {/* Record Purchase Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col">
-                        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
-                            <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2"><Truck size={20} className="text-indigo-500" /> Record Supplier Purchase</h2>
-                            <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-2 rounded-full transition-all"><X size={20} /></button>
+                <div className="ops-modal-backdrop">
+                    <div className="ops-modal-card max-w-2xl animate-in fade-in zoom-in-95 duration-200 flex flex-col">
+                        <div className="ops-modal-header shrink-0">
+                            <h2 className="ops-modal-title"><Truck size={20} className="text-[var(--ops-accent)]" /> Record Supplier Purchase</h2>
+                            <button onClick={() => setIsModalOpen(false)} className="ops-icon-button"><X size={20} /></button>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 flex flex-col">
+                        <form onSubmit={handleSubmit} className="ops-modal-body flex-1 overflow-y-auto flex flex-col">
                             {/* Supplier Info */}
                             <div className="mb-5 shrink-0">
-                                <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Supplier Information</h3>
+                                <h3 className="ops-form-section-title mb-3">Supplier Information</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div className="space-y-1.5 md:col-span-3">
-                                        <label className="text-sm font-medium text-slate-700">Supplier Name <span className="text-red-400">*</span></label>
-                                        <input required value={supplierName} onChange={(e) => setSupplierName(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-900" placeholder="e.g. Acme Corp" />
+                                        <label className="ops-label">Supplier Name <span className="text-[var(--ops-danger)]">*</span></label>
+                                        <input required value={supplierName} onChange={(e) => setSupplierName(e.target.value)} className="ops-input" placeholder="e.g. Acme Corp" />
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-sm font-medium text-slate-700 flex items-center gap-1"><Phone size={13} className="text-slate-400" />Phone <span className="text-slate-400 font-normal text-xs">(optional)</span></label>
-                                        <input value={supplierPhone} onChange={(e) => setSupplierPhone(e.target.value)} type="tel" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-900" placeholder="+1 555 0000" />
+                                        <label className="ops-label"><Phone size={13} className="text-[var(--ops-subtle)]" />Phone <span className="text-xs font-normal text-[var(--ops-subtle)]">(optional)</span></label>
+                                        <input value={supplierPhone} onChange={(e) => setSupplierPhone(e.target.value)} type="tel" className="ops-input" placeholder="+1 555 0000" />
                                     </div>
                                     <div className="space-y-1.5 md:col-span-2">
-                                        <label className="text-sm font-medium text-slate-700 flex items-center gap-1"><Mail size={13} className="text-slate-400" />Email <span className="text-slate-400 font-normal text-xs">(optional)</span></label>
-                                        <input value={supplierEmail} onChange={(e) => setSupplierEmail(e.target.value)} type="email" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-900" placeholder="supplier@email.com" />
+                                        <label className="ops-label"><Mail size={13} className="text-[var(--ops-subtle)]" />Email <span className="text-xs font-normal text-[var(--ops-subtle)]">(optional)</span></label>
+                                        <input value={supplierEmail} onChange={(e) => setSupplierEmail(e.target.value)} type="email" className="ops-input" placeholder="supplier@email.com" />
                                     </div>
                                     <div className="space-y-1.5 md:col-span-3 mt-2">
-                                        <label className="text-sm font-medium text-slate-700">Date <span className="text-red-400">*</span></label>
-                                        <input type="date" required value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-900" />
+                                        <label className="ops-label">Date <span className="text-[var(--ops-danger)]">*</span></label>
+                                        <input type="date" required value={date} onChange={(e) => setDate(e.target.value)} className="ops-input" />
                                     </div>
                                 </div>
                             </div>
@@ -369,25 +395,26 @@ export default function PurchasePage() {
                                     <button
                                         type="button"
                                         onClick={addPurchaseItem}
-                                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl border-2 border-dashed border-indigo-200 text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 transition-all font-medium text-sm w-full justify-center"
+                                        className="ops-secondary-button w-full border-dashed"
                                     >
                                         <Plus size={16} /> Add Another Product
                                     </button>
                                 </div>
                             </div>
 
-                            <p className="mt-6 text-xs text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-100 shrink-0">
+                            <p className="ops-note mt-6 shrink-0">
                                 <strong>Note:</strong> This purchase will automatically update inventory stock. If a selling price is provided, it will be set on the product.
                             </p>
 
-                            <div className="mt-6 pt-5 border-t border-slate-100 flex gap-3 justify-end shrink-0 sticky bottom-0 bg-white shadow-[-10px_-10px_10px_-10px_rgba(0,0,0,0.05)]">
-                                <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-slate-100 transition-colors">Cancel</button>
-                                <button type="submit" disabled={isSubmitting} className="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-70 text-white px-6 py-2.5 rounded-xl font-medium shadow-lg shadow-indigo-600/20 active:scale-95 transition-all">{isSubmitting ? "Processing..." : `Record Purchase${purchaseItems.length > 1 ? 's' : ''}`}</button>
+                            <div className="ops-modal-footer shrink-0">
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="ops-secondary-button">Cancel</button>
+                                <button type="submit" disabled={isSubmitting} className="ops-action-button disabled:cursor-not-allowed disabled:opacity-70">{isSubmitting ? "Processing..." : `Record Purchase${purchaseItems.length > 1 ? 's' : ''}`}</button>
                             </div>
                         </form>
                     </div>
                 </div>
             )}
+            </div>
         </div>
     );
 }

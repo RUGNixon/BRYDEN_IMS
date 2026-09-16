@@ -17,9 +17,11 @@ import {
   NotebookPen,
   CalendarDays,
   ChevronRight,
+  LogOut,
 } from "lucide-react";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { useTheme } from "@/app/context/ThemeContext";
+import { useAuth } from "@/app/context/AuthContext";
 
 /**
  * ─── Design Tokens ────────────────────────────────────────────────────────────
@@ -48,9 +50,11 @@ export default function Sidebar() {
   const pathname  = usePathname();
   const { t }     = useLanguage();
   const { theme } = useTheme();
+  const { user, logout } = useAuth();
   const uniqueId  = useId();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   /**
    * The ONE value that reacts to the theme toggle.
@@ -347,33 +351,76 @@ export default function Sidebar() {
         </div>
       )}
 
-      {/* ── Footer / User badge ──────────────────────────────────────────── */}
-      <div
-        className={`
-          shrink-0 border-t border-slate-800 flex items-center
-          transition-all duration-300 ease-in-out
-          ${isCollapsed ? "justify-center p-3" : "gap-3 px-4 py-3"}
-        `}
-      >
-        {/* Avatar with online indicator */}
-        <div className="relative shrink-0">
-          <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[11px] text-white bg-gradient-to-br from-indigo-500 to-indigo-700 border border-indigo-800/50">
-            BY
-          </div>
-          <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-slate-900" />
-        </div>
+      {/* ── Footer / User badge & Sign Out ──────────────────────────────────── */}
+      {(() => {
+        const initials = user?.name
+          ? user.name
+              .split(" ")
+              .filter(Boolean)
+              .map((n) => n[0])
+              .join("")
+              .toUpperCase()
+              .slice(0, 2)
+          : "BY";
+        const roleLabel = user?.role === "admin" ? "Admin" : user?.role === "manager" ? "Manager" : "Staff";
 
-        {!isCollapsed && (
-          <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
-            <span className="text-[11px] font-semibold text-white truncate leading-tight">
-              Bryden Inc.
-            </span>
-            <span className="text-[10px] text-slate-500 truncate">
-              © 2026
-            </span>
+        return (
+          <div
+            className={`
+              shrink-0 border-t border-slate-800 flex items-center justify-between
+              transition-all duration-300 ease-in-out
+              ${isCollapsed ? "flex-col gap-2 p-2.5" : "px-3 py-2.5"}
+            `}
+          >
+            {/* User Info & Avatar */}
+            <div className={`flex items-center min-w-0 ${isCollapsed ? "justify-center" : "gap-2.5 flex-1"}`}>
+              <div className="relative shrink-0" title={`${user?.name || "Bryden User"} (${roleLabel})`}>
+                <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[11px] text-white bg-gradient-to-br from-indigo-500 to-indigo-700 border border-indigo-800/50 shadow-xs">
+                  {initials}
+                </div>
+                <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-slate-900" />
+              </div>
+
+              {!isCollapsed && (
+                <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
+                  <span className="text-xs font-bold text-white truncate leading-tight">
+                    {user?.name || "Bryden Admin"}
+                  </span>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <span
+                      className={`text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded-full tracking-wider ${
+                        user?.role === "admin"
+                          ? "bg-indigo-950 text-indigo-400 border border-indigo-800/60"
+                          : "bg-emerald-950 text-emerald-400 border border-emerald-800/60"
+                      }`}
+                    >
+                      {roleLabel}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Logout Button */}
+            <button
+              type="button"
+              onClick={async () => {
+                if (isLoggingOut) return;
+                setIsLoggingOut(true);
+                await logout();
+              }}
+              title={t("authSignOut")}
+              aria-label={t("authSignOut")}
+              className={`
+                rounded-xl text-slate-400 hover:text-red-400 hover:bg-slate-800/80 transition-all duration-200 cursor-pointer shrink-0
+                ${isCollapsed ? "p-1.5" : "p-2"}
+              `}
+            >
+              <LogOut size={16} />
+            </button>
           </div>
-        )}
-      </div>
+        );
+      })()}
     </aside>
   );
 }
