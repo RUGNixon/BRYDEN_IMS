@@ -27,7 +27,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen w-full flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 relative overflow-hidden">
+        <div className="min-h-screen w-full flex flex-col app-page-background text-slate-900 dark:text-slate-100 transition-colors duration-300 relative overflow-hidden">
             {/* Top Navigation Bar: Theme & Language Quick Switchers */}
             <header className="w-full h-16 px-6 sm:px-12 flex items-center justify-between border-b border-slate-200/60 dark:border-slate-800/60 bg-white/60 dark:bg-slate-950/60 backdrop-blur-md z-30">
                 <div className="flex items-center gap-3">

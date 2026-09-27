@@ -22,66 +22,75 @@ export default function ContactPopup({ name, phone, email, onClose, position }: 
         <>
             {/* Invisible backdrop to catch outside clicks */}
             <div
-                className="fixed inset-0 z-[200]"
+                className="fixed inset-0 z-[200] bg-slate-950/20 backdrop-blur-[2px] transition-opacity"
                 onClick={onClose}
             />
 
             {/* Popup card */}
             <div
-                className="fixed z-[201] w-64 bg-white rounded-2xl shadow-2xl border border-slate-200/80 overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+                className="fixed z-[201] w-72 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-200 transition-colors"
                 style={{ left, top }}
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header strip */}
-                <div className="bg-gradient-to-br from-indigo-500 to-indigo-700 px-4 py-3 relative">
+                <div className="bg-gradient-to-br from-indigo-500 via-indigo-600 to-indigo-700 px-4 py-3 relative">
                     <button
                         onClick={onClose}
-                        className="absolute top-2 right-2 text-indigo-200 hover:text-white hover:bg-white/10 p-1 rounded-full transition-colors"
+                        className="absolute top-2 right-2 text-indigo-100 hover:text-white hover:bg-white/20 p-1 rounded-full transition-colors cursor-pointer"
+                        aria-label="Close contact details"
                     >
-                        <X size={14} />
+                        <X size={15} />
                     </button>
-                    <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white font-bold text-lg border-2 border-white/30">
-                        {name.charAt(0).toUpperCase()}
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white font-bold text-lg border-2 border-white/30 shadow-sm shrink-0">
+                            {name.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="min-w-0 pr-6">
+                            <p className="text-white font-bold text-sm truncate">{name}</p>
+                            <p className="text-indigo-200 text-xs">Direct Contact</p>
+                        </div>
                     </div>
                 </div>
 
                 {/* Body */}
-                <div className="px-4 pb-4 pt-3">
-                    {/* Name badge */}
-                    <div className="bg-white rounded-xl border border-slate-100 shadow-sm px-3 py-2 mb-3">
-                        <div className="flex items-center gap-2">
-                            <User size={13} className="text-indigo-400 shrink-0" />
-                            <p className="font-semibold text-slate-900 text-sm truncate">{name}</p>
-                        </div>
-                    </div>
-
+                <div className="p-3.5 space-y-2.5">
                     {hasContacts ? (
                         <div className="space-y-2">
                             {phone && (
                                 <a
                                     href={`tel:${phone}`}
-                                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-50 hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 transition-all group"
+                                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-800 transition-all group"
                                 >
-                                    <Phone size={13} className="text-indigo-500 shrink-0" />
-                                    <span className="text-sm text-slate-700 group-hover:text-indigo-700 font-medium truncate">
-                                        {phone}
-                                    </span>
+                                    <div className="p-1.5 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">
+                                        <Phone size={13} />
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500">Phone</p>
+                                        <p className="text-xs text-slate-700 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 font-semibold truncate">
+                                            {phone}
+                                        </p>
+                                    </div>
                                 </a>
                             )}
                             {email && (
                                 <a
                                     href={`mailto:${email}`}
-                                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-50 hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 transition-all group"
+                                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-800 transition-all group"
                                 >
-                                    <Mail size={13} className="text-indigo-500 shrink-0" />
-                                    <span className="text-sm text-slate-700 group-hover:text-indigo-700 font-medium truncate">
-                                        {email}
-                                    </span>
+                                    <div className="p-1.5 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">
+                                        <Mail size={13} />
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500">Email</p>
+                                        <p className="text-xs text-slate-700 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 font-semibold truncate">
+                                            {email}
+                                        </p>
+                                    </div>
                                 </a>
                             )}
                         </div>
                     ) : (
-                        <p className="text-xs text-slate-400 italic text-center py-1">No contact info saved</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500 italic text-center py-2">No phone or email recorded</p>
                     )}
                 </div>
             </div>

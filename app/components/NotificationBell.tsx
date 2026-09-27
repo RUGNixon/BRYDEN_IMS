@@ -79,12 +79,12 @@ export default function NotificationBell() {
             {/* Bell Icon Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="relative p-2.5 rounded-full text-amber-500 hover:bg-amber-500 hover:text-white transition-colors group"
+                className="relative p-2 rounded-full bg-amber-50 text-amber-500 ring-1 ring-amber-200 transition-colors hover:bg-amber-100 hover:text-amber-600 group"
                 aria-label="Notifications"
             >
                 <Bell size={20} className="group-hover:animate-pulse" />
                 {totalCount > 0 && !isLoading && (
-                    <span className="absolute top-0 right-0 inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-red-500 rounded-full border-2 border-slate-900 translate-x-1/4 -translate-y-1/4">
+                    <span className="absolute top-0 right-0 inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-red-400 rounded-full border-2 border-slate-200 translate-x-1/4 -translate-y-1/4">
                         {totalCount > 99 ? "99+" : totalCount}
                     </span>
                 )}

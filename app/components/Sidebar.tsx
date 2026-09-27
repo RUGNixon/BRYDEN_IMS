@@ -30,11 +30,11 @@ import { useAuth } from "@/app/context/AuthContext";
  * theme. Only the ACTIVE INDICATOR changes to match the current page-background
  * colour so the tab blends seamlessly into the content area on either side:
  *
- *   Light mode page bg → #f8fafc   (CSS :root   { --background })
- *   Dark  mode page bg → #020617   (CSS :root.dark { --background })
+ *   Light mode page bg → #ffffff   (CSS :root { --background })
+ *   Dark  mode page bg → #00002b   (CSS :root.dark { --background })
  */
-const INDICATOR_LIGHT = "#f8fafc";
-const INDICATOR_DARK  = "#020617";
+const INDICATOR_LIGHT = "#ffffff";
+const INDICATOR_DARK  = "#00002b";
 const FILLET_R        = 20; // px — inverted-corner arc radius
 
 /** ─── Types ──────────────────────────────────────────────────────────────── */
@@ -137,7 +137,6 @@ export default function Sidebar() {
         my-3 ml-3 h-[calc(100dvh-24px)]
         /* ── ALWAYS dark palette ───────────────────────────────── */
         bg-slate-900
-        border border-slate-800
         shadow-xl shadow-black/40
         rounded-2xl overflow-hidden
       `}

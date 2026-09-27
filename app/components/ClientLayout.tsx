@@ -18,7 +18,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     const { user } = useAuth();
 
     if (isLoginPage) {
-        return <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">{children}</main>;
+        return <main className="min-h-screen app-page-background text-slate-900 dark:text-slate-100">{children}</main>;
     }
 
     const langLabels: Record<LanguageCode, string> = {
@@ -28,10 +28,10 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     };
 
     return (
-        <div className="flex bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen font-sans transition-colors duration-300">
+        <div className="flex app-page-background text-slate-900 dark:text-slate-100 min-h-screen font-sans transition-colors duration-300">
             <Sidebar />
             <div className="flex-1 flex flex-col h-screen overflow-hidden">
-                <header className="h-16 flex items-center justify-between px-8 shrink-0 z-40 bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800/80 transition-colors duration-300">
+                <header className="h-16 flex items-center justify-between px-8 shrink-0 z-40 bg-white/70 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800/80 transition-colors duration-300">
                     <div className="flex items-center gap-3">
                         <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider hidden sm:inline-block">
                             {t("systemName")} &bull; {t("tagline")}
@@ -90,7 +90,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                         </Link>
                     </div>
                 </header>
-                <main className="flex-1 overflow-y-auto w-full bg-slate-50/50 dark:bg-slate-950/50 transition-colors duration-300">
+                <main className="flex-1 overflow-y-auto w-full bg-transparent transition-colors duration-300">
                     {children}
                 </main>
             </div>

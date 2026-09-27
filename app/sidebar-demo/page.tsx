@@ -23,7 +23,7 @@ export default function SidebarDemoPage() {
   const activeItem = DEFAULT_NAV_ITEMS.find((item) => item.id === activeId) || DEFAULT_NAV_ITEMS[0];
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-emerald-950 via-teal-950 to-neutral-950 text-slate-100 flex flex-col p-4 md:p-8 font-sans overflow-x-hidden">
+    <div className="min-h-screen w-full app-page-background text-slate-900 dark:text-slate-100 flex flex-col p-4 md:p-8 font-sans overflow-x-hidden">
       {/* Top Banner / Navigation Bar */}
       <header className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-white/10">
         <div>
