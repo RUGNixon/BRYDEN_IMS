@@ -4,7 +4,7 @@
 
 :root {
   --background: #7aa7ff;
-  --page-background: linear-gradient(283deg, #7aa7ff 15%, #ffffff 22%, #ffffff 100%);
+  --page-background: linear-gradient(283deg, #7aa7ff 0%, #ffffff 22%, #ffffff 100%);
   --foreground: #0f172a;
 }
 
@@ -23,32 +23,22 @@
 }
 
 body {
-  background-color: #7aa7ff;
-  background-image: linear-gradient(283deg, #7aa7ff 0%, #ffffff 22%, #ffffff 100%);
+  background: var(--page-background);
   background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans), var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   letter-spacing: -0.015em;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
-:root.dark body,
-:root[data-theme="dark"] body {
-  background: #00002b;
-  background: var(--page-background);
-}
+/* Dark mode body background is now handled automatically via --page-background CSS variable */
 
 .app-page-background {
-  background-color: #7aa7ff;
-  background-image: linear-gradient(283deg, #7aa7ff 0%, #ffffff 22%, #ffffff 100%);
+  background: var(--page-background);
   background-attachment: fixed;
 }
 
-:root.dark .app-page-background,
-:root[data-theme="dark"] .app-page-background {
-  background: #00002b;
-  background: var(--page-background);
-}
+/* Dark mode .app-page-background is handled automatically via --page-background CSS variable */
 
 /* ── Sidebar utilities ─────────────────────────────────────────── */
 

@@ -136,7 +136,7 @@ export default function Sidebar() {
         /* Floating panel — margin exposes all four rounded corners */
         my-3 ml-3 h-[calc(100dvh-24px)]
         /* ── ALWAYS dark palette ───────────────────────────────── */
-        bg-slate-900
+        bg-slate-900eeee
         shadow-xl shadow-black/40
         rounded-2xl overflow-hidden
       `}
