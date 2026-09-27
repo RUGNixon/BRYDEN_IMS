@@ -482,7 +482,7 @@ export default function PurchasePage() {
             {/* ── KPI Stat Metric Cards ── */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Stat 1: Total Spend */}
-                <div className="relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
+                <div className="glass-card relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform" />
                     <div className="flex items-center justify-between relative z-10">
                         <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -503,7 +503,7 @@ export default function PurchasePage() {
                 </div>
 
                 {/* Stat 2: Units Received */}
-                <div className="relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
+                <div className="glass-card relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform" />
                     <div className="flex items-center justify-between relative z-10">
                         <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -525,7 +525,7 @@ export default function PurchasePage() {
                 </div>
 
                 {/* Stat 3: Active Suppliers */}
-                <div className="relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
+                <div className="glass-card relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform" />
                     <div className="flex items-center justify-between relative z-10">
                         <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -546,7 +546,7 @@ export default function PurchasePage() {
                 </div>
 
                 {/* Stat 4: Average Unit Cost */}
-                <div className="relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
+                <div className="glass-card relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform" />
                     <div className="flex items-center justify-between relative z-10">
                         <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -568,7 +568,7 @@ export default function PurchasePage() {
             </div>
 
             {/* ── Control & Search Toolbar ── */}
-            <div className="bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-4 sm:p-5 shadow-sm space-y-4">
+            <div className="glass-card bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-4 sm:p-5 shadow-sm space-y-4">
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
                     {/* Modern Search */}
                     <div className="relative flex-1 max-w-md">
@@ -625,7 +625,7 @@ export default function PurchasePage() {
             </div>
 
             {/* ── Purchases Table ── */}
-            <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm overflow-hidden ops-animate-fade">
+            <div className="glass-card bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm overflow-hidden ops-animate-fade">
                 {isLoading ? (
                     <div className="p-16 flex flex-col items-center justify-center">
                         <div className="w-10 h-10 border-4 border-sky-200 dark:border-sky-900 border-t-sky-600 rounded-full animate-spin" />
@@ -737,7 +737,7 @@ export default function PurchasePage() {
             {/* ── Record Purchase Modal ── */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-200">
-                    <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
+                    <div className="glass-card bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
                         <div className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/70 dark:bg-slate-800/40 shrink-0">
                             <div className="flex items-center gap-3">
                                 <div className="p-2.5 rounded-2xl bg-sky-50 dark:bg-sky-950 text-sky-600 dark:text-sky-400 border border-sky-100 dark:border-sky-900/50">

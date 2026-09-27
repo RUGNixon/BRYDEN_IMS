@@ -374,7 +374,7 @@ export default function SettingsPage() {
                             <span className="text-indigo-600 dark:text-indigo-400 font-semibold">Settings</span>
                         </div>
                     </div>
-                    <div className="flex items-center gap-2 bg-white dark:bg-slate-900 px-3.5 py-2.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                    <div className="glass-card flex items-center gap-2 bg-white dark:bg-slate-900 px-3.5 py-2.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs">
                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
                         <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">Admin — {email}</span>
                     </div>
@@ -384,7 +384,7 @@ export default function SettingsPage() {
             {/* ═══════════════════════════════════════════════════════════ */}
             {/* 1. LANGUAGE SETTINGS                                        */}
             {/* ═══════════════════════════════════════════════════════════ */}
-            <section className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-md transition-all duration-200">
+            <section className="glass-card bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-md transition-all duration-200">
                 <div className="flex items-start gap-4 mb-6">
                     <div className="p-3 rounded-2xl shrink-0" style={{ background: "linear-gradient(135deg,#eff6ff,#dbeafe)", color: "#2563eb" }}>
                         <Globe2 size={24} />
@@ -483,7 +483,7 @@ export default function SettingsPage() {
             {/* ═══════════════════════════════════════════════════════════ */}
             {/* 2. TAX PAYMENT METHOD (Monthly & Quarterly)                 */}
             {/* ═══════════════════════════════════════════════════════════ */}
-            <section className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-md transition-all duration-200">
+            <section className="glass-card bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-md transition-all duration-200">
                 <div className="flex items-start gap-4 mb-6">
                     <div className="p-3 rounded-2xl shrink-0" style={{ background: "linear-gradient(135deg,#ecfdf5,#d1fae5)", color: "#059669" }}>
                         <Calculator size={24} />
@@ -597,7 +597,7 @@ export default function SettingsPage() {
             {/* ═══════════════════════════════════════════════════════════ */}
             {/* 3. THEME SELECTION (Light & Dark)                           */}
             {/* ═══════════════════════════════════════════════════════════ */}
-            <section className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-md transition-all duration-200">
+            <section className="glass-card bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-md transition-all duration-200">
                 <div className="flex items-start gap-4 mb-6">
                     <div className="p-3 rounded-2xl shrink-0" style={{ background: "linear-gradient(135deg,#fffbeb,#fef3c7)", color: "#d97706" }}>
                         {theme === "light" ? <Sun size={24} /> : <Moon size={24} />}
@@ -740,7 +740,7 @@ export default function SettingsPage() {
             {/* ═══════════════════════════════════════════════════════════ */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* ── 4. Update Password Form ── */}
-                <section className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between">
+                <section className="glass-card bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between">
                     <div>
                         <div className="flex items-start gap-4 mb-6">
                             <div className="p-3 rounded-2xl shrink-0" style={{ background: "linear-gradient(135deg,#eef2ff,#e0e7ff)", color: "#4f46e5" }}>
@@ -882,7 +882,7 @@ export default function SettingsPage() {
                 </section>
 
                 {/* ── 5. Update Email Form ── */}
-                <section className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between">
+                <section className="glass-card bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between">
                     <div>
                         <div className="flex items-start gap-4 mb-6">
                             <div className="p-3 rounded-2xl shrink-0" style={{ background: "linear-gradient(135deg,#ecfeff,#cffafe)", color: "#0891b2" }}>

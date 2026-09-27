@@ -223,54 +223,54 @@ export default function TaxationPage() {
                 {/* ═════════════════════════════════════════════════════════ */}
                 <div
                     onClick={() => handleOpenModal("vat")}
-                    className="group bg-white rounded-3xl border border-slate-200/80 hover:border-indigo-300 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between"
+                    className="glass-card group bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-500/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between"
                 >
                     <div className="p-6 md:p-7">
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-2xl bg-indigo-50 group-hover:bg-indigo-600 text-indigo-600 group-hover:text-white transition-all flex items-center justify-center shadow-sm">
+                                <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/70 group-hover:bg-indigo-600 text-indigo-600 dark:text-indigo-400 group-hover:text-white transition-all flex items-center justify-center shadow-sm">
                                     <Receipt size={24} />
                                 </div>
                                 <div>
-                                    <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                                    <h3 className="text-lg font-extrabold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                                         Value Added Tax (VAT)
                                     </h3>
                                     <span className="text-xs font-semibold text-slate-400">Sales Consumption Tax</span>
                                 </div>
                             </div>
-                            <span className="px-3 py-1 bg-indigo-50 text-indigo-700 font-bold text-xs rounded-full border border-indigo-200/60">
+                            <span className="px-3 py-1 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 font-bold text-xs rounded-full border border-indigo-200/60 dark:border-indigo-800/60">
                                 18% Standard Rate
                             </span>
                         </div>
 
                         <div className="my-6">
                             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Due Tax As Far As This Month</span>
-                            <div className="text-3xl font-black text-slate-900 mt-1">
+                            <div className="text-3xl font-black text-slate-900 dark:text-white mt-1">
                                 {isLoading ? (
-                                    <div className="w-36 h-9 bg-slate-100 rounded-lg animate-pulse" />
+                                    <div className="w-36 h-9 bg-slate-100 dark:bg-slate-800 rounded-lg animate-pulse" />
                                 ) : (
                                     fmtCurrency(taxData?.vat.totalVat || 0)
                                 )}
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100 text-xs">
+                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
                             <div>
                                 <span className="text-slate-400 block font-medium">Accumulating From</span>
-                                <span className="font-bold text-slate-800 mt-0.5 block">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 mt-0.5 block">
                                     {taxData?.vat.transactionCount || 0} Sales Transactions
                                 </span>
                             </div>
                             <div>
                                 <span className="text-slate-400 block font-medium">Filing Deadline</span>
-                                <span className="font-bold text-indigo-600 mt-0.5 block">
+                                <span className="font-bold text-indigo-600 dark:text-indigo-400 mt-0.5 block">
                                     {taxData?.vat.dueDate || "15th of next month"}
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="px-6 py-3.5 bg-indigo-50/50 group-hover:bg-indigo-600 text-indigo-700 group-hover:text-white font-bold text-xs flex items-center justify-between border-t border-indigo-100/60 transition-all">
+                    <div className="px-6 py-3.5 bg-indigo-50/50 dark:bg-indigo-950/40 group-hover:bg-indigo-600 text-indigo-700 dark:text-indigo-300 group-hover:text-white font-bold text-xs flex items-center justify-between border-t border-indigo-100/60 dark:border-indigo-900/40 transition-all">
                         <span>Click to view VAT Accumulation Report & Itemized Sales</span>
                         <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
@@ -281,54 +281,54 @@ export default function TaxationPage() {
                 {/* ═════════════════════════════════════════════════════════ */}
                 <div
                     onClick={() => handleOpenModal("cit")}
-                    className="group bg-white rounded-3xl border border-slate-200/80 hover:border-emerald-300 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between"
+                    className="glass-card group bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-500/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between"
                 >
                     <div className="p-6 md:p-7">
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-2xl bg-emerald-50 group-hover:bg-emerald-600 text-emerald-600 group-hover:text-white transition-all flex items-center justify-center shadow-sm">
+                                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/70 group-hover:bg-emerald-600 text-emerald-600 dark:text-emerald-400 group-hover:text-white transition-all flex items-center justify-center shadow-sm">
                                     <TrendingUp size={24} />
                                 </div>
                                 <div>
-                                    <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-emerald-600 transition-colors">
+                                    <h3 className="text-lg font-extrabold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                                         Corporate Income Tax (CIT)
                                     </h3>
                                     <span className="text-xs font-semibold text-slate-400">Net Profit Business Tax</span>
                                 </div>
                             </div>
-                            <span className="px-3 py-1 bg-emerald-50 text-emerald-700 font-bold text-xs rounded-full border border-emerald-200/60">
+                            <span className="px-3 py-1 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-bold text-xs rounded-full border border-emerald-200/60 dark:border-emerald-800/60">
                                 30% Profit Rate
                             </span>
                         </div>
 
                         <div className="my-6">
                             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Estimated Tax Due This Month</span>
-                            <div className="text-3xl font-black text-slate-900 mt-1">
+                            <div className="text-3xl font-black text-slate-900 dark:text-white mt-1">
                                 {isLoading ? (
-                                    <div className="w-36 h-9 bg-slate-100 rounded-lg animate-pulse" />
+                                    <div className="w-36 h-9 bg-slate-100 dark:bg-slate-800 rounded-lg animate-pulse" />
                                 ) : (
                                     fmtCurrency(taxData?.cit.amountDue || 0)
                                 )}
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100 text-xs">
+                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
                             <div>
                                 <span className="text-slate-400 block font-medium">Taxable Net Profit Basis</span>
-                                <span className="font-bold text-slate-800 mt-0.5 block">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 mt-0.5 block">
                                     {fmtCurrency(taxData?.cit.taxableNetProfit || 0)}
                                 </span>
                             </div>
                             <div>
                                 <span className="text-slate-400 block font-medium">Filing Schedule</span>
-                                <span className="font-bold text-emerald-600 mt-0.5 block">
+                                <span className="font-bold text-emerald-600 dark:text-emerald-400 mt-0.5 block">
                                     Quarterly / Annual
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="px-6 py-3.5 bg-emerald-50/50 group-hover:bg-emerald-600 text-emerald-700 group-hover:text-white font-bold text-xs flex items-center justify-between border-t border-emerald-100/60 transition-all">
+                    <div className="px-6 py-3.5 bg-emerald-50/50 dark:bg-emerald-950/40 group-hover:bg-emerald-600 text-emerald-700 dark:text-emerald-300 group-hover:text-white font-bold text-xs flex items-center justify-between border-t border-emerald-100/60 dark:border-emerald-900/40 transition-all">
                         <span>Click to view P&L Tax Reconciliation Breakdown</span>
                         <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
@@ -339,54 +339,54 @@ export default function TaxationPage() {
                 {/* ═════════════════════════════════════════════════════════ */}
                 <div
                     onClick={() => handleOpenModal("patente")}
-                    className="group bg-white rounded-3xl border border-slate-200/80 hover:border-amber-300 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between"
+                    className="glass-card group bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 hover:border-amber-300 dark:hover:border-amber-500/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between"
                 >
                     <div className="p-6 md:p-7">
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-2xl bg-amber-50 group-hover:bg-amber-600 text-amber-600 group-hover:text-white transition-all flex items-center justify-center shadow-sm">
+                                <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/70 group-hover:bg-amber-600 text-amber-600 dark:text-amber-400 group-hover:text-white transition-all flex items-center justify-center shadow-sm">
                                     <ShieldCheck size={24} />
                                 </div>
                                 <div>
-                                    <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-amber-600 transition-colors">
+                                    <h3 className="text-lg font-extrabold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                                         Trading Licence (Patente)
                                     </h3>
                                     <span className="text-xs font-semibold text-slate-400">Annual Business License Fee</span>
                                 </div>
                             </div>
-                            <span className="px-3 py-1 bg-amber-50 text-amber-700 font-bold text-xs rounded-full border border-amber-200/60">
+                            <span className="px-3 py-1 bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 font-bold text-xs rounded-full border border-amber-200/60 dark:border-amber-800/60">
                                 {taxData?.patente.tier || "Turnover Based"}
                             </span>
                         </div>
 
                         <div className="my-6">
                             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Monthly Accrued Provision</span>
-                            <div className="text-3xl font-black text-slate-900 mt-1">
+                            <div className="text-3xl font-black text-slate-900 dark:text-white mt-1">
                                 {isLoading ? (
-                                    <div className="w-36 h-9 bg-slate-100 rounded-lg animate-pulse" />
+                                    <div className="w-36 h-9 bg-slate-100 dark:bg-slate-800 rounded-lg animate-pulse" />
                                 ) : (
                                     fmtCurrency(taxData?.patente.monthlyAccrual || 0)
                                 )}
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100 text-xs">
+                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
                             <div>
                                 <span className="text-slate-400 block font-medium">Annual License Obligation</span>
-                                <span className="font-bold text-slate-800 mt-0.5 block">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 mt-0.5 block">
                                     {fmtCurrency(taxData?.patente.annualFee || 0)} / yr
                                 </span>
                             </div>
                             <div>
                                 <span className="text-slate-400 block font-medium">Due Date</span>
-                                <span className="font-bold text-amber-600 mt-0.5 block">
+                                <span className="font-bold text-amber-600 dark:text-amber-400 mt-0.5 block">
                                     January 31st
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="px-6 py-3.5 bg-amber-50/50 group-hover:bg-amber-600 text-amber-700 group-hover:text-white font-bold text-xs flex items-center justify-between border-t border-amber-100/60 transition-all">
+                    <div className="px-6 py-3.5 bg-amber-50/50 dark:bg-amber-950/40 group-hover:bg-amber-600 text-amber-700 dark:text-amber-300 group-hover:text-white font-bold text-xs flex items-center justify-between border-t border-amber-100/60 dark:border-indigo-900/40 transition-all">
                         <span>Click to view Turnover Bracket & Fee Schedule</span>
                         <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
@@ -397,54 +397,54 @@ export default function TaxationPage() {
                 {/* ═════════════════════════════════════════════════════════ */}
                 <div
                     onClick={() => handleOpenModal("paye")}
-                    className="group bg-white rounded-3xl border border-slate-200/80 hover:border-cyan-300 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between"
+                    className="glass-card group bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 hover:border-cyan-300 dark:hover:border-cyan-500/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between"
                 >
                     <div className="p-6 md:p-7">
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-2xl bg-cyan-50 group-hover:bg-cyan-600 text-cyan-600 group-hover:text-white transition-all flex items-center justify-center shadow-sm">
+                                <div className="w-12 h-12 rounded-2xl bg-cyan-50 dark:bg-cyan-950/70 group-hover:bg-cyan-600 text-cyan-600 dark:text-cyan-400 group-hover:text-white transition-all flex items-center justify-center shadow-sm">
                                     <DollarSign size={24} />
                                 </div>
                                 <div>
-                                    <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-cyan-600 transition-colors">
+                                    <h3 className="text-lg font-extrabold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                                         Pay As You Earn (PAYE)
                                     </h3>
                                     <span className="text-xs font-semibold text-slate-400">Employee Payroll Tax Deduction</span>
                                 </div>
                             </div>
-                            <span className="px-3 py-1 bg-cyan-50 text-cyan-700 font-bold text-xs rounded-full border border-cyan-200/60">
+                            <span className="px-3 py-1 bg-cyan-50 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300 font-bold text-xs rounded-full border border-cyan-200/60 dark:border-cyan-800/60">
                                 Progressive Scale
                             </span>
                         </div>
 
                         <div className="my-6">
                             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Estimated Monthly PAYE Due</span>
-                            <div className="text-3xl font-black text-slate-900 mt-1">
+                            <div className="text-3xl font-black text-slate-900 dark:text-white mt-1">
                                 {isLoading ? (
-                                    <div className="w-36 h-9 bg-slate-100 rounded-lg animate-pulse" />
+                                    <div className="w-36 h-9 bg-slate-100 dark:bg-slate-800 rounded-lg animate-pulse" />
                                 ) : (
                                     fmtCurrency(taxData?.paye.totalPaye || 0)
                                 )}
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100 text-xs">
+                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
                             <div>
                                 <span className="text-slate-400 block font-medium">Payroll Gross Basis</span>
-                                <span className="font-bold text-slate-800 mt-0.5 block">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 mt-0.5 block">
                                     {fmtCurrency(taxData?.paye.estimatedPayroll || 0)}
                                 </span>
                             </div>
                             <div>
                                 <span className="text-slate-400 block font-medium">Declaration Due</span>
-                                <span className="font-bold text-cyan-600 mt-0.5 block">
+                                <span className="font-bold text-cyan-600 dark:text-cyan-400 mt-0.5 block">
                                     15th of next month
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="px-6 py-3.5 bg-cyan-50/50 group-hover:bg-cyan-600 text-cyan-700 group-hover:text-white font-bold text-xs flex items-center justify-between border-t border-cyan-100/60 transition-all">
+                    <div className="px-6 py-3.5 bg-cyan-50/50 dark:bg-cyan-950/40 group-hover:bg-cyan-600 text-cyan-700 dark:text-cyan-300 group-hover:text-white font-bold text-xs flex items-center justify-between border-t border-cyan-100/60 dark:border-cyan-900/40 transition-all">
                         <span>Click to view Employee Payroll Tax Bracket Scale</span>
                         <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </div>

@@ -27,7 +27,7 @@ export default function DashboardTopProducts() {
 
     if (isLoading) {
         return (
-            <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-sm animate-pulse transition-colors">
+            <div className="glass-card bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-sm animate-pulse transition-colors">
                 <div className="h-6 w-56 bg-slate-100 dark:bg-slate-800 rounded mb-6"></div>
                 {Array.from({ length: 5 }).map((_, i) => (
                     <div key={i} className="h-16 bg-slate-50 dark:bg-slate-950/40 rounded-2xl mb-3"></div>
@@ -39,7 +39,7 @@ export default function DashboardTopProducts() {
     const maxQty = data.length > 0 ? Math.max(...data.map((d) => d.totalQuantity)) : 1;
 
     return (
-        <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-sm flex flex-col h-full transition-colors duration-300">
+        <div className="glass-card bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200/70 dark:border-slate-800 shadow-sm flex flex-col h-full transition-colors duration-300">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-100 dark:border-slate-800/80">
                 <div>

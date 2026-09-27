@@ -255,9 +255,9 @@ export default function CalendarPage() {
 
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
                 {/* ── Calendar Grid ─────────────────────────────────────── */}
-                <div className="xl:col-span-3 bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="glass-card xl:col-span-3 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
                     {/* Days of week header */}
-                    <div className="grid grid-cols-7 border-b border-slate-100">
+                    <div className="grid grid-cols-7 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
                         {DAYS_OF_WEEK.map((d) => (
                             <div
                                 key={d}
@@ -288,8 +288,8 @@ export default function CalendarPage() {
                                 return (
                                     <div
                                         key={idx}
-                                        className={`min-h-[90px] p-2 flex flex-col gap-1 ${!isLastCol ? "border-r" : ""} ${!isLastRow ? "border-b" : ""} border-slate-100 ${
-                                            !cell.isCurrentMonth ? "bg-slate-50/60" : "bg-white hover:bg-slate-50/40"
+                                        className={`min-h-[90px] p-2 flex flex-col gap-1 ${!isLastCol ? "border-r" : ""} ${!isLastRow ? "border-b" : ""} border-slate-100 dark:border-slate-800/80 ${
+                                            !cell.isCurrentMonth ? "bg-slate-50/60 dark:bg-slate-950/40" : "bg-white dark:bg-slate-900/40 hover:bg-slate-50/40 dark:hover:bg-slate-800/30"
                                         } transition-colors`}
                                     >
                                         {/* Day number */}
@@ -299,8 +299,8 @@ export default function CalendarPage() {
                                                     isToday
                                                         ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
                                                         : cell.isCurrentMonth
-                                                        ? "text-slate-700"
-                                                        : "text-slate-300"
+                                                        ? "text-slate-700 dark:text-slate-200"
+                                                        : "text-slate-300 dark:text-slate-600"
                                                 }`}
                                             >
                                                 {cell.day}
@@ -338,19 +338,19 @@ export default function CalendarPage() {
                 {/* ── Right Sidebar ─────────────────────────────────────── */}
                 <div className="xl:col-span-1 flex flex-col gap-5">
                     {/* Legend */}
-                    <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5">
+                    <div className="glass-card bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm p-5">
                         <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Legend</h2>
                         <div className="flex flex-col gap-2.5">
                             {(Object.entries(EVENT_CONFIG) as [EventType, typeof EVENT_CONFIG[EventType]][]).map(
                                 ([type, cfg]) => (
                                     <div key={type} className="flex items-center gap-3">
                                         <span className={`w-3 h-3 rounded-full shrink-0 ${cfg.dot}`} />
-                                        <div className="flex items-center gap-1.5 text-xs font-medium text-slate-600">
+                                        <div className="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
                                             <span className={cfg.text}>{cfg.icon}</span>
                                             <span>{cfg.legend}</span>
                                         </div>
                                         {!presentTypes.includes(type) && (
-                                            <span className="ml-auto text-[10px] text-slate-300 font-medium">
+                                            <span className="ml-auto text-[10px] text-slate-300 dark:text-slate-600 font-medium">
                                                 —
                                             </span>
                                         )}
@@ -358,13 +358,13 @@ export default function CalendarPage() {
                                 )
                             )}
                         </div>
-                        <p className="text-[10px] text-slate-400 mt-4 leading-relaxed border-t border-slate-100 pt-3">
+                        <p className="text-[10px] text-slate-400 mt-4 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
                             Tax due dates are displayed based on the current viewed month. Patente only appears in January.
                         </p>
                     </div>
 
                     {/* Upcoming Events */}
-                    <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5">
+                    <div className="glass-card bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm p-5">
                         <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
                             Upcoming This Month
                         </h2>

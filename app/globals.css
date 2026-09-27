@@ -1607,3 +1607,160 @@ body {
   background: var(--ops-surface-muted);
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   DARK MODE — GLASSMORPHIC CARD & KPI LAYER
+   All card, surface, and KPI elements become frosted glass in dark mode.
+   Uses backdrop-filter: blur for the glass effect and semi-transparent
+   backgrounds to let the deep radial gradient page bg show through.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Dark-mode analytics surface token overrides ─────────────────────── */
+:root.dark .analytics-page,
+:root[data-theme="dark"] .analytics-page {
+  --analytics-surface:         rgba(12, 18, 38, 0.52);
+  --analytics-surface-raised:  rgba(18, 26, 52, 0.48);
+  --analytics-surface-muted:   rgba(24, 34, 64, 0.44);
+  --analytics-surface-hover:   rgba(30, 41, 80, 0.56);
+  --analytics-border:          rgba(99, 120, 210, 0.18);
+  --analytics-border-soft:     rgba(80, 100, 180, 0.12);
+  --analytics-shadow:          0 4px 24px rgba(0, 0, 60, 0.45), 0 1px 3px rgba(0,0,30,0.3);
+  --analytics-shadow-hover:    0 20px 56px rgba(0, 0, 60, 0.65), 0 4px 16px rgba(0,0,40,0.4);
+}
+
+/* ── Dark-mode operations surface token overrides ────────────────────── */
+:root.dark .operations-page,
+:root[data-theme="dark"] .operations-page {
+  --ops-surface:        rgba(12, 18, 38, 0.52);
+  --ops-surface-muted:  rgba(20, 28, 56, 0.44);
+  --ops-surface-soft:   rgba(8, 14, 32, 0.62);
+  --ops-hover:          rgba(30, 40, 80, 0.56);
+  --ops-border:         rgba(99, 120, 210, 0.18);
+  --ops-border-soft:    rgba(80, 100, 180, 0.12);
+  --ops-shadow:         0 4px 28px rgba(0, 0, 60, 0.45), 0 1px 4px rgba(0,0,30,0.3);
+  --ops-shadow-hover:   0 22px 60px rgba(0, 0, 60, 0.65), 0 6px 20px rgba(0,0,40,0.4);
+}
+
+/* ── Analytics CSS-class card glass ─────────────────────────────────── */
+:root.dark .analytics-card,
+:root.dark .analytics-summary-card,
+:root[data-theme="dark"] .analytics-card,
+:root[data-theme="dark"] .analytics-summary-card {
+  background:              rgba(12, 18, 42, 0.52);
+  backdrop-filter:         blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-color:            rgba(100, 120, 220, 0.16);
+  box-shadow:              0 4px 24px rgba(0, 0, 60, 0.5),
+                           inset 0 1px 0 rgba(180, 200, 255, 0.07);
+  transition: transform 0.22s ease, border-color 0.22s ease,
+              box-shadow 0.22s ease, background 0.22s ease;
+}
+
+@media (hover: hover) {
+  :root.dark .analytics-card:hover,
+  :root.dark .analytics-summary-card:hover,
+  :root[data-theme="dark"] .analytics-card:hover,
+  :root[data-theme="dark"] .analytics-summary-card:hover {
+    background:    rgba(16, 24, 54, 0.62);
+    border-color:  rgba(130, 150, 255, 0.28);
+    box-shadow:    0 22px 56px rgba(0, 0, 60, 0.65),
+                   inset 0 1px 0 rgba(180, 200, 255, 0.1);
+  }
+}
+
+/* ── Operations CSS-class card glass ─────────────────────────────────── */
+:root.dark .ops-card,
+:root.dark .ops-modal-card,
+:root.dark .ops-kpi-card,
+:root.dark .ops-metric-card,
+:root.dark .ops-metric-chip,
+:root.dark .ops-section-card,
+:root.dark .ops-record-card,
+:root[data-theme="dark"] .ops-card,
+:root[data-theme="dark"] .ops-modal-card,
+:root[data-theme="dark"] .ops-kpi-card,
+:root[data-theme="dark"] .ops-metric-card,
+:root[data-theme="dark"] .ops-metric-chip,
+:root[data-theme="dark"] .ops-section-card,
+:root[data-theme="dark"] .ops-record-card {
+  background:              rgba(12, 18, 42, 0.52);
+  backdrop-filter:         blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-color:            rgba(100, 120, 220, 0.16);
+  box-shadow:              0 4px 24px rgba(0, 0, 60, 0.5),
+                           inset 0 1px 0 rgba(180, 200, 255, 0.07);
+}
+
+@media (hover: hover) {
+  :root.dark .ops-card:hover,
+  :root.dark .ops-kpi-card:hover,
+  :root.dark .ops-metric-card:hover,
+  :root.dark .ops-record-card:hover,
+  :root[data-theme="dark"] .ops-card:hover,
+  :root[data-theme="dark"] .ops-kpi-card:hover,
+  :root[data-theme="dark"] .ops-metric-card:hover,
+  :root[data-theme="dark"] .ops-record-card:hover {
+    background:    rgba(16, 24, 54, 0.62);
+    border-color:  rgba(130, 150, 255, 0.28);
+    box-shadow:    0 22px 56px rgba(0, 0, 60, 0.65),
+                   inset 0 1px 0 rgba(180, 200, 255, 0.1);
+  }
+}
+
+/* ── Modal inner surfaces ─────────────────────────────────────────────── */
+:root.dark .ops-modal-backdrop,
+:root[data-theme="dark"] .ops-modal-backdrop {
+  background: rgba(0, 0, 20, 0.72);
+}
+
+:root.dark .ops-modal-header,
+:root.dark .ops-modal-footer,
+:root.dark .ops-modal-body,
+:root[data-theme="dark"] .ops-modal-header,
+:root[data-theme="dark"] .ops-modal-footer,
+:root[data-theme="dark"] .ops-modal-body {
+  background:              rgba(6, 10, 26, 0.65);
+  backdrop-filter:         blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ── Operations form inputs in dark glass mode ───────────────────────── */
+:root.dark .ops-input,
+:root.dark .ops-textarea,
+:root[data-theme="dark"] .ops-input,
+:root[data-theme="dark"] .ops-textarea {
+  background:              rgba(6, 10, 26, 0.55);
+  border-color:            rgba(100, 120, 220, 0.18);
+  backdrop-filter:         blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ── Table head glass ─────────────────────────────────────────────────── */
+:root.dark .ops-table thead tr,
+:root[data-theme="dark"] .ops-table thead tr {
+  background: rgba(18, 26, 54, 0.6);
+}
+
+/* ── .glass-card utility: Tailwind-based card glass ─────────────────── */
+/* Add class="glass-card" to any bg-white dark:bg-slate-900 card element.
+   In light mode it is a no-op; in dark mode it becomes frosted glass.   */
+:root.dark .glass-card,
+:root[data-theme="dark"] .glass-card {
+  background:              rgba(12, 18, 42, 0.52) !important;
+  backdrop-filter:         blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-color:            rgba(100, 120, 220, 0.16) !important;
+  box-shadow:              0 4px 24px rgba(0, 0, 60, 0.5),
+                           inset 0 1px 0 rgba(180, 200, 255, 0.07) !important;
+  transition: background 0.25s ease, border-color 0.25s ease,
+              box-shadow 0.25s ease, backdrop-filter 0.25s ease;
+}
+
+@media (hover: hover) {
+  :root.dark .glass-card:hover,
+  :root[data-theme="dark"] .glass-card:hover {
+    background:    rgba(16, 24, 54, 0.62) !important;
+    border-color:  rgba(130, 150, 255, 0.28) !important;
+    box-shadow:    0 22px 56px rgba(0, 0, 60, 0.65),
+                   inset 0 1px 0 rgba(180, 200, 255, 0.1) !important;
+  }
+}

@@ -313,7 +313,7 @@ export default function ExpensesPage() {
             {/* ── KPI Stat Metric Cards ── */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Stat 1: Total Operating Expenses */}
-                <div className="relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
+                <div className="glass-card relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/10 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform" />
                     <div className="flex items-center justify-between relative z-10">
                         <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -334,7 +334,7 @@ export default function ExpensesPage() {
                 </div>
 
                 {/* Stat 2: Total Disbursements Count */}
-                <div className="relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
+                <div className="glass-card relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform" />
                     <div className="flex items-center justify-between relative z-10">
                         <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -355,7 +355,7 @@ export default function ExpensesPage() {
                 </div>
 
                 {/* Stat 3: Average Ticket Size */}
-                <div className="relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
+                <div className="glass-card relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform" />
                     <div className="flex items-center justify-between relative z-10">
                         <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -376,7 +376,7 @@ export default function ExpensesPage() {
                 </div>
 
                 {/* Stat 4: Peak Outflow Entry */}
-                <div className="relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
+                <div className="glass-card relative p-5 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform" />
                     <div className="flex items-center justify-between relative z-10">
                         <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -398,7 +398,7 @@ export default function ExpensesPage() {
             </div>
 
             {/* ── Toolbar: Search & Quick Tag Pills & Sorting ── */}
-            <div className="p-4 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm space-y-3.5">
+            <div className="glass-card p-4 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm space-y-3.5">
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
                     {/* Search */}
                     <div className="relative flex-1 max-w-md">
@@ -494,7 +494,7 @@ export default function ExpensesPage() {
             </div>
 
             {/* ── Table Container ── */}
-            <div className="bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-3xl shadow-sm overflow-hidden">
+            <div className="glass-card bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-3xl shadow-sm overflow-hidden">
                 {isLoading ? (
                     <div className="p-16 flex flex-col items-center justify-center min-h-[320px]">
                         <div className="w-10 h-10 border-4 border-rose-500/20 border-t-rose-500 rounded-full animate-spin" />
@@ -617,7 +617,7 @@ export default function ExpensesPage() {
             {/* ── Record Expense Modal ── */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-950/65 backdrop-blur-md animate-in fade-in duration-200">
-                    <div className="w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[92vh] animate-in zoom-in-95 duration-200">
+                    <div className="glass-card w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[92vh] animate-in zoom-in-95 duration-200">
                         {/* Modal Header */}
                         <div className="px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50 shrink-0">
                             <div className="flex items-center gap-3">

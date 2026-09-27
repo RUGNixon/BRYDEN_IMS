@@ -46,7 +46,7 @@ export default function DashboardChart() {
 
     if (isLoading) {
         return (
-            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800 min-h-[420px] flex items-center justify-center animate-pulse transition-colors">
+            <div className="glass-card bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800 min-h-[420px] flex items-center justify-center animate-pulse transition-colors">
                 <div className="flex flex-col items-center gap-4">
                     <div className="w-12 h-12 border-4 border-indigo-200 dark:border-indigo-900 border-t-indigo-600 rounded-full animate-spin"></div>
                     <p className="text-slate-400 font-medium tracking-wide">Loading 31-day financial metrics...</p>
@@ -57,7 +57,7 @@ export default function DashboardChart() {
 
     if (!data.length) {
         return (
-            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800 min-h-[420px] flex items-center justify-center transition-colors">
+            <div className="glass-card bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800 min-h-[420px] flex items-center justify-center transition-colors">
                 <p className="text-slate-400 font-medium">No financial data available for the past 31 days.</p>
             </div>
         );
@@ -127,7 +127,7 @@ export default function DashboardChart() {
     };
 
     return (
-        <div className="w-full bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800 transition-colors">
+        <div className="glass-card w-full bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800 transition-colors">
             {/* Header */}
             <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>

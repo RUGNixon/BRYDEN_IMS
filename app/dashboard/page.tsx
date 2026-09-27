@@ -99,7 +99,7 @@ function StatCard({ icon, label, subtext, amount, color, badgeText, isLoading }:
     const c = statColorConfig[color];
 
     return (
-        <div className={`relative p-5 lg:p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/90 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between group ${c.hoverBorder}`}>
+        <div className={`glass-card relative p-5 lg:p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/90 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between group ${c.hoverBorder}`}>
             {/* Ambient Background Gradient Glow */}
             <div className={`absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl ${c.glow} rounded-full blur-2xl pointer-events-none transition-all duration-500 group-hover:scale-125`}></div>
 

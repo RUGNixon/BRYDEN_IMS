@@ -130,7 +130,7 @@ export default function DashboardExpensesChart() {
 
     if (isLoading) {
         return (
-            <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800 min-h-[400px] flex items-center justify-center transition-colors">
+            <div className="glass-card bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800 min-h-[400px] flex items-center justify-center transition-colors">
                 <div className="flex flex-col items-center gap-4">
                     <div className="w-12 h-12 border-4 border-orange-200 dark:border-orange-900 border-t-orange-500 rounded-full animate-spin"></div>
                     <p className="text-slate-400 font-medium text-sm">Loading expense analytics...</p>
@@ -154,7 +154,7 @@ export default function DashboardExpensesChart() {
             } catch {}
 
             return (
-                <div className="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl text-xs">
+                <div className="glass-card bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl text-xs">
                     <p className="font-semibold text-slate-500 dark:text-slate-400 mb-1.5 pb-1 border-b border-slate-100 dark:border-slate-800">
                         {displayDate}
                     </p>
@@ -174,7 +174,7 @@ export default function DashboardExpensesChart() {
     };
 
     return (
-        <div className="w-full bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800 transition-colors">
+        <div className="glass-card w-full bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800 transition-colors">
             {/* Header with dual statistics */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-100 dark:border-slate-800/80">
                 <div className="flex items-center gap-3">

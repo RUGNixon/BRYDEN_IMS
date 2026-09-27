@@ -482,18 +482,18 @@ function NoteCard({ note, onAcknowledge }: { note: Note; onAcknowledge: (note: N
 
     return (
         <div
-            className={`group bg-white rounded-2xl border shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden ${
+            className={`glass-card group bg-white dark:bg-slate-900 rounded-2xl border dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden ${
                 isUrgent ? "border-red-200 hover:border-red-300" : "border-slate-200 hover:border-orange-200"
             }`}
         >
             <div className="p-5 flex items-start gap-4">
-                <div className={`mt-0.5 p-2.5 rounded-xl shrink-0 ${isUrgent ? "bg-red-100 text-red-500" : "bg-orange-100 text-orange-500"}`}>
+                <div className={`mt-0.5 p-2.5 rounded-xl shrink-0 ${isUrgent ? "bg-red-100 dark:bg-red-950/70 text-red-500" : "bg-orange-100 dark:bg-orange-950/70 text-orange-500"}`}>
                     <NotebookPen size={18} />
                 </div>
 
                 <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-3 flex-wrap">
-                        <h3 className="font-bold text-slate-900 text-base leading-tight">{note.title}</h3>
+                        <h3 className="font-bold text-slate-900 dark:text-white text-base leading-tight">{note.title}</h3>
                         <div className="flex items-center gap-2 shrink-0">
                             {badge && (
                                 <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold border ${badge.color}`}>
@@ -504,7 +504,7 @@ function NoteCard({ note, onAcknowledge }: { note: Note; onAcknowledge: (note: N
                     </div>
 
                     {note.content && (
-                        <p className="text-sm text-slate-500 mt-1.5 leading-relaxed line-clamp-3 whitespace-pre-wrap">
+                        <p className="text-sm text-slate-500 dark:text-slate-300 mt-1.5 leading-relaxed line-clamp-3 whitespace-pre-wrap">
                             {note.content}
                         </p>
                     )}

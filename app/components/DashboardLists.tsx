@@ -55,7 +55,7 @@ function ListCard({ title, subtitle, icon, items, type, emptyMsg, viewAllHref }:
         };
 
     return (
-        <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/70 dark:border-slate-800 flex flex-col h-full transition-colors duration-300">
+        <div className="glass-card bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/70 dark:border-slate-800 flex flex-col h-full transition-colors duration-300">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-100 dark:border-slate-800/80">
                 <div className="flex items-center gap-3">
@@ -207,8 +207,8 @@ export default function DashboardLists() {
     if (isLoading) {
         return (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-pulse">
-                <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/60 dark:border-slate-800 h-[400px]"></div>
-                <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/60 dark:border-slate-800 h-[400px]"></div>
+                <div className="glass-card bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/60 dark:border-slate-800 h-[400px]"></div>
+                <div className="glass-card bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/60 dark:border-slate-800 h-[400px]"></div>
             </div>
         );
     }
