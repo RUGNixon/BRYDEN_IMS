@@ -26,14 +26,17 @@ import { useAuth } from "@/app/context/AuthContext";
 /**
  * ─── Design Tokens ────────────────────────────────────────────────────────────
  *
- * The sidebar surface is ALWAYS the dark-mode palette, regardless of the app
- * theme. Only the ACTIVE INDICATOR changes to match the current page-background
- * colour so the tab blends seamlessly into the content area on either side:
+ * In Dark Mode (Untouched):
+ *   - Glassmorphic slate-900/75 with backdrop-blur-xl, border-white/10, shadow-2xl
+ *   - Active indicator remains solid #00002b with concave inner fillets and indigo glow
  *
- *   Light mode page bg → #ffffff   (CSS :root { --background })
- *   Dark  mode page bg → #00002b   (CSS :root.dark { --background })
+ * In Light Mode (Neomorphic):
+ *   - Soft extruded neomorphic surface (#e2ecfc) emerging from the canvas
+ *   - Dual neomorphic shadow (dark soft shadow + pure white top-left highlight)
+ *   - Tactile interactive buttons, inset badges, and soft embossed contours
+ *   - Active cutout tab (#dce8ff) blending seamlessly into the neomorphic page background
  */
-const INDICATOR_LIGHT = "#ffffff";
+const INDICATOR_LIGHT = "#dce8ff";
 const INDICATOR_DARK  = "#00002b";
 const FILLET_R        = 20; // px — inverted-corner arc radius
 
@@ -56,11 +59,8 @@ export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  /**
-   * The ONE value that reacts to the theme toggle.
-   * Everything else is hardcoded to the dark palette.
-   */
-  const indicatorColor = theme === "dark" ? INDICATOR_DARK : INDICATOR_LIGHT;
+  const isDark = theme === "dark";
+  const indicatorColor = isDark ? INDICATOR_DARK : INDICATOR_LIGHT;
 
   // ── Nav items ──────────────────────────────────────────────────────────────
   const navItems: NavItem[] = [
@@ -133,26 +133,34 @@ export default function Sidebar() {
         relative flex flex-col shrink-0 z-50
         transition-all duration-300 ease-in-out
         ${isCollapsed ? "w-20" : "w-64"}
-        /* Floating panel — margin exposes all four rounded corners */
         my-3 ml-3 h-[calc(100dvh-24px)]
-        /* ── ALWAYS dark palette ───────────────────────────────── */
-        bg-slate-900eeee
-        shadow-xl shadow-black/40
         rounded-2xl overflow-hidden
+        ${isDark
+          ? "bg-slate-900/75 backdrop-blur-xl backdrop-saturate-150 border border-white/10 shadow-2xl shadow-black/50"
+          : "bg-[#e2ecfc] border border-white/80 shadow-[10px_10px_26px_rgba(163,185,230,0.65),-10px_-10px_26px_rgba(255,255,255,0.95)]"
+        }
       `}
     >
-
       {/* ── Brand / Header ──────────────────────────────────────────────── */}
       <div
         className={`
           h-14 shrink-0 flex items-center gap-3
-          border-b border-slate-800
           transition-all duration-300 ease-in-out
           ${isCollapsed ? "justify-center px-0" : "px-4"}
+          ${isDark
+            ? "border-b border-white/10 bg-slate-900/40 backdrop-blur-md"
+            : "border-b border-[rgba(163,185,230,0.35)] bg-[#e6f0fd]/60"
+          }
         `}
       >
-        {/* Indigo logo mark */}
-        <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-gradient-to-br from-indigo-500 to-indigo-700 shadow-md shadow-indigo-900/40">
+        {/* Logo mark */}
+        <div
+          className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
+            isDark
+              ? "bg-gradient-to-br from-indigo-500 to-indigo-700 shadow-md shadow-indigo-900/40"
+              : "bg-gradient-to-br from-blue-500 to-indigo-600 shadow-[3px_3px_8px_rgba(37,99,235,0.35),-2px_-2px_6px_rgba(255,255,255,0.8)] border border-white/70"
+          }`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
             fill="none" stroke="white" strokeWidth="2.5"
@@ -167,10 +175,18 @@ export default function Sidebar() {
         {/* Wordmark (expanded only) */}
         {!isCollapsed && (
           <div className="flex flex-col overflow-hidden whitespace-nowrap min-w-0 flex-1">
-            <span className="text-sm font-bold tracking-wide text-white truncate leading-tight">
+            <span
+              className={`text-sm font-extrabold tracking-wide truncate leading-tight ${
+                isDark ? "text-white" : "text-slate-800"
+              }`}
+            >
               Bryden IMS
             </span>
-            <span className="text-[10px] text-slate-500 tracking-widest uppercase truncate">
+            <span
+              className={`text-[10px] tracking-widest uppercase truncate font-semibold ${
+                isDark ? "text-slate-400" : "text-blue-600/75"
+              }`}
+            >
               {t("tagline") ?? "Enterprise Suite"}
             </span>
           </div>
@@ -182,7 +198,11 @@ export default function Sidebar() {
             type="button"
             onClick={() => setIsCollapsed(true)}
             aria-label="Collapse sidebar"
-            className="p-1.5 rounded-xl text-slate-500 hover:text-white hover:bg-slate-800 transition-all duration-200 cursor-pointer shrink-0"
+            className={`p-1.5 rounded-xl transition-all duration-200 cursor-pointer shrink-0 ${
+              isDark
+                ? "text-slate-400 hover:text-white hover:bg-white/10"
+                : "text-slate-500 hover:text-blue-600 bg-[#e4eeff] hover:bg-[#ebf3ff] shadow-[2px_2px_6px_rgba(163,185,230,0.45),-2px_-2px_6px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,185,230,0.5)] border border-white/70"
+            }`}
             title="Collapse sidebar"
           >
             <Menu size={18} />
@@ -199,12 +219,8 @@ export default function Sidebar() {
         {/*
          * ── SLIDING ACTIVE INDICATOR ──────────────────────────────────────
          *
-         * Background = current page-bg colour → creates a "cutout tab" effect.
-         * The tab appears to pop out of the sidebar frame and merge with the
-         * content area. The two SVG fillets complete the concave inner-corner
-         * geometry so there are no hard right-angle joints.
-         *
-         * Strictly bounded: left-3 right-0 — never bleeds past the sidebar edge.
+         * Cutout tab effect blending seamlessly into page background.
+         * Top and bottom SVG fillets form smooth concave inner corners.
          */}
         {indicator.ready && (
           <div
@@ -214,7 +230,9 @@ export default function Sidebar() {
               top:             `${indicator.top}px`,
               height:          `${indicator.height}px`,
               backgroundColor: indicatorColor,
-              boxShadow:       "-4px 0 14px rgba(0,0,0,0.45), 0 0 0 1px rgba(99,102,241,0.14)",
+              boxShadow: isDark
+                ? "-4px 0 16px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,102,241,0.20), 0 0 20px -2px rgba(99,102,241,0.15)"
+                : "-4px 0 14px rgba(163,185,230,0.45), 0 -2px 6px rgba(255,255,255,0.8), 0 2px 6px rgba(163,185,230,0.3)",
             }}
           >
             {/* TOP inverted inner-corner fillet */}
@@ -265,7 +283,11 @@ export default function Sidebar() {
                   ? "justify-center mx-3 rounded-xl"
                   : "gap-3 mx-3 pl-3 pr-2 rounded-l-xl"
                 }
-                ${!isActive && "hover:bg-slate-800/80 hover:text-white"}
+                ${!isActive && (
+                  isDark
+                    ? "hover:bg-white/[0.08] hover:text-white"
+                    : "text-slate-600 hover:text-blue-700 hover:bg-[#ebf3ff] hover:shadow-[3px_3px_8px_rgba(163,185,230,0.4),-3px_-3px_8px_rgba(255,255,255,0.9)]"
+                )}
               `}
             >
               {/* Icon */}
@@ -274,9 +296,9 @@ export default function Sidebar() {
                 strokeWidth={isActive ? 2.5 : 2}
                 className={`
                   shrink-0 transition-colors duration-300 ease-in-out
-                  ${isActive
-                    ? "text-indigo-400"
-                    : "text-slate-500 group-hover:text-slate-200"
+                  ${isDark
+                    ? (isActive ? "text-indigo-400" : "text-slate-400 group-hover:text-white")
+                    : (isActive ? "text-blue-600 font-bold" : "text-slate-500 group-hover:text-blue-600")
                   }
                 `}
               />
@@ -286,9 +308,9 @@ export default function Sidebar() {
                 <span
                   className={`
                     flex-1 text-sm truncate transition-colors duration-300 ease-in-out
-                    ${isActive
-                      ? "font-semibold text-indigo-400"
-                      : "font-medium text-slate-400 group-hover:text-white"
+                    ${isDark
+                      ? (isActive ? "font-semibold text-indigo-400" : "font-medium text-slate-300 group-hover:text-white")
+                      : (isActive ? "font-extrabold text-blue-700" : "font-semibold text-slate-600 group-hover:text-slate-900")
                     }
                   `}
                 >
@@ -302,9 +324,12 @@ export default function Sidebar() {
                   className={`
                     text-[10px] px-2 py-0.5 rounded-full font-bold shrink-0
                     transition-all duration-300
-                    ${isActive
-                      ? "bg-indigo-950 text-indigo-400"
-                      : "bg-slate-800 text-slate-400"
+                    ${isDark
+                      ? (isActive ? "bg-indigo-950/80 text-indigo-400 border border-indigo-800/40" : "bg-white/10 text-slate-300")
+                      : (isActive
+                          ? "bg-blue-600 text-white shadow-[0_2px_8px_rgba(37,99,235,0.35)]"
+                          : "bg-[#dce8ff] text-slate-600 shadow-[inset_1px_1px_3px_rgba(163,185,230,0.5),inset_-1px_-1px_3px_rgba(255,255,255,0.8)] border border-[rgba(163,185,230,0.4)]"
+                        )
                     }
                   `}
                 >
@@ -317,15 +342,18 @@ export default function Sidebar() {
                 <div
                   id={tipId}
                   role="tooltip"
-                  className="
+                  className={`
                     absolute left-full ml-3 px-3 py-1.5 rounded-xl text-xs font-semibold
                     whitespace-nowrap z-50 pointer-events-none
-                    bg-slate-800 text-white border border-slate-700
-                    shadow-lg shadow-black/40
+                    shadow-lg
                     opacity-0 -translate-x-1
                     group-hover:opacity-100 group-hover:translate-x-0
                     transition-all duration-200 ease-out
-                  "
+                    ${isDark
+                      ? "bg-slate-900/90 text-white backdrop-blur-xl border border-white/10 shadow-black/50"
+                      : "bg-[#e4eeff] text-slate-800 border border-white/80 shadow-[4px_4px_12px_rgba(163,185,230,0.5),-4px_-4px_12px_rgba(255,255,255,0.9)]"
+                    }
+                  `}
                 >
                   {item.name}
                 </div>
@@ -337,12 +365,22 @@ export default function Sidebar() {
 
       {/* ── Expand button (collapsed / rail mode only) ──────────────────── */}
       {isCollapsed && (
-        <div className="shrink-0 flex justify-center py-2 border-t border-slate-800">
+        <div
+          className={`shrink-0 flex justify-center py-2 ${
+            isDark
+              ? "border-t border-white/10 bg-slate-900/40"
+              : "border-t border-[rgba(163,185,230,0.35)] bg-[#e6f0fd]/50"
+          }`}
+        >
           <button
             type="button"
             onClick={() => setIsCollapsed(false)}
             aria-label="Expand sidebar"
-            className="p-2 rounded-xl text-slate-500 hover:text-white hover:bg-slate-800 transition-all duration-200 cursor-pointer"
+            className={`p-2 rounded-xl transition-all duration-200 cursor-pointer ${
+              isDark
+                ? "text-slate-400 hover:text-white hover:bg-white/10"
+                : "text-slate-500 hover:text-blue-600 bg-[#e4eeff] hover:bg-[#ebf3ff] shadow-[2px_2px_6px_rgba(163,185,230,0.45),-2px_-2px_6px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,185,230,0.5)] border border-white/70"
+            }`}
             title="Expand sidebar"
           >
             <ChevronRight size={18} />
@@ -366,31 +404,53 @@ export default function Sidebar() {
         return (
           <div
             className={`
-              shrink-0 border-t border-slate-800 flex items-center justify-between
+              shrink-0 flex items-center justify-between
               transition-all duration-300 ease-in-out
               ${isCollapsed ? "flex-col gap-2 p-2.5" : "px-3 py-2.5"}
+              ${isDark
+                ? "border-t border-white/10 bg-slate-900/40 backdrop-blur-md"
+                : "border-t border-[rgba(163,185,230,0.35)] bg-[#e6f0fd]/50"
+              }
             `}
           >
             {/* User Info & Avatar */}
             <div className={`flex items-center min-w-0 ${isCollapsed ? "justify-center" : "gap-2.5 flex-1"}`}>
               <div className="relative shrink-0" title={`${user?.name || "Bryden User"} (${roleLabel})`}>
-                <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[11px] text-white bg-gradient-to-br from-indigo-500 to-indigo-700 border border-indigo-800/50 shadow-xs">
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-[11px] text-white ${
+                    isDark
+                      ? "bg-gradient-to-br from-indigo-500 to-indigo-700 border border-indigo-800/50 shadow-xs"
+                      : "bg-gradient-to-br from-blue-500 to-indigo-600 shadow-[2px_2px_6px_rgba(37,99,235,0.35),-1px_-1px_4px_rgba(255,255,255,0.8)] border border-white/80"
+                  }`}
+                >
                   {initials}
                 </div>
-                <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-slate-900" />
+                <span
+                  className={`absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-500 ring-2 ${
+                    isDark ? "ring-slate-900" : "ring-[#e2ecfc]"
+                  }`}
+                />
               </div>
 
               {!isCollapsed && (
                 <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
-                  <span className="text-xs font-bold text-white truncate leading-tight">
+                  <span
+                    className={`text-xs font-bold truncate leading-tight ${
+                      isDark ? "text-white" : "text-slate-800"
+                    }`}
+                  >
                     {user?.name || "Bryden Admin"}
                   </span>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span
                       className={`text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded-full tracking-wider ${
-                        user?.role === "admin"
-                          ? "bg-indigo-950 text-indigo-400 border border-indigo-800/60"
-                          : "bg-emerald-950 text-emerald-400 border border-emerald-800/60"
+                        isDark
+                          ? (user?.role === "admin"
+                              ? "bg-indigo-950/80 text-indigo-400 border border-indigo-800/60"
+                              : "bg-emerald-950/80 text-emerald-400 border border-emerald-800/60")
+                          : (user?.role === "admin"
+                              ? "bg-blue-100 text-blue-700 border border-blue-200/80 shadow-[inset_1px_1px_2px_rgba(163,185,230,0.3),inset_-1px_-1px_2px_rgba(255,255,255,0.7)]"
+                              : "bg-emerald-100 text-emerald-700 border border-emerald-200/80 shadow-[inset_1px_1px_2px_rgba(163,185,230,0.3),inset_-1px_-1px_2px_rgba(255,255,255,0.7)]")
                       }`}
                     >
                       {roleLabel}
@@ -411,8 +471,12 @@ export default function Sidebar() {
               title={t("authSignOut")}
               aria-label={t("authSignOut")}
               className={`
-                rounded-xl text-slate-400 hover:text-red-400 hover:bg-slate-800/80 transition-all duration-200 cursor-pointer shrink-0
+                rounded-xl transition-all duration-200 cursor-pointer shrink-0
                 ${isCollapsed ? "p-1.5" : "p-2"}
+                ${isDark
+                  ? "text-slate-400 hover:text-red-400 hover:bg-white/10"
+                  : "text-slate-500 hover:text-red-600 bg-[#e4eeff] hover:bg-[#ffebee] shadow-[2px_2px_6px_rgba(163,185,230,0.45),-2px_-2px_6px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(239,68,68,0.3)] border border-white/70"
+                }
               `}
             >
               <LogOut size={16} />

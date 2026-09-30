@@ -2,17 +2,60 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ── Light mode tokens ───────────────────────────────────────────── */
 :root {
-  --background: #7aa7ff;
-  --page-background: linear-gradient(283deg, #7aa7ff 0%, #ffffff 22%, #ffffff 100%);
+  /* The reference color used for the sliding indicator background */
+  --background: #dce8ff;
+
+  /* Sidebar palette extracted from the reference photo */
+  --sidebar-bg:            #0b1730;
+  --sidebar-bg-header:     #0d1e38;
+  --sidebar-rail-bg:       #091526;
+  --sidebar-border:        rgba(255,255,255,0.07);
+  --sidebar-text:          #e2e8f0;
+  --sidebar-muted:         #8fa3c0;
+  --sidebar-hover-bg:      rgba(255,255,255,0.07);
+  --sidebar-active-icon:   #6ea6ff;
+  --sidebar-active-label:  #6ea6ff;
+  --sidebar-accent:        #3b7ef8;
+  --sidebar-indicator:     #dce8ff;  /* blends with light mode page bg */
+
+  /* Foreground text */
   --foreground: #0f172a;
+
+  /* ── Neomorphic design tokens (light mode) ────────────────────── */
+  --neo-bg:            #dce8ff;
+  --neo-surface:       #e4eeff;
+  --neo-shadow-light:  rgba(255,255,255,0.90);
+  --neo-shadow-dark:   rgba(163,185,230,0.60);
+  --neo-shadow-out:    8px 8px 20px var(--neo-shadow-dark), -8px -8px 20px var(--neo-shadow-light);
+  --neo-shadow-in:     inset 4px 4px 10px var(--neo-shadow-dark), inset -4px -4px 10px var(--neo-shadow-light);
+  --neo-shadow-sm:     4px 4px 10px var(--neo-shadow-dark), -4px -4px 10px var(--neo-shadow-light);
+  --neo-border:        rgba(163,185,230,0.35);
+  --neo-text:          #1e3a5f;
+  --neo-muted:         #4a6fa5;
+  --neo-subtle:        #6b8cba;
+  --neo-accent:        #3b7ef8;
+  --neo-accent-glow:   rgba(59,126,248,0.25);
 }
 
 :root.dark,
 :root[data-theme="dark"] {
   --background: #00002b;
-  --page-background: radial-gradient(circle, rgba(0, 0, 43, 1) 21%, rgba(19, 19, 112, 1) 49%, rgba(0, 0, 0, 1) 100%);
   --foreground: #f1f5f9;
+
+  /* Sidebar in dark mode keeps original slate-900 palette */
+  --sidebar-bg:            #0f172a;
+  --sidebar-bg-header:     #0f172a;
+  --sidebar-rail-bg:       #0a0f1e;
+  --sidebar-border:        rgba(255,255,255,0.06);
+  --sidebar-text:          #e2e8f0;
+  --sidebar-muted:         #64748b;
+  --sidebar-hover-bg:      rgba(51,65,85,0.5);
+  --sidebar-active-icon:   #818cf8;
+  --sidebar-active-label:  #818cf8;
+  --sidebar-accent:        #6366f1;
+  --sidebar-indicator:     #00002b;  /* blends with dark mode page bg */
 }
 
 @theme inline {
@@ -22,23 +65,46 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* ── Animated light-mode gradient background ─────────────────────── */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  25%  { background-position: 50% 0%; }
+  50%  { background-position: 100% 50%; }
+  75%  { background-position: 50% 100%; }
+  100% { background-position: 0% 50%; }
+}
+
 body {
-  background: var(--page-background);
+  background: #c8dcff;
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(180,210,255,0.95) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%, rgba(210,195,255,0.80) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(180,225,255,0.85) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 90%, rgba(200,220,255,0.75) 0%, transparent 45%),
+    radial-gradient(ellipse at 90% 70%, rgba(220,200,255,0.70) 0%, transparent 45%),
+    linear-gradient(135deg, #b8d4ff 0%, #d4c8ff 30%, #b8e0ff 60%, #c0d8ff 100%);
+  background-size: 300% 300%;
   background-attachment: fixed;
+  animation: gradientShift 18s ease infinite;
   color: var(--foreground);
   font-family: var(--font-sans), var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   letter-spacing: -0.015em;
-  transition: background 0.25s ease, color 0.25s ease;
+  transition: color 0.25s ease;
 }
 
-/* Dark mode body background is now handled automatically via --page-background CSS variable */
+:root.dark body,
+:root[data-theme="dark"] body {
+  background: #00002b;
+  background-image: radial-gradient(circle, rgba(0,0,43,1) 21%, rgba(19,19,112,1) 49%, rgba(0,0,0,1) 100%);
+  background-size: 100% 100%;
+  background-attachment: fixed;
+  animation: none;
+}
 
 .app-page-background {
-  background: var(--page-background);
+  background: transparent;
   background-attachment: fixed;
 }
-
-/* Dark mode .app-page-background is handled automatically via --page-background CSS variable */
 
 /* ── Sidebar utilities ─────────────────────────────────────────── */
 
@@ -57,6 +123,208 @@ body {
 [data-sidebar-fillet] {
   overflow: visible;
   pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   NEOMORPHIC LIGHT MODE DESIGN SYSTEM
+   All classes are prefixed with .neo- and only apply outside .dark
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Neomorphic surface cards ──────────────────────────────────── */
+.neo-card {
+  background: var(--neo-surface);
+  border: 1px solid var(--neo-border);
+  border-radius: 1.5rem;
+  box-shadow: var(--neo-shadow-out);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.neo-card:hover {
+  box-shadow: 12px 12px 28px var(--neo-shadow-dark), -12px -12px 28px var(--neo-shadow-light);
+  transform: translateY(-2px);
+}
+
+/* Inset / pressed state */
+.neo-inset {
+  background: var(--neo-bg);
+  border: 1px solid var(--neo-border);
+  border-radius: 1rem;
+  box-shadow: var(--neo-shadow-in);
+}
+
+/* Small shadow variant */
+.neo-card-sm {
+  background: var(--neo-surface);
+  border: 1px solid var(--neo-border);
+  border-radius: 1rem;
+  box-shadow: var(--neo-shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.neo-card-sm:hover {
+  box-shadow: 6px 6px 14px var(--neo-shadow-dark), -6px -6px 14px var(--neo-shadow-light);
+  transform: translateY(-1px);
+}
+
+/* ── Neomorphic buttons ────────────────────────────────────────── */
+.neo-button {
+  background: var(--neo-surface);
+  border: 1px solid var(--neo-border);
+  border-radius: 0.9rem;
+  box-shadow: var(--neo-shadow-sm);
+  color: var(--neo-text);
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.68rem 1rem;
+  transition: box-shadow 0.18s ease, transform 0.18s ease, background 0.18s ease;
+}
+.neo-button:hover {
+  box-shadow: 6px 6px 14px var(--neo-shadow-dark), -6px -6px 14px var(--neo-shadow-light);
+  transform: translateY(-1px);
+}
+.neo-button:active {
+  box-shadow: var(--neo-shadow-in);
+  transform: translateY(0);
+}
+
+/* Primary accent button */
+.neo-button-primary {
+  background: linear-gradient(135deg, #4a8eff 0%, #2563eb 100%);
+  border: none;
+  border-radius: 0.9rem;
+  box-shadow: 4px 4px 12px rgba(37,99,235,0.35), -2px -2px 8px rgba(255,255,255,0.5);
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.68rem 1rem;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+.neo-button-primary:hover {
+  box-shadow: 6px 6px 16px rgba(37,99,235,0.45), -2px -2px 8px rgba(255,255,255,0.5);
+  transform: translateY(-1px);
+}
+.neo-button-primary:active {
+  box-shadow: inset 3px 3px 8px rgba(37,99,235,0.5);
+  transform: translateY(0);
+}
+
+/* ── Neomorphic inputs ─────────────────────────────────────────── */
+.neo-input {
+  background: var(--neo-bg);
+  border: 1px solid rgba(163,185,230,0.45);
+  border-radius: 0.9rem;
+  box-shadow: var(--neo-shadow-in);
+  color: var(--neo-text);
+  outline: none;
+  padding: 0.68rem 0.9rem;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  width: 100%;
+}
+.neo-input::placeholder {
+  color: var(--neo-subtle);
+}
+.neo-input:focus {
+  border-color: var(--neo-accent);
+  box-shadow: var(--neo-shadow-in), 0 0 0 3px var(--neo-accent-glow);
+}
+
+/* ── Neomorphic badge / pill ───────────────────────────────────── */
+.neo-badge {
+  background: linear-gradient(135deg, #4a8eff 0%, #2563eb 100%);
+  border-radius: 999px;
+  box-shadow: 2px 2px 6px rgba(37,99,235,0.35);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+}
+
+/* ── Apply neomorphic style to ops / analytics surfaces in light mode ── */
+:root:not(.dark):not([data-theme="dark"]) .ops-card,
+:root:not(.dark):not([data-theme="dark"]) .ops-modal-card {
+  background: var(--neo-surface) !important;
+  border: 1px solid var(--neo-border) !important;
+  box-shadow: var(--neo-shadow-out) !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .analytics-card,
+:root:not(.dark):not([data-theme="dark"]) .analytics-summary-card {
+  background: var(--neo-surface) !important;
+  border: 1px solid var(--neo-border) !important;
+  box-shadow: var(--neo-shadow-out) !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .ops-input,
+:root:not(.dark):not([data-theme="dark"]) .ops-textarea {
+  background: var(--neo-bg) !important;
+  border-color: rgba(163,185,230,0.45) !important;
+  box-shadow: var(--neo-shadow-in) !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .ops-input:focus,
+:root:not(.dark):not([data-theme="dark"]) .ops-textarea:focus {
+  border-color: var(--neo-accent) !important;
+  box-shadow: var(--neo-shadow-in), 0 0 0 3px var(--neo-accent-glow) !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .ops-action-button {
+  background: linear-gradient(135deg, #4a8eff 0%, #2563eb 100%) !important;
+  box-shadow: 4px 4px 12px rgba(37,99,235,0.35), -2px -2px 8px rgba(255,255,255,0.5) !important;
+  border: none !important;
+}
+:root:not(.dark):not([data-theme="dark"]) .ops-action-button:hover {
+  box-shadow: 6px 6px 16px rgba(37,99,235,0.45), -2px -2px 8px rgba(255,255,255,0.5) !important;
+  transform: translateY(-1px);
+}
+
+:root:not(.dark):not([data-theme="dark"]) .ops-secondary-button,
+:root:not(.dark):not([data-theme="dark"]) .ops-show-more-button {
+  background: var(--neo-surface) !important;
+  border-color: var(--neo-border) !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+}
+:root:not(.dark):not([data-theme="dark"]) .ops-secondary-button:hover,
+:root:not(.dark):not([data-theme="dark"]) .ops-show-more-button:hover {
+  box-shadow: 6px 6px 14px var(--neo-shadow-dark), -6px -6px 14px var(--neo-shadow-light) !important;
+  transform: translateY(-1px);
+}
+
+:root:not(.dark):not([data-theme="dark"]) .ops-icon-button {
+  background: var(--neo-surface) !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .ops-eyebrow,
+:root:not(.dark):not([data-theme="dark"]) .analytics-eyebrow {
+  background: var(--neo-surface) !important;
+  border-color: var(--neo-border) !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+}
+
+/* Light mode neomorphic overrides for operations-page surface tokens */
+:root:not(.dark):not([data-theme="dark"]) .operations-page {
+  --ops-surface:      var(--neo-surface);
+  --ops-surface-muted: rgba(196,214,255,0.55);
+  --ops-surface-soft:  rgba(220,232,255,0.90);
+  --ops-hover:         rgba(196,214,255,0.70);
+  --ops-border:        var(--neo-border);
+  --ops-border-soft:   rgba(163,185,230,0.25);
+  --ops-shadow:        var(--neo-shadow-sm);
+  --ops-shadow-hover:  12px 12px 28px var(--neo-shadow-dark), -12px -12px 28px var(--neo-shadow-light);
+  --ops-text:          var(--neo-text);
+  --ops-muted:         var(--neo-muted);
+  --ops-subtle:        var(--neo-subtle);
+}
+
+:root:not(.dark):not([data-theme="dark"]) .analytics-page {
+  --analytics-surface:       var(--neo-surface);
+  --analytics-surface-raised: rgba(228,238,255,0.85);
+  --analytics-surface-muted:  rgba(196,214,255,0.50);
+  --analytics-text:           var(--neo-text);
+  --analytics-muted:          var(--neo-muted);
+  --analytics-subtle:         var(--neo-subtle);
+  --analytics-border:         var(--neo-border);
+  --analytics-border-soft:    rgba(163,185,230,0.25);
+  --analytics-shadow:         var(--neo-shadow-sm);
+  --analytics-shadow-hover:   12px 12px 28px var(--neo-shadow-dark), -12px -12px 28px var(--neo-shadow-light);
 }
 
 /* ── Analytics page design tokens ───────────────────────────────── */
