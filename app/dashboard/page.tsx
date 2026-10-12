@@ -19,6 +19,25 @@ import {
     AlertTriangle
 } from "lucide-react";
 import { fmtCurrency } from "@/lib/format";
+
+/** Compact currency formatter — abbreviates large numbers so they fit in cards */
+function fmtCompact(value: number): string {
+    const abs = Math.abs(value);
+    const sign = value < 0 ? "-" : "";
+    if (abs >= 1_000_000_000) {
+        const n = abs / 1_000_000_000;
+        return `${sign}${n % 1 === 0 ? n.toFixed(0) : n.toFixed(1)}B Rwf`;
+    }
+    if (abs >= 1_000_000) {
+        const n = abs / 1_000_000;
+        return `${sign}${n % 1 === 0 ? n.toFixed(0) : n.toFixed(1)}M Rwf`;
+    }
+    if (abs >= 10_000) {
+        const n = abs / 1_000;
+        return `${sign}${n % 1 === 0 ? n.toFixed(0) : n.toFixed(1)}K Rwf`;
+    }
+    return fmtCurrency(value);
+}
 import DashboardChart from "@/app/components/DashboardChart";
 import DashboardLists from "@/app/components/DashboardLists";
 import DashboardExpensesChart from "@/app/components/DashboardExpensesChart";
@@ -104,14 +123,14 @@ function StatCard({ icon, label, subtext, amount, color, badgeText, isLoading }:
             <div className={`absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl ${c.glow} rounded-full blur-2xl pointer-events-none transition-all duration-500 group-hover:scale-125`}></div>
 
             {/* Top Row: Icon & Status Badge */}
-            <div className="flex items-center justify-between gap-2 relative z-10">
+            <div className="flex items-start justify-between gap-1.5 relative z-10">
                 <div className={`p-2.5 rounded-2xl border shadow-xs transition-transform duration-300 group-hover:scale-105 shrink-0 ${c.iconBox}`}>
                     {icon}
                 </div>
                 {badgeText && (
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider border flex items-center gap-1.5 shrink-0 ${c.badge}`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${c.dot} animate-pulse`}></span>
-                        {badgeText}
+                    <span className={`px-2 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wide border flex items-center gap-1 shrink-0 max-w-[7rem] text-center leading-tight ${c.badge}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${c.dot} animate-pulse shrink-0`}></span>
+                        <span className="truncate">{badgeText}</span>
                     </span>
                 )}
             </div>
@@ -125,8 +144,17 @@ function StatCard({ icon, label, subtext, amount, color, badgeText, isLoading }:
                     {isLoading ? (
                         <div className="h-8 bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse w-3/4"></div>
                     ) : (
-                        <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-tight truncate">
-                            {fmtCurrency(amount)}
+                        <p
+                            className={`font-black text-slate-900 dark:text-white tracking-tight leading-tight ${
+                                fmtCompact(amount).length > 12
+                                    ? "text-base"
+                                    : fmtCompact(amount).length > 9
+                                    ? "text-lg"
+                                    : "text-xl sm:text-2xl"
+                            }`}
+                            title={fmtCurrency(amount)}
+                        >
+                            {fmtCompact(amount)}
                         </p>
                     )}
                 </div>

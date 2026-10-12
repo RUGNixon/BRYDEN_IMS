@@ -122,7 +122,7 @@ export default function TaxBreakdownModal({
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-slate-900/60 backdrop-blur-md transition-all animate-in fade-in duration-200">
-            <div className="glass-card bg-white dark:bg-slate-900 w-full max-w-5xl rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col max-h-[90vh] my-auto">
+            <div className="glass-card ops-modal-card bg-white dark:bg-slate-900 w-full max-w-5xl rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col max-h-[90vh] my-auto">
 
                 {/* ── Modal Header ── */}
                 <div className="px-6 py-5 bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white flex items-center justify-between border-b border-slate-700/50">
@@ -222,7 +222,7 @@ export default function TaxBreakdownModal({
                             </div>
 
                             {/* Itemized Sales Table */}
-                            <div className="border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm">
+                            <div className="glass-card neo-card-sm border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm">
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left border-collapse">
                                         <thead>
@@ -326,7 +326,7 @@ export default function TaxBreakdownModal({
                             </div>
 
                             {/* P&L Tax Reconciliation Step-by-Step */}
-                            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                            <div className="glass-card neo-card-sm bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
                                 <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                                     <Layers size={18} className="text-emerald-600" /> CIT Tax Calculation Reconciliation
                                 </h3>
@@ -392,7 +392,7 @@ export default function TaxBreakdownModal({
                             </div>
 
                             {/* Turnover Bracket Table */}
-                            <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm p-6">
+                            <div className="glass-card neo-card-sm bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm p-6">
                                 <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                                     <ShieldCheck size={18} className="text-amber-600" /> Trading Licence (Patente) Fee Scale
                                 </h3>
@@ -409,32 +409,32 @@ export default function TaxBreakdownModal({
                                         <tbody className="divide-y divide-slate-100">
                                             <tr className={data.patente.annualFee === 40 ? "bg-amber-50/70 font-semibold text-amber-950" : ""}>
                                                 <td className="py-3 px-4">Tier 1 (Micro)</td>
-                                                <td className="py-3 px-4">Up to $2,000 / year</td>
-                                                <td className="py-3 px-4 text-right">$40.00</td>
+                                                <td className="py-3 px-4">Up to 2,000 Rwf / year</td>
+                                                <td className="py-3 px-4 text-right">40 Rwf</td>
                                                 <td className="py-3 px-4 text-center">
                                                     {data.patente.annualFee === 40 && <span className="px-2.5 py-0.5 bg-amber-200 text-amber-900 rounded-full text-xs font-bold">Active Tier</span>}
                                                 </td>
                                             </tr>
                                             <tr className={data.patente.annualFee === 100 ? "bg-amber-50/70 font-semibold text-amber-950" : ""}>
                                                 <td className="py-3 px-4">Tier 2 (Standard)</td>
-                                                <td className="py-3 px-4">$2,001 – $10,000 / year</td>
-                                                <td className="py-3 px-4 text-right">$100.00</td>
+                                                <td className="py-3 px-4">2,001 – 10,000 Rwf / year</td>
+                                                <td className="py-3 px-4 text-right">100 Rwf</td>
                                                 <td className="py-3 px-4 text-center">
                                                     {data.patente.annualFee === 100 && <span className="px-2.5 py-0.5 bg-amber-200 text-amber-900 rounded-full text-xs font-bold">Active Tier</span>}
                                                 </td>
                                             </tr>
                                             <tr className={data.patente.annualFee === 250 ? "bg-amber-50/70 font-semibold text-amber-950" : ""}>
                                                 <td className="py-3 px-4">Tier 3 (Medium)</td>
-                                                <td className="py-3 px-4">$10,001 – $50,000 / year</td>
-                                                <td className="py-3 px-4 text-right">$250.00</td>
+                                                <td className="py-3 px-4">10,001 – 50,000 Rwf / year</td>
+                                                <td className="py-3 px-4 text-right">250 Rwf</td>
                                                 <td className="py-3 px-4 text-center">
                                                     {data.patente.annualFee === 250 && <span className="px-2.5 py-0.5 bg-amber-200 text-amber-900 rounded-full text-xs font-bold">Active Tier</span>}
                                                 </td>
                                             </tr>
                                             <tr className={data.patente.annualFee === 500 ? "bg-amber-50/70 font-semibold text-amber-950" : ""}>
                                                 <td className="py-3 px-4">Tier 4 (Large)</td>
-                                                <td className="py-3 px-4">Above $50,000 / year</td>
-                                                <td className="py-3 px-4 text-right">$500.00</td>
+                                                <td className="py-3 px-4">Above 50,000 Rwf / year</td>
+                                                <td className="py-3 px-4 text-right">500 Rwf</td>
                                                 <td className="py-3 px-4 text-center">
                                                     {data.patente.annualFee === 500 && <span className="px-2.5 py-0.5 bg-amber-200 text-amber-900 rounded-full text-xs font-bold">Active Tier</span>}
                                                 </td>
@@ -470,7 +470,7 @@ export default function TaxBreakdownModal({
                             </div>
 
                             {/* Progressive PAYE Tax Scale */}
-                            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                            <div className="glass-card neo-card-sm bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
                                 <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                                     <DollarSign size={18} className="text-cyan-600" /> PAYE Progressive Income Tax Scale
                                 </h3>
@@ -487,13 +487,13 @@ export default function TaxBreakdownModal({
                                         <tbody className="divide-y divide-slate-100 font-medium">
                                             <tr>
                                                 <td className="py-3 px-4">Band 1 (Tax Free)</td>
-                                                <td className="py-3 px-4">Up to $600.00</td>
+                                                <td className="py-3 px-4">Up to 600 Rwf</td>
                                                 <td className="py-3 px-4 text-right text-emerald-600 font-bold">0%</td>
-                                                <td className="py-3 px-4 text-right text-slate-500">$0.00</td>
+                                                <td className="py-3 px-4 text-right text-slate-500">0 Rwf</td>
                                             </tr>
                                             <tr>
                                                 <td className="py-3 px-4">Band 2 (Standard)</td>
-                                                <td className="py-3 px-4">$600.01 – $1,000.00</td>
+                                                <td className="py-3 px-4">600.01 – 1,000 Rwf</td>
                                                 <td className="py-3 px-4 text-right text-cyan-600 font-bold">20%</td>
                                                 <td className="py-3 px-4 text-right text-slate-900 font-semibold">
                                                     {fmtCurrency(data.paye.estimatedPayroll > 600 ? Math.min(400, data.paye.estimatedPayroll - 600) * 0.20 : 0)}
@@ -501,7 +501,7 @@ export default function TaxBreakdownModal({
                                             </tr>
                                             <tr>
                                                 <td className="py-3 px-4">Band 3 (Upper)</td>
-                                                <td className="py-3 px-4">Above $1,000.00</td>
+                                                <td className="py-3 px-4">Above 1,000 Rwf</td>
                                                 <td className="py-3 px-4 text-right text-blue-600 font-bold">30%</td>
                                                 <td className="py-3 px-4 text-right text-slate-900 font-semibold">
                                                     {fmtCurrency(data.paye.estimatedPayroll > 1000 ? (data.paye.estimatedPayroll - 1000) * 0.30 : 0)}

@@ -59,7 +59,7 @@ export default function AddProductModal({ isOpen, onClose, onSuccess, showToast 
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm transition-all">
-            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="glass-card ops-modal-card bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                 <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                     <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2">
                         <PackagePlus size={20} className="text-purple-500" /> Add New Product
@@ -120,7 +120,7 @@ export default function AddProductModal({ isOpen, onClose, onSuccess, showToast 
                             />
                         </div>
                         <div className="space-y-2">
-                            <label htmlFor="purchasePrice" className="text-sm font-medium text-slate-700">Purchase Price ($) <span className="text-red-400">*</span></label>
+                            <label htmlFor="purchasePrice" className="text-sm font-medium text-slate-700">Purchase Price (Rwf) <span className="text-red-400">*</span></label>
                             <input
                                 id="purchasePrice"
                                 type="number"
@@ -134,7 +134,7 @@ export default function AddProductModal({ isOpen, onClose, onSuccess, showToast 
                             />
                         </div>
                         <div className="space-y-2">
-                            <label htmlFor="sellingPrice" className="text-sm font-medium text-slate-700">Selling Price ($) <span className="text-red-400">*</span></label>
+                            <label htmlFor="sellingPrice" className="text-sm font-medium text-slate-700">Selling Price (Rwf) <span className="text-red-400">*</span></label>
                             <input
                                 id="sellingPrice"
                                 type="number"

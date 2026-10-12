@@ -617,7 +617,7 @@ export default function ExpensesPage() {
             {/* ── Record Expense Modal ── */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-950/65 backdrop-blur-md animate-in fade-in duration-200">
-                    <div className="glass-card w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[92vh] animate-in zoom-in-95 duration-200">
+                    <div className="glass-card ops-modal-card w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[92vh] animate-in zoom-in-95 duration-200">
                         {/* Modal Header */}
                         <div className="px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50 shrink-0">
                             <div className="flex items-center gap-3">
@@ -704,7 +704,7 @@ export default function ExpensesPage() {
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                                        Amount Paid ($) <span className="text-rose-500">*</span>
+                                        Amount Paid (Rwf) <span className="text-rose-500">*</span>
                                     </label>
                                     <input
                                         type="number"
@@ -765,7 +765,7 @@ export default function ExpensesPage() {
                                     disabled={isSubmitting}
                                     className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-400 hover:to-pink-500 text-white font-extrabold text-sm shadow-md disabled:opacity-60 disabled:cursor-not-allowed transition-all cursor-pointer"
                                 >
-                                    {isSubmitting ? "Saving..." : `Record Outflow (${amount ? fmtCurrency(parseFloat(amount) || 0) : "$0.00"})`}
+                                    {isSubmitting ? "Saving..." : `Record Outflow (${fmtCurrency(parseFloat(amount) || 0)})`}
                                 </button>
                             </div>
                         </form>

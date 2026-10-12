@@ -414,7 +414,7 @@ export default function CalendarPage() {
                     </div>
 
                     {/* Quick links */}
-                    <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5">
+                    <div className="glass-card bg-white rounded-3xl border border-slate-200 shadow-sm p-5">
                         <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Quick Links</h2>
                         <div className="flex flex-col gap-2">
                             <Link

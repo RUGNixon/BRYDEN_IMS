@@ -82,7 +82,7 @@ function SaleItemRow({
                     <label className="text-sm font-medium text-slate-700">Product Name <span className="text-red-400">*</span></label>
                     <input required autoComplete="off" value={item.productName} onChange={(e) => onChange(item.id, "productName", e.target.value)} onFocus={() => item.productName.trim() && setShowSuggestions(true)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-slate-900" placeholder="Type product name..." />
                     {showSuggestions && suggestions.length > 0 && (
-                        <div ref={suggestionRef} className="absolute z-10 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-48 overflow-y-auto">
+                        <div ref={suggestionRef} className="glass-card ops-suggestion-panel absolute z-10 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-48 overflow-y-auto">
                             {suggestions.map((p) => (
                                 <div key={p.id} onClick={() => handleSelectProduct(p)} className="px-4 py-2 hover:bg-slate-50 cursor-pointer flex flex-col border-b border-slate-50 last:border-0">
                                     <span className="font-medium text-slate-900">{p.name}</span>
@@ -101,7 +101,7 @@ function SaleItemRow({
                     <input type="number" min="1" required value={item.quantity} onChange={(e) => onChange(item.id, "quantity", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-slate-900" placeholder="0" />
                 </div>
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700">Selling Price / Unit ($) <span className="text-red-400">*</span></label>
+                    <label className="text-sm font-medium text-slate-700">Selling Price / Unit (Rwf) <span className="text-red-400">*</span></label>
                     <input type="number" min="0" step="0.01" required value={item.sellingPrice} onChange={(e) => onChange(item.id, "sellingPrice", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-slate-900" placeholder="0.00" />
                 </div>
             </div>
@@ -207,7 +207,7 @@ export default function RecordSaleModal({ isOpen, onClose, onSuccess, initialIsO
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col">
+            <div className="glass-card ops-modal-card bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col">
                 <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
                     <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2">
                         <ShoppingCart size={20} className="text-emerald-500" />

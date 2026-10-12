@@ -57,11 +57,11 @@ function PurchaseItemRow({
                     <input type="number" min="1" required value={item.quantity} onChange={(e) => onChange(item.id, "quantity", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-900" placeholder="0" />
                 </div>
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700">Purchase Price / Unit ($) <span className="text-red-400">*</span></label>
+                    <label className="text-sm font-medium text-slate-700">Purchase Price / Unit (Rwf) <span className="text-red-400">*</span></label>
                     <input type="number" min="0" step="0.01" required value={item.purchasePrice} onChange={(e) => onChange(item.id, "purchasePrice", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-900" placeholder="0.00" />
                 </div>
                 <div className="space-y-1.5 md:col-span-2">
-                    <label className="text-sm font-medium text-slate-700">Selling Price / Unit ($) <span className="text-slate-400 font-normal text-xs">(optional)</span></label>
+                    <label className="text-sm font-medium text-slate-700">Selling Price / Unit (Rwf) <span className="text-slate-400 font-normal text-xs">(optional)</span></label>
                     <input type="number" min="0" step="0.01" value={item.sellingPrice} onChange={(e) => onChange(item.id, "sellingPrice", e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-900" placeholder="0.00" />
                 </div>
 
@@ -165,7 +165,7 @@ export default function RecordPurchaseModal({ isOpen, onClose, onSuccess, showTo
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col">
+            <div className="glass-card ops-modal-card bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col">
                 <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
                     <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2">
                         <Truck size={20} className="text-indigo-500" /> Record Supplier Purchase

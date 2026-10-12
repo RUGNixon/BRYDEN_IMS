@@ -136,7 +136,7 @@ function PurchaseItemRow({
                 </div>
                 <div className="space-y-1.5">
                     <label className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Purchase Cost / Unit ($) <span className="text-rose-500">*</span>
+                        Purchase Cost / Unit (Rwf) <span className="text-rose-500">*</span>
                     </label>
                     <input
                         type="number"
@@ -151,7 +151,7 @@ function PurchaseItemRow({
                 </div>
                 <div className="space-y-1.5 md:col-span-2">
                     <label className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Target Selling Price / Unit ($) <span className="text-xs font-normal text-slate-400">(optional - auto updates catalogue)</span>
+                        Target Selling Price / Unit (Rwf) <span className="text-xs font-normal text-slate-400">(optional - auto updates catalogue)</span>
                     </label>
                     <input
                         type="number"
@@ -737,7 +737,7 @@ export default function PurchasePage() {
             {/* ── Record Purchase Modal ── */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-200">
-                    <div className="glass-card bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
+                    <div className="glass-card ops-modal-card bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
                         <div className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/70 dark:bg-slate-800/40 shrink-0">
                             <div className="flex items-center gap-3">
                                 <div className="p-2.5 rounded-2xl bg-sky-50 dark:bg-sky-950 text-sky-600 dark:text-sky-400 border border-sky-100 dark:border-sky-900/50">

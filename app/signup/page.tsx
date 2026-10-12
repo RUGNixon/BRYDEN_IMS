@@ -79,7 +79,7 @@ export default function SignUpPage() {
             {/* Main Split-Screen Container */}
             <div className="flex-1 flex flex-col lg:flex-row items-stretch w-full max-w-7xl mx-auto px-4 sm:px-8 py-8 sm:py-12 gap-8 lg:gap-12 relative z-20">
                 {/* LEFT SHOWCASE PANEL (Desktop & Tablet) */}
-                <div className="hidden lg:flex flex-1 flex-col justify-between p-8 xl:p-12 rounded-3xl bg-gradient-to-br from-indigo-950/20 via-slate-900/30 to-indigo-900/10 border border-slate-200/80 dark:border-slate-800/80 relative overflow-hidden backdrop-blur-xl">
+                <div className="glass-card neo-card hidden lg:flex flex-1 flex-col justify-between p-8 xl:p-12 rounded-3xl bg-gradient-to-br from-indigo-950/20 via-slate-900/30 to-indigo-900/10 border border-slate-200/80 dark:border-slate-800/80 relative overflow-hidden backdrop-blur-xl">
                     <div className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" />
                     <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -98,7 +98,7 @@ export default function SignUpPage() {
                         </p>
 
                         <div className="space-y-3 pt-2">
-                            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80">
+                            <div className="glass-card neo-card-sm flex items-center gap-3 p-3.5 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80">
                                 <div className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400">
                                     <Shield size={18} />
                                 </div>
@@ -112,7 +112,7 @@ export default function SignUpPage() {
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80">
+                            <div className="glass-card neo-card-sm flex items-center gap-3 p-3.5 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80">
                                 <div className="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400">
                                     <Boxes size={18} />
                                 </div>

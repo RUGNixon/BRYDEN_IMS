@@ -252,7 +252,7 @@ export default function NotesPage() {
             {/* ── Confirm Delete Dialog ── */}
             {confirmNote && (
                 <div className="fixed inset-0 z-[150] flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 p-8 max-w-md w-full mx-4 animate-in zoom-in-95 duration-200">
+                    <div className="glass-card ops-modal-card bg-white rounded-3xl shadow-2xl border border-slate-200 p-8 max-w-md w-full mx-4 animate-in zoom-in-95 duration-200">
                         <div className="flex flex-col items-center text-center gap-4">
                             <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center">
                                 <AlertTriangle size={28} className="text-red-500" />
@@ -333,7 +333,7 @@ export default function NotesPage() {
 
             {/* ── New Note Form ── */}
             {showForm && (
-                <div className="bg-white rounded-3xl border border-orange-200 shadow-lg overflow-hidden animate-in slide-in-from-top-4 fade-in duration-300">
+                <div className="glass-card bg-white rounded-3xl border border-orange-200 shadow-lg overflow-hidden animate-in slide-in-from-top-4 fade-in duration-300">
                     <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-orange-50/50">
                         <div className="flex items-center gap-2">
                             <StickyNote size={18} className="text-orange-500" />
@@ -422,7 +422,7 @@ export default function NotesPage() {
                     ))}
                 </div>
             ) : notes.length === 0 ? (
-                <div className="bg-white rounded-3xl border border-slate-200 p-16 flex flex-col items-center justify-center text-center shadow-sm">
+                <div className="glass-card bg-white rounded-3xl border border-slate-200 p-16 flex flex-col items-center justify-center text-center shadow-sm">
                     <StickyNote size={48} className="text-slate-200 mb-4" />
                     <h3 className="text-lg font-bold text-slate-500">No notes yet</h3>
                     <p className="text-slate-400 text-sm mt-1">Click &ldquo;New Note&rdquo; to get started.</p>

@@ -108,11 +108,11 @@ export default function AnalyticsProfitsChart() {
 
     const formatYAxis = (value: number) => {
         const absValue = Math.abs(value);
-        let formatted = `$${absValue}`;
+        let formatted = `${absValue} Rwf`;
         if (absValue >= 1000000) {
-            formatted = `$${(absValue / 1000000).toFixed(1)}M`;
+            formatted = `${(absValue / 1000000).toFixed(1)}M Rwf`;
         } else if (absValue >= 1000) {
-            formatted = `$${(absValue / 1000).toFixed(0)}k`;
+            formatted = `${(absValue / 1000).toFixed(0)}k Rwf`;
         }
         return value < 0 ? `-${formatted}` : formatted;
     };

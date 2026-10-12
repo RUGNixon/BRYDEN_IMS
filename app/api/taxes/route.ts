@@ -102,7 +102,7 @@ export async function GET(req: NextRequest) {
 
         const totalPayroll = payrollExpenses.length > 0 
             ? payrollExpenses.reduce((sum, e) => sum + Number(e.amount), 0)
-            : Math.max(1500, totalExpensesAmount * 0.4); // Estimate ~40% of expenses or baseline $1,500
+            : Math.max(1500, totalExpensesAmount * 0.4); // Estimate ~40% of expenses or baseline 1,500 Rwf
 
         // Calculate progressive PAYE
         let payeTotal = 0;

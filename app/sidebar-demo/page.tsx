@@ -108,7 +108,7 @@ export default function SidebarDemoPage() {
         {/* Content Pane Simulating Host App */}
         <main className="flex-1 flex flex-col gap-6 min-w-0">
           {/* Active State Details Card */}
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl">
+          <div className="glass-card neo-card bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl">
             <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10">
               <div className="flex items-center gap-4">
                 <div
@@ -233,7 +233,7 @@ export default function SidebarDemoPage() {
 
           {/* Sample App Content Display */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 shadow-xl">
+            <div className="glass-card neo-card bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 shadow-xl">
               <h3 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
                 <LayoutGrid size={16} className="text-[#C5A059]" />
                 <span>Active Screen Metric Simulation</span>
@@ -253,7 +253,7 @@ export default function SidebarDemoPage() {
               </div>
             </div>
 
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 shadow-xl flex flex-col justify-between">
+            <div className="glass-card neo-card bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 shadow-xl flex flex-col justify-between">
               <div>
                 <h3 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
                   <Eye size={16} className="text-[#C5A059]" />

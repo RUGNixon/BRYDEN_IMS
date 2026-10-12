@@ -176,7 +176,7 @@ export default function AuthCard({ initialMode = "signin" }: AuthCardProps) {
             <div className="absolute -bottom-12 -right-12 w-64 h-64 bg-emerald-500/10 dark:bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
 
             {/* Main Auth Card */}
-            <div className="relative rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-2xl shadow-slate-900/5 dark:shadow-black/40 overflow-hidden transition-all duration-300">
+            <div className="glass-card ops-modal-card relative rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-2xl shadow-slate-900/5 dark:shadow-black/40 overflow-hidden transition-all duration-300">
                 {/* Top Subtle Gradient Stripe */}
                 <div className="h-1.5 w-full bg-gradient-to-r from-indigo-500 via-indigo-600 to-emerald-500" />
 
@@ -680,7 +680,7 @@ export default function AuthCard({ initialMode = "signin" }: AuthCardProps) {
             {/* ═══════════════════════════════════════════════════════════════ */}
             {showForgotModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-4">
+                    <div className="glass-card ops-modal-card w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">

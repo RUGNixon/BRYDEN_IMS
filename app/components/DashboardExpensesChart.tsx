@@ -359,7 +359,7 @@ export default function DashboardExpensesChart() {
                                     axisLine={false}
                                     tickLine={false}
                                     tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 500 }}
-                                    tickFormatter={(v) => `$${v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v}`}
+                                    tickFormatter={(v) => `${v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v} Rwf`}
                                     dx={-4}
                                 />
                                 <Tooltip

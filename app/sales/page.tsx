@@ -151,7 +151,7 @@ function SaleItemRow({
                                         <p className="text-xs text-slate-400">Size: {p.size} &bull; Category: {p.category || "General"}</p>
                                     </div>
                                     <div className="text-right">
-                                        <span className="text-xs font-extrabold text-emerald-600 dark:text-emerald-400 block">${p.sellingPrice}</span>
+                                        <span className="text-xs font-extrabold text-emerald-600 dark:text-emerald-400 block">{fmtCurrency(p.sellingPrice)}</span>
                                         <span className={`text-[10px] font-bold ${p.quantity <= 5 ? "text-amber-500" : "text-slate-400"}`}>
                                             Stock: {p.quantity}
                                         </span>
@@ -195,7 +195,7 @@ function SaleItemRow({
                 {/* Price */}
                 <div className="space-y-1.5">
                     <label className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Selling Price / Unit ($) <span className="text-rose-500">*</span>
+                        Selling Price / Unit (Rwf) <span className="text-rose-500">*</span>
                     </label>
                     <input
                         type="number"
@@ -828,7 +828,7 @@ export default function SalesPage() {
             {/* ── Record Sale Modal ── */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-200">
-                    <div className="glass-card bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
+                    <div className="glass-card ops-modal-card bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
                         <div className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/70 dark:bg-slate-800/40 shrink-0">
                             <div className="flex items-center gap-3">
                                 <div className="p-2.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/50">

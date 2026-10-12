@@ -62,7 +62,7 @@ export default function RecordExpenseModal({ isOpen, onClose, onSuccess, showToa
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+            <div className="glass-card ops-modal-card bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
                 <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 sticky top-0 z-10">
                     <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2"><ReceiptText size={20} className="text-red-500" />Record New Expense</h2>
                     <button onClick={onClose} className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-2 rounded-full transition-all"><X size={20} /></button>
@@ -97,7 +97,7 @@ export default function RecordExpenseModal({ isOpen, onClose, onSuccess, showToa
                             <input type="date" required value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-slate-900" />
                         </div>
                         <div className="space-y-1.5">
-                            <label className="text-sm font-medium text-slate-700">Amount ($) <span className="text-red-400">*</span></label>
+                            <label className="text-sm font-medium text-slate-700">Amount (Rwf) <span className="text-red-400">*</span></label>
                             <input type="number" min="0" step="0.01" required value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-slate-900 text-lg font-medium" placeholder="0.00" />
                         </div>
                         <div className="space-y-1.5">

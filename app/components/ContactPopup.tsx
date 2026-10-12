@@ -28,7 +28,7 @@ export default function ContactPopup({ name, phone, email, onClose, position }: 
 
             {/* Popup card */}
             <div
-                className="fixed z-[201] w-72 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-200 transition-colors"
+                className="glass-card ops-modal-card fixed z-[201] w-72 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-200 transition-colors"
                 style={{ left, top }}
                 onClick={(e) => e.stopPropagation()}
             >

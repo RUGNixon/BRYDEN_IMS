@@ -237,69 +237,246 @@ body {
   padding: 0.2rem 0.55rem;
 }
 
-/* ── Apply neomorphic style to ops / analytics surfaces in light mode ── */
-:root:not(.dark):not([data-theme="dark"]) .ops-card,
-:root:not(.dark):not([data-theme="dark"]) .ops-modal-card {
-  background: var(--neo-surface) !important;
-  border: 1px solid var(--neo-border) !important;
-  box-shadow: var(--neo-shadow-out) !important;
-}
+/* ═══════════════════════════════════════════════════════════════════
+   COMPREHENSIVE NEOMORPHIC LIGHT MODE SUITE
+   Strictly scoped to light mode via :root:not(.dark):not([data-theme="dark"])
+   ═══════════════════════════════════════════════════════════════════ */
 
+/* ── 1. Neomorphic Surfaces & Cards (.glass-card, .neo-card, ops & analytics) ── */
+:root:not(.dark):not([data-theme="dark"]) .glass-card,
+:root:not(.dark):not([data-theme="dark"]) .neo-card,
+:root:not(.dark):not([data-theme="dark"]) .ops-card,
+:root:not(.dark):not([data-theme="dark"]) .ops-modal-card,
+:root:not(.dark):not([data-theme="dark"]) .ops-kpi-card,
+:root:not(.dark):not([data-theme="dark"]) .ops-metric-card,
+:root:not(.dark):not([data-theme="dark"]) .ops-section-card,
+:root:not(.dark):not([data-theme="dark"]) .ops-record-card,
 :root:not(.dark):not([data-theme="dark"]) .analytics-card,
 :root:not(.dark):not([data-theme="dark"]) .analytics-summary-card {
   background: var(--neo-surface) !important;
   border: 1px solid var(--neo-border) !important;
   box-shadow: var(--neo-shadow-out) !important;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
 }
 
-:root:not(.dark):not([data-theme="dark"]) .ops-input,
-:root:not(.dark):not([data-theme="dark"]) .ops-textarea {
-  background: var(--neo-bg) !important;
-  border-color: rgba(163,185,230,0.45) !important;
-  box-shadow: var(--neo-shadow-in) !important;
+:root:not(.dark):not([data-theme="dark"]) .glass-card:hover,
+:root:not(.dark):not([data-theme="dark"]) .neo-card:hover,
+:root:not(.dark):not([data-theme="dark"]) .ops-card:hover,
+:root:not(.dark):not([data-theme="dark"]) .ops-kpi-card:hover,
+:root:not(.dark):not([data-theme="dark"]) .ops-metric-card:hover,
+:root:not(.dark):not([data-theme="dark"]) .ops-record-card:hover,
+:root:not(.dark):not([data-theme="dark"]) .analytics-card:hover,
+:root:not(.dark):not([data-theme="dark"]) .analytics-summary-card:hover {
+  box-shadow: 12px 12px 28px var(--neo-shadow-dark), -12px -12px 28px var(--neo-shadow-light) !important;
+  border-color: rgba(163, 185, 230, 0.55) !important;
+  transform: translateY(-2px);
 }
 
-:root:not(.dark):not([data-theme="dark"]) .ops-input:focus,
-:root:not(.dark):not([data-theme="dark"]) .ops-textarea:focus {
-  border-color: var(--neo-accent) !important;
-  box-shadow: var(--neo-shadow-in), 0 0 0 3px var(--neo-accent-glow) !important;
-}
-
-:root:not(.dark):not([data-theme="dark"]) .ops-action-button {
-  background: linear-gradient(135deg, #4a8eff 0%, #2563eb 100%) !important;
-  box-shadow: 4px 4px 12px rgba(37,99,235,0.35), -2px -2px 8px rgba(255,255,255,0.5) !important;
-  border: none !important;
-}
-:root:not(.dark):not([data-theme="dark"]) .ops-action-button:hover {
-  box-shadow: 6px 6px 16px rgba(37,99,235,0.45), -2px -2px 8px rgba(255,255,255,0.5) !important;
-  transform: translateY(-1px);
-}
-
-:root:not(.dark):not([data-theme="dark"]) .ops-secondary-button,
-:root:not(.dark):not([data-theme="dark"]) .ops-show-more-button {
+/* ── 2. Small Cards & Sub-surfaces ── */
+:root:not(.dark):not([data-theme="dark"]) .neo-card-sm,
+:root:not(.dark):not([data-theme="dark"]) .ops-metric-chip {
   background: var(--neo-surface) !important;
-  border-color: var(--neo-border) !important;
+  border: 1px solid var(--neo-border) !important;
   box-shadow: var(--neo-shadow-sm) !important;
 }
-:root:not(.dark):not([data-theme="dark"]) .ops-secondary-button:hover,
-:root:not(.dark):not([data-theme="dark"]) .ops-show-more-button:hover {
+:root:not(.dark):not([data-theme="dark"]) .neo-card-sm:hover,
+:root:not(.dark):not([data-theme="dark"]) .ops-metric-chip:hover {
   box-shadow: 6px 6px 14px var(--neo-shadow-dark), -6px -6px 14px var(--neo-shadow-light) !important;
   transform: translateY(-1px);
 }
 
-:root:not(.dark):not([data-theme="dark"]) .ops-icon-button {
+/* ── 3. Tactile Icon Squircle Boxes in Light Mode ── */
+:root:not(.dark):not([data-theme="dark"]) .glass-card .p-2\.5.rounded-2xl,
+:root:not(.dark):not([data-theme="dark"]) .glass-card .p-3.rounded-2xl,
+:root:not(.dark):not([data-theme="dark"]) .ops-metric-icon,
+:root:not(.dark):not([data-theme="dark"]) .ops-section-icon,
+:root:not(.dark):not([data-theme="dark"]) .analytics-summary-icon,
+:root:not(.dark):not([data-theme="dark"]) .analytics-section-icon,
+:root:not(.dark):not([data-theme="dark"]) .analytics-stock-icon {
   background: var(--neo-surface) !important;
-  box-shadow: var(--neo-shadow-sm) !important;
+  box-shadow: 3px 3px 8px var(--neo-shadow-dark), -3px -3px 8px var(--neo-shadow-light) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
 }
 
+/* ── 4. Inset / Debossed Form Inputs & Textareas ── */
+:root:not(.dark):not([data-theme="dark"]) input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+:root:not(.dark):not([data-theme="dark"]) textarea,
+:root:not(.dark):not([data-theme="dark"]) select,
+:root:not(.dark):not([data-theme="dark"]) .ops-input,
+:root:not(.dark):not([data-theme="dark"]) .ops-textarea,
+:root:not(.dark):not([data-theme="dark"]) .neo-input {
+  background: var(--neo-bg) !important;
+  border: 1px solid rgba(163, 185, 230, 0.45) !important;
+  box-shadow: var(--neo-shadow-in) !important;
+  color: var(--neo-text) !important;
+  border-radius: 0.95rem;
+}
+
+:root:not(.dark):not([data-theme="dark"]) input::placeholder,
+:root:not(.dark):not([data-theme="dark"]) textarea::placeholder {
+  color: var(--neo-subtle) !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) input:focus,
+:root:not(.dark):not([data-theme="dark"]) textarea:focus,
+:root:not(.dark):not([data-theme="dark"]) select:focus,
+:root:not(.dark):not([data-theme="dark"]) .ops-input:focus,
+:root:not(.dark):not([data-theme="dark"]) .ops-textarea:focus,
+:root:not(.dark):not([data-theme="dark"]) .neo-input:focus {
+  border-color: var(--neo-accent) !important;
+  box-shadow: var(--neo-shadow-in), 0 0 0 3px var(--neo-accent-glow) !important;
+  outline: none !important;
+}
+
+/* ── 5. Neomorphic Primary & Secondary Buttons ── */
+:root:not(.dark):not([data-theme="dark"]) .neo-button-primary,
+:root:not(.dark):not([data-theme="dark"]) .ops-action-button,
+:root:not(.dark):not([data-theme="dark"]) .ops-vibrant-btn,
+:root:not(.dark):not([data-theme="dark"]) button[id*="btn"] {
+  box-shadow: 4px 4px 12px rgba(37,99,235,0.38), -2px -2px 8px rgba(255,255,255,0.7) !important;
+  border: 1px solid rgba(255,255,255,0.35) !important;
+}
+:root:not(.dark):not([data-theme="dark"]) .neo-button-primary:hover,
+:root:not(.dark):not([data-theme="dark"]) .ops-action-button:hover,
+:root:not(.dark):not([data-theme="dark"]) .ops-vibrant-btn:hover,
+:root:not(.dark):not([data-theme="dark"]) button[id*="btn"]:hover {
+  box-shadow: 6px 6px 16px rgba(37,99,235,0.48), -3px -3px 10px rgba(255,255,255,0.85) !important;
+  transform: translateY(-1px);
+}
+:root:not(.dark):not([data-theme="dark"]) .neo-button-primary:active,
+:root:not(.dark):not([data-theme="dark"]) .ops-action-button:active,
+:root:not(.dark):not([data-theme="dark"]) .ops-vibrant-btn:active,
+:root:not(.dark):not([data-theme="dark"]) button[id*="btn"]:active {
+  box-shadow: inset 3px 3px 8px rgba(15,60,160,0.55), inset -2px -2px 6px rgba(255,255,255,0.3) !important;
+  transform: translateY(0);
+}
+
+:root:not(.dark):not([data-theme="dark"]) .neo-button,
+:root:not(.dark):not([data-theme="dark"]) .ops-secondary-button,
+:root:not(.dark):not([data-theme="dark"]) .ops-show-more-button,
+:root:not(.dark):not([data-theme="dark"]) .ops-icon-button {
+  background: var(--neo-surface) !important;
+  border: 1px solid var(--neo-border) !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+  color: var(--neo-text) !important;
+}
+:root:not(.dark):not([data-theme="dark"]) .neo-button:hover,
+:root:not(.dark):not([data-theme="dark"]) .ops-secondary-button:hover,
+:root:not(.dark):not([data-theme="dark"]) .ops-show-more-button:hover,
+:root:not(.dark):not([data-theme="dark"]) .ops-icon-button:hover {
+  box-shadow: 6px 6px 14px var(--neo-shadow-dark), -6px -6px 14px var(--neo-shadow-light) !important;
+  transform: translateY(-1px);
+}
+:root:not(.dark):not([data-theme="dark"]) .neo-button:active,
+:root:not(.dark):not([data-theme="dark"]) .ops-secondary-button:active,
+:root:not(.dark):not([data-theme="dark"]) .ops-show-more-button:active,
+:root:not(.dark):not([data-theme="dark"]) .ops-icon-button:active {
+  box-shadow: var(--neo-shadow-in) !important;
+  transform: translateY(0);
+}
+
+/* ── 6. Filter Tabs, Eyebrows & Segmented Pills ── */
 :root:not(.dark):not([data-theme="dark"]) .ops-eyebrow,
-:root:not(.dark):not([data-theme="dark"]) .analytics-eyebrow {
+:root:not(.dark):not([data-theme="dark"]) .analytics-eyebrow,
+:root:not(.dark):not([data-theme="dark"]) .analytics-range-chip {
   background: var(--neo-surface) !important;
   border-color: var(--neo-border) !important;
   box-shadow: var(--neo-shadow-sm) !important;
+  color: var(--neo-text) !important;
 }
 
-/* Light mode neomorphic overrides for operations-page surface tokens */
+:root:not(.dark):not([data-theme="dark"]) .ops-filter-tab {
+  background: var(--neo-surface) !important;
+  border: 1px solid var(--neo-border) !important;
+  box-shadow: 2px 2px 6px var(--neo-shadow-dark), -2px -2px 6px var(--neo-shadow-light) !important;
+  color: var(--neo-muted) !important;
+}
+:root:not(.dark):not([data-theme="dark"]) .ops-filter-tab:hover {
+  box-shadow: 4px 4px 10px var(--neo-shadow-dark), -4px -4px 10px var(--neo-shadow-light) !important;
+  color: var(--neo-text) !important;
+}
+:root:not(.dark):not([data-theme="dark"]) .ops-filter-tab.active {
+  background: linear-gradient(135deg, #4a8eff 0%, #2563eb 100%) !important;
+  box-shadow: 3px 3px 10px rgba(37,99,235,0.4), -2px -2px 6px rgba(255,255,255,0.7) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+/* ── 7. Tables & Ledgers in Light Mode ── */
+:root:not(.dark):not([data-theme="dark"]) table thead,
+:root:not(.dark):not([data-theme="dark"]) table thead tr,
+:root:not(.dark):not([data-theme="dark"]) .ops-table thead tr {
+  background: rgba(220, 232, 255, 0.65) !important;
+  border-bottom: 1px solid var(--neo-border) !important;
+  color: var(--neo-muted) !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) table tbody tr,
+:root:not(.dark):not([data-theme="dark"]) .ops-table tbody tr {
+  border-bottom: 1px solid rgba(163, 185, 230, 0.3) !important;
+  transition: background-color 0.18s ease;
+}
+
+:root:not(.dark):not([data-theme="dark"]) table tbody tr:hover,
+:root:not(.dark):not([data-theme="dark"]) .ops-table tbody tr:hover {
+  background: rgba(220, 232, 255, 0.45) !important;
+}
+
+/* ── 8. Modals, Dialogs & Floating Popups in Light Mode ── */
+:root:not(.dark):not([data-theme="dark"]) div.fixed.inset-0 > div.bg-white,
+:root:not(.dark):not([data-theme="dark"]) div.fixed.inset-0 div[class*="rounded-3xl"][class*="bg-white"],
+:root:not(.dark):not([data-theme="dark"]) div.fixed.inset-0 div[class*="rounded-2xl"][class*="bg-white"],
+:root:not(.dark):not([data-theme="dark"]) .ops-modal-card {
+  background: var(--neo-surface) !important;
+  border: 1px solid var(--neo-border) !important;
+  box-shadow: 16px 16px 40px var(--neo-shadow-dark), -16px -16px 40px var(--neo-shadow-light), 0 20px 40px rgba(15,23,42,0.12) !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) div.fixed.inset-0 div[class*="bg-slate-50"],
+:root:not(.dark):not([data-theme="dark"]) div.fixed.inset-0 div[class*="border-b"][class*="border-slate-100"] {
+  background: rgba(220, 232, 255, 0.65) !important;
+  border-bottom: 1px solid var(--neo-border) !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) div.fixed.inset-0 div.sticky.bottom-0 {
+  background: var(--neo-surface) !important;
+  border-top: 1px solid var(--neo-border) !important;
+}
+
+/* ── 9. Dropdowns, Tooltips & Popups in Light Mode ── */
+:root:not(.dark):not([data-theme="dark"]) div.fixed.z-\[201\].w-72,
+:root:not(.dark):not([data-theme="dark"]) div.absolute.top-12.w-80,
+:root:not(.dark):not([data-theme="dark"]) div.absolute.top-12.sm\:w-96,
+:root:not(.dark):not([data-theme="dark"]) .ops-suggestion-panel,
+:root:not(.dark):not([data-theme="dark"]) .analytics-tooltip {
+  background: var(--neo-surface) !important;
+  border: 1px solid var(--neo-border) !important;
+  box-shadow: 12px 12px 30px var(--neo-shadow-dark), -12px -12px 30px var(--neo-shadow-light), 0 16px 36px rgba(15,23,42,0.12) !important;
+}
+
+/* ── 10. Executive Hero Banners in Light Mode ── */
+:root:not(.dark):not([data-theme="dark"]) .bg-gradient-to-r.from-slate-950,
+:root:not(.dark):not([data-theme="dark"]) .bg-gradient-to-r.from-slate-900 {
+  box-shadow: 8px 8px 24px var(--neo-shadow-dark), -8px -8px 24px var(--neo-shadow-light), 0 20px 40px rgba(15,23,42,0.18) !important;
+  border: 1px solid rgba(163,185,230,0.45) !important;
+}
+
+/* ── 11. Toggle Switches in Light Mode ── */
+:root:not(.dark):not([data-theme="dark"]) .ops-toggle {
+  background: var(--neo-surface) !important;
+  border: 1px solid var(--neo-border) !important;
+  box-shadow: var(--neo-shadow-sm) !important;
+}
+:root:not(.dark):not([data-theme="dark"]) .ops-toggle-track {
+  background: var(--neo-bg) !important;
+  box-shadow: var(--neo-shadow-in) !important;
+}
+:root:not(.dark):not([data-theme="dark"]) .ops-toggle-thumb {
+  background: #ffffff !important;
+  box-shadow: 2px 2px 5px rgba(163,185,230,0.6) !important;
+}
+
+/* ── 12. Operations page design tokens in light mode ── */
 :root:not(.dark):not([data-theme="dark"]) .operations-page {
   --ops-surface:      var(--neo-surface);
   --ops-surface-muted: rgba(196,214,255,0.55);
@@ -2032,3 +2209,26 @@ body {
                    inset 0 1px 0 rgba(180, 200, 255, 0.1) !important;
   }
 }
+
+/* ── Notification Popup: 100% Solid & Opaque (No Glassmorphic Transparency) ── */
+.notification-popup {
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .notification-popup {
+  background-color: #ebf3fd !important;
+  background: #ebf3fd !important;
+  border: 1px solid rgba(163, 185, 230, 0.6) !important;
+  box-shadow: 0 20px 45px -10px rgba(70, 95, 150, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.8) inset !important;
+}
+
+:root.dark .notification-popup,
+:root[data-theme="dark"] .notification-popup {
+  background-color: #0b1120 !important;
+  background: #0b1120 !important;
+  border: 1px solid rgba(51, 65, 85, 0.8) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
+}
+

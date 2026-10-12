@@ -552,12 +552,12 @@ export default function ProductsPage() {
 
             {/* ── Main Content: Table or Grid Cards ── */}
             {isLoading ? (
-                <div className="bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-16 flex flex-col items-center justify-center">
+                <div className="glass-card bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-16 flex flex-col items-center justify-center">
                     <div className="w-10 h-10 border-4 border-indigo-200 dark:border-indigo-900 border-t-indigo-600 rounded-full animate-spin" />
                     <p className="mt-4 font-bold text-slate-500 dark:text-slate-400 text-sm">Loading product catalogue…</p>
                 </div>
             ) : filtered.length === 0 ? (
-                <div className="bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-16 text-center flex flex-col items-center justify-center">
+                <div className="glass-card bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-16 text-center flex flex-col items-center justify-center">
                     <div className="w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-100 dark:border-indigo-900/50 flex items-center justify-center text-indigo-500 mb-4">
                         <PackageOpen size={32} />
                     </div>
@@ -753,7 +753,7 @@ export default function ProductsPage() {
             {/* ── Add / Edit Modal ── */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-200">
-                    <div className="glass-card bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+                    <div className="glass-card ops-modal-card bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-2xl overflow-hidden animate-in zoom-in-95 duration-200">
                         <div className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/70 dark:bg-slate-800/40">
                             <div className="flex items-center gap-3">
                                 <div className="p-2.5 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/50">
@@ -829,7 +829,7 @@ export default function ProductsPage() {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                                        Purchase Cost ($) <span className="text-rose-500">*</span>
+                                        Purchase Cost (Rwf) <span className="text-rose-500">*</span>
                                     </label>
                                     <input
                                         type="number"
@@ -844,7 +844,7 @@ export default function ProductsPage() {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                                        Selling Price ($) <span className="text-rose-500">*</span>
+                                        Selling Price (Rwf) <span className="text-rose-500">*</span>
                                     </label>
                                     <input
                                         type="number"
