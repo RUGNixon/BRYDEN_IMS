@@ -79,12 +79,12 @@ export default function NotificationBell() {
             {/* Bell Icon Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="relative p-2 rounded-xl bg-[#e2ecfc] dark:bg-slate-900/60 dark:backdrop-blur-md border border-white/80 dark:border-white/10 text-amber-600 dark:text-amber-400 hover:text-amber-700 hover:border-amber-200 dark:hover:border-amber-800/50 shadow-[3px_3px_8px_rgba(163,185,230,0.45),-3px_-3px_8px_rgba(255,255,255,0.9)] active:shadow-[inset_2px_2px_4px_rgba(163,185,230,0.5)] transition-all cursor-pointer group"
+                className="neo-header-action-btn text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 group"
                 aria-label="Notifications"
             >
-                <Bell size={18} className="group-hover:animate-pulse" />
+                <Bell size={18} className="group-hover:scale-110 transition-transform duration-200" />
                 {totalCount > 0 && !isLoading && (
-                    <span className="absolute top-0 right-0 inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-red-500 rounded-full border-2 border-[#C5A059] translate-x-1/4 -translate-y-1/4 shadow-sm">
+                    <span className="neo-header-badge-3d">
                         {totalCount > 99 ? "99+" : totalCount}
                     </span>
                 )}
@@ -92,7 +92,7 @@ export default function NotificationBell() {
 
             {/* Popup Window */}
             {isOpen && (
-                <div className="notification-popup absolute top-12 left-0 sm:left-auto sm:right-0 mt-2 w-80 sm:w-96 rounded-2xl shadow-2xl z-[100] overflow-hidden animate-in fade-in slide-in-from-top-4 duration-200 origin-top-left sm:origin-top-right border border-slate-200/90 dark:border-slate-800 bg-[#ebf3fd] dark:bg-[#0b1120]">
+                <div className="notification-popup absolute top-14 left-0 sm:left-auto sm:right-0 mt-2 w-80 sm:w-96 rounded-2xl shadow-2xl z-[100] overflow-hidden animate-in fade-in slide-in-from-top-4 duration-200 origin-top-left sm:origin-top-right border border-white/80 dark:border-white/10 bg-[#ebf3fd] dark:bg-[#0b1120]">
                     <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200/80 dark:border-slate-800 bg-[#dfeaf9]/90 dark:bg-slate-900/90">
                         <h3 className="font-semibold text-slate-800 dark:text-slate-100">Notifications</h3>
                         <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">

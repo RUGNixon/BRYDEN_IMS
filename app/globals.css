@@ -238,6 +238,350 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   3D & NEOMORPHIC HEADER SUITE
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── 3D Sculpted Header Bar ── */
+.neo-header-bar {
+  position: relative;
+  height: 4.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+  flex-shrink: 0;
+  z-index: 40;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Light mode: Sculpted clay surface with top highlight and dual lighting */
+  background: linear-gradient(180deg, rgba(238, 245, 255, 0.94) 0%, rgba(220, 234, 255, 0.90) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(163, 185, 230, 0.55);
+  box-shadow: 
+    0 10px 25px -4px rgba(140, 168, 220, 0.38),
+    0 4px 10px -2px rgba(160, 185, 230, 0.25),
+    inset 0 1.5px 0.5px rgba(255, 255, 255, 0.95),
+    inset 0 3px 6px rgba(255, 255, 255, 0.65),
+    inset 0 -1.5px 1px rgba(163, 185, 230, 0.35);
+}
+
+/* 3D bottom bevel shelf */
+.neo-header-bar::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.8) 15%, 
+    rgba(255, 255, 255, 0.95) 50%, 
+    rgba(255, 255, 255, 0.8) 85%, 
+    transparent 100%
+  );
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+:root.dark .neo-header-bar,
+:root[data-theme="dark"] .neo-header-bar {
+  background: linear-gradient(180deg, rgba(16, 22, 38, 0.96) 0%, rgba(9, 13, 24, 0.98) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 14px 30px -4px rgba(0, 0, 0, 0.85),
+    0 6px 14px -2px rgba(0, 0, 0, 0.65),
+    inset 0 1.5px 0.5px rgba(255, 255, 255, 0.16),
+    inset 0 3px 8px rgba(255, 255, 255, 0.04),
+    inset 0 -1.5px 1px rgba(0, 0, 0, 0.8);
+}
+
+:root.dark .neo-header-bar::after,
+:root[data-theme="dark"] .neo-header-bar::after {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(99, 102, 241, 0.3) 20%, 
+    rgba(129, 140, 248, 0.5) 50%, 
+    rgba(99, 102, 241, 0.3) 80%, 
+    transparent 100%
+  );
+  opacity: 0.6;
+}
+
+/* ── 3D Brand Badge / Tagline Pill ── */
+.neo-header-brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.9rem;
+  border-radius: 9999px;
+  background: linear-gradient(145deg, rgba(230, 240, 255, 0.85), rgba(215, 230, 255, 0.65));
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    inset 1.5px 1.5px 3px rgba(163, 185, 230, 0.45),
+    inset -1.5px -1.5px 3px rgba(255, 255, 255, 0.9),
+    0 1px 2px rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.06em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95);
+  transition: all 0.25s ease;
+}
+
+:root.dark .neo-header-brand-pill,
+:root[data-theme="dark"] .neo-header-brand-pill {
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.85), rgba(10, 15, 28, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    inset 1.5px 1.5px 3px rgba(0, 0, 0, 0.75),
+    inset -1.5px -1.5px 3px rgba(255, 255, 255, 0.04),
+    0 1px 1px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95);
+}
+
+/* ── 3D Neomorphic User Badge ── */
+.neo-header-user-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+
+  /* Light mode 3D convex extrusion */
+  background: linear-gradient(145deg, #f2f7ff 0%, #d8e6fb 100%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  color: #1e3a5f;
+  box-shadow: 
+    3.5px 3.5px 8px rgba(163, 185, 230, 0.65),
+    -3.5px -3.5px 8px rgba(255, 255, 255, 0.95),
+    inset 0 1px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px rgba(163, 185, 230, 0.35);
+}
+
+.neo-header-user-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    5px 5px 12px rgba(163, 185, 230, 0.75),
+    -5px -5px 12px rgba(255, 255, 255, 1),
+    inset 0 1px 1px rgba(255, 255, 255, 1);
+}
+
+:root.dark .neo-header-user-pill,
+:root[data-theme="dark"] .neo-header-user-pill {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  box-shadow: 
+    3.5px 3.5px 9px rgba(0, 0, 0, 0.75),
+    -2.5px -2.5px 7px rgba(255, 255, 255, 0.05),
+    inset 0 1px 1px rgba(255, 255, 255, 0.16),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.6);
+}
+
+:root.dark .neo-header-user-pill:hover,
+:root[data-theme="dark"] .neo-header-user-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    5px 5px 12px rgba(0, 0, 0, 0.85),
+    -3px -3px 8px rgba(255, 255, 255, 0.08);
+}
+
+/* ── 3D Inset Language Selector Cavity & 3D Keycaps ── */
+.neo-header-lang-tray {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.35rem;
+  border-radius: 0.9rem;
+  transition: all 0.25s ease;
+
+  background: #d4e3f8;
+  border: 1px solid rgba(163, 185, 230, 0.55);
+  box-shadow: 
+    inset 2.5px 2.5px 5px rgba(155, 178, 220, 0.65),
+    inset -2.5px -2.5px 5px rgba(255, 255, 255, 0.95),
+    0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+:root.dark .neo-header-lang-tray,
+:root[data-theme="dark"] .neo-header-lang-tray {
+  background: rgba(11, 17, 30, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    inset 2.5px 2.5px 6px rgba(0, 0, 0, 0.85),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.03),
+    0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.neo-header-lang-btn {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  border-radius: 0.65rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.neo-header-lang-btn-inactive {
+  color: #4a6fa5;
+}
+.neo-header-lang-btn-inactive:hover {
+  color: #1e3a5f;
+  transform: translateY(-0.5px);
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    1.5px 1.5px 4px rgba(163, 185, 230, 0.4),
+    -1.5px -1.5px 4px rgba(255, 255, 255, 0.8);
+}
+
+:root.dark .neo-header-lang-btn-inactive,
+:root[data-theme="dark"] .neo-header-lang-btn-inactive {
+  color: #94a3b8;
+}
+:root.dark .neo-header-lang-btn-inactive:hover,
+:root[data-theme="dark"] .neo-header-lang-btn-inactive:hover {
+  color: #ffffff;
+  transform: translateY(-0.5px);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 
+    1.5px 1.5px 4px rgba(0, 0, 0, 0.6),
+    -1px -1px 3px rgba(255, 255, 255, 0.04);
+}
+
+.neo-header-lang-btn-active {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: #ffffff !important;
+  box-shadow: 
+    2px 2.5px 6px rgba(37, 99, 235, 0.45),
+    -1px -1px 3px rgba(255, 255, 255, 0.4),
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 1px rgba(15, 60, 160, 0.4);
+  transform: translateY(-0.5px);
+}
+.neo-header-lang-btn-active:active {
+  transform: translateY(0.5px);
+  box-shadow: 
+    inset 1.5px 1.5px 3px rgba(15, 60, 160, 0.6),
+    inset -1px -1px 2px rgba(255, 255, 255, 0.2);
+}
+
+:root.dark .neo-header-lang-btn-active,
+:root[data-theme="dark"] .neo-header-lang-btn-active {
+  background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+  box-shadow: 
+    2px 3px 8px rgba(99, 102, 241, 0.55),
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.4),
+    inset 0 -1px 1px rgba(30, 27, 75, 0.5);
+}
+
+/* ── 3D Tactile Action Buttons (Theme Toggle, Bell, Settings) ── */
+.neo-header-action-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.58rem;
+  border-radius: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Light mode 3D extruded surface */
+  background: linear-gradient(145deg, #f2f7ff 0%, #d8e6fb 100%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  color: #3b577d;
+  box-shadow: 
+    3.5px 3.5px 8px rgba(155, 180, 225, 0.65),
+    -3.5px -3.5px 8px rgba(255, 255, 255, 0.95),
+    inset 0 1px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px rgba(163, 185, 230, 0.35);
+}
+
+.neo-header-action-btn:hover {
+  transform: translateY(-1.5px);
+  color: #2563eb;
+  border-color: rgba(255, 255, 255, 1);
+  box-shadow: 
+    5px 5px 12px rgba(155, 180, 225, 0.75),
+    -5px -5px 12px rgba(255, 255, 255, 1),
+    inset 0 1px 1px rgba(255, 255, 255, 1);
+}
+
+.neo-header-action-btn:active {
+  transform: translateY(0.5px);
+  box-shadow: 
+    inset 2.5px 2.5px 5px rgba(150, 175, 220, 0.75),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.9);
+}
+
+:root.dark .neo-header-action-btn,
+:root[data-theme="dark"] .neo-header-action-btn {
+  background: linear-gradient(145deg, rgba(28, 38, 58, 0.9) 0%, rgba(14, 20, 36, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  box-shadow: 
+    3.5px 3.5px 9px rgba(0, 0, 0, 0.8),
+    -2.5px -2.5px 7px rgba(255, 255, 255, 0.05),
+    inset 0 1px 1px rgba(255, 255, 255, 0.18),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.6);
+}
+
+:root.dark .neo-header-action-btn:hover,
+:root[data-theme="dark"] .neo-header-action-btn:hover {
+  transform: translateY(-1.5px);
+  color: #818cf8;
+  border-color: rgba(129, 140, 248, 0.3);
+  box-shadow: 
+    5px 5px 13px rgba(0, 0, 0, 0.9),
+    -3px -3px 8px rgba(255, 255, 255, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+:root.dark .neo-header-action-btn:active,
+:root[data-theme="dark"] .neo-header-action-btn:active {
+  transform: translateY(0.5px);
+  box-shadow: 
+    inset 2.5px 2.5px 6px rgba(0, 0, 0, 0.9),
+    inset -1.5px -1.5px 4px rgba(255, 255, 255, 0.04);
+}
+
+/* ── 3D Notification Counter Badge ── */
+.neo-header-badge-3d {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  padding: 0 0.25rem;
+  font-size: 0.625rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border-radius: 9999px;
+  border: 1.5px solid #ffffff;
+  box-shadow: 
+    0 2.5px 6px rgba(220, 38, 38, 0.55),
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.6);
+  z-index: 10;
+}
+
+:root.dark .neo-header-badge-3d,
+:root[data-theme="dark"] .neo-header-badge-3d {
+  border-color: #0b1120;
+  box-shadow: 
+    0 2.5px 7px rgba(239, 68, 68, 0.65),
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.6);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    COMPREHENSIVE NEOMORPHIC LIGHT MODE SUITE
    Strictly scoped to light mode via :root:not(.dark):not([data-theme="dark"])
    ═══════════════════════════════════════════════════════════════════ */
