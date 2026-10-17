@@ -11,7 +11,21 @@ function createPool(): Pool {
     if (!connectionString) {
         throw new Error("DATABASE_URL environment variable is not set.");
     }
-    return new Pool({ connectionString });
+
+    const isSupabase =
+        connectionString.includes("supabase.co") ||
+        connectionString.includes("supabase.com") ||
+        connectionString.includes("pooler.supabase.com");
+    const isProduction = process.env.NODE_ENV === "production";
+    const useSsl = isProduction || isSupabase || connectionString.includes("sslmode=require");
+
+    return new Pool({
+        connectionString,
+        ssl: useSsl ? { rejectUnauthorized: false } : undefined,
+        max: 10,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 10000,
+    });
 }
 
 const pool: Pool = globalThis._pgPool ?? createPool();

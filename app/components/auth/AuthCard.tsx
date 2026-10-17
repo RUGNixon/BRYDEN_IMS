@@ -176,11 +176,11 @@ export default function AuthCard({ initialMode = "signin" }: AuthCardProps) {
             <div className="absolute -bottom-12 -right-12 w-64 h-64 bg-emerald-500/10 dark:bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
 
             {/* Main Auth Card */}
-            <div className="glass-card ops-modal-card relative rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-2xl shadow-slate-900/5 dark:shadow-black/40 overflow-hidden transition-all duration-300">
+            <div className="glass-card ops-modal-card relative rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-2xl shadow-slate-900/5 dark:shadow-black/40 overflow-hidden transition-all duration-300 flex flex-col">
                 {/* Top Subtle Gradient Stripe */}
-                <div className="h-1.5 w-full bg-gradient-to-r from-indigo-500 via-indigo-600 to-emerald-500" />
+                <div className="h-1.5 w-full bg-gradient-to-r from-indigo-500 via-indigo-600 to-emerald-500 shrink-0" />
 
-                <div className="p-6 sm:p-8">
+                <div className="p-6 sm:p-8 overflow-y-auto max-h-[calc(100dvh-5.5rem)] lg:max-h-none custom-auth-scroll">
                     {/* Brand Header */}
                     <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center gap-3">

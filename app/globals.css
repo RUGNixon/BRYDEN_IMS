@@ -125,6 +125,30 @@ body {
   pointer-events: none;
 }
 
+/* Thin elegant scrollbar for auth card when constrained */
+.custom-auth-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(163, 185, 230, 0.6) transparent;
+}
+:root.dark .custom-auth-scroll,
+:root[data-theme="dark"] .custom-auth-scroll {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+.custom-auth-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-auth-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-auth-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(163, 185, 230, 0.6);
+  border-radius: 9999px;
+}
+:root.dark .custom-auth-scroll::-webkit-scrollbar-thumb,
+:root[data-theme="dark"] .custom-auth-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    NEOMORPHIC LIGHT MODE DESIGN SYSTEM
    All classes are prefixed with .neo- and only apply outside .dark

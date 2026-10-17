@@ -27,9 +27,9 @@ export default function SignUpPage() {
     };
 
     return (
-        <div className="min-h-screen w-full flex flex-col app-page-background text-slate-900 dark:text-slate-100 transition-colors duration-300 relative overflow-hidden">
+        <div className="min-h-screen w-full flex flex-col app-page-background text-slate-900 dark:text-slate-100 transition-colors duration-300 relative overflow-x-hidden overflow-y-auto">
             {/* Top Navigation Bar: Theme & Language Quick Switchers */}
-            <header className="w-full h-16 px-6 sm:px-12 flex items-center justify-between border-b border-slate-200/60 dark:border-slate-800/60 bg-white/60 dark:bg-slate-950/60 backdrop-blur-md z-30">
+            <header className="sticky top-0 w-full h-16 px-6 sm:px-12 flex items-center justify-between border-b border-slate-200/60 dark:border-slate-800/60 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md z-30 shrink-0">
                 <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center text-white shadow-md shadow-indigo-600/30">
                         <Lock size={16} strokeWidth={2.5} />
@@ -77,7 +77,7 @@ export default function SignUpPage() {
             </header>
 
             {/* Main Split-Screen Container */}
-            <div className="flex-1 flex flex-col lg:flex-row items-stretch w-full max-w-7xl mx-auto px-4 sm:px-8 py-8 sm:py-12 gap-8 lg:gap-12 relative z-20">
+            <div className="flex-1 flex flex-col lg:flex-row items-center lg:items-stretch w-full max-w-7xl mx-auto px-4 sm:px-8 py-6 sm:py-10 gap-8 lg:gap-12 relative z-20">
                 {/* LEFT SHOWCASE PANEL (Desktop & Tablet) */}
                 <div className="glass-card neo-card hidden lg:flex flex-1 flex-col justify-between p-8 xl:p-12 rounded-3xl bg-gradient-to-br from-indigo-950/20 via-slate-900/30 to-indigo-900/10 border border-slate-200/80 dark:border-slate-800/80 relative overflow-hidden backdrop-blur-xl">
                     <div className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" />
@@ -138,7 +138,7 @@ export default function SignUpPage() {
                 </div>
 
                 {/* RIGHT AUTH CARD PANEL */}
-                <div className="flex-1 flex items-center justify-center">
+                <div className="flex-1 w-full flex items-center justify-center py-2 sm:py-6">
                     <Suspense fallback={<div className="text-center text-sm py-12">Loading registration portal...</div>}>
                         <AuthCard initialMode="signup" />
                     </Suspense>

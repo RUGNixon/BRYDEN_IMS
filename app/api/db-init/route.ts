@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
 import pool from "@/lib/postgres";
+import { ensureAuthTables } from "@/lib/auth/schema";
+import { hashPassword } from "@/lib/auth/password";
 
 export async function GET() {
     try {
+        // 1. Core Inventory Tables
         await pool.query(`
             CREATE TABLE IF NOT EXISTS products (
                 id SERIAL PRIMARY KEY,
@@ -88,7 +91,6 @@ export async function GET() {
             FOR EACH ROW
             EXECUTE FUNCTION calculate_sales_profit();
 
-
             CREATE TABLE IF NOT EXISTS notes (
                 id SERIAL PRIMARY KEY,
                 title TEXT NOT NULL,
@@ -97,9 +99,47 @@ export async function GET() {
                 created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
             );
 
+            -- App Settings Table
+            CREATE TABLE IF NOT EXISTS app_settings (
+                id SERIAL PRIMARY KEY,
+                language VARCHAR(10) NOT NULL DEFAULT 'en',
+                tax_payment_schedule VARCHAR(20) NOT NULL DEFAULT 'monthly',
+                theme VARCHAR(10) NOT NULL DEFAULT 'light',
+                admin_email VARCHAR(255) NOT NULL DEFAULT 'admin@brydenims.com',
+                admin_password_hash VARCHAR(255) NOT NULL DEFAULT 'admin123',
+                updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            );
+
+            INSERT INTO app_settings (id, language, tax_payment_schedule, theme, admin_email, admin_password_hash)
+            VALUES (1, 'en', 'monthly', 'light', 'admin@brydenims.com', 'admin123')
+            ON CONFLICT (id) DO NOTHING;
         `);
 
-        return NextResponse.json({ message: "Database tables created successfully." });
+        // 2. Authentication Tables (users, user_sessions, auth_audit_logs)
+        await ensureAuthTables();
+
+        // 3. Ensure Default Admin exists in users table
+        const adminCheck = await pool.query(
+            "SELECT id FROM users WHERE role = 'admin' LIMIT 1;"
+        );
+
+        if (adminCheck.rows.length === 0) {
+            const adminPasswordHash = await hashPassword("admin123");
+            await pool.query(
+                `
+                INSERT INTO users (name, email, password_hash, role, status, created_at, updated_at)
+                VALUES ('System Administrator', 'admin@brydenims.com', $1, 'admin', 'active', NOW(), NOW())
+                ON CONFLICT (email) DO NOTHING;
+                `,
+                [adminPasswordHash]
+            );
+        }
+
+        return NextResponse.json({
+            success: true,
+            message: "Database tables created and initialized successfully.",
+            defaultAdmin: "admin@brydenims.com / admin123"
+        });
     } catch (error) {
         console.error("DB Init error:", error);
         return NextResponse.json({ error: "Failed to initialize database." }, { status: 500 });

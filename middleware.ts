@@ -41,8 +41,14 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(loginUrl);
     }
 
-    // 3. Protect sensitive API routes (except /api/auth and public endpoints)
-    if (pathname.startsWith("/api/") && !pathname.startsWith("/api/auth/") && !pathname.startsWith("/api/settings")) {
+    // 3. Protect sensitive API routes (except /api/auth, /api/db-init, /api/db-migrate and public endpoints)
+    if (
+        pathname.startsWith("/api/") &&
+        !pathname.startsWith("/api/auth/") &&
+        !pathname.startsWith("/api/settings") &&
+        !pathname.startsWith("/api/db-init") &&
+        !pathname.startsWith("/api/db-migrate")
+    ) {
         // If an API request comes without session cookie, block with 401
         if (!hasSession) {
             return NextResponse.json(

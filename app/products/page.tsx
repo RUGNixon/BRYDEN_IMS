@@ -223,13 +223,12 @@ export default function ProductsPage() {
                     return (
                         <div
                             key={toast.id}
-                            className={`pointer-events-auto flex items-start gap-3 px-4 py-3.5 rounded-2xl border shadow-2xl backdrop-blur-xl transition-all duration-300 ${
-                                isSuccess
-                                    ? "bg-emerald-950/90 border-emerald-500/40 text-emerald-100"
-                                    : isError
+                            className={`pointer-events-auto flex items-start gap-3 px-4 py-3.5 rounded-2xl border shadow-2xl backdrop-blur-xl transition-all duration-300 ${isSuccess
+                                ? "bg-emerald-950/90 border-emerald-500/40 text-emerald-100"
+                                : isError
                                     ? "bg-rose-950/90 border-rose-500/40 text-rose-100"
                                     : "bg-slate-900/95 border-slate-700 text-white"
-                            } ops-animate-fade`}
+                                } ops-animate-fade`}
                         >
                             {isSuccess ? (
                                 <CheckCircle2 className="text-emerald-400 shrink-0 mt-0.5" size={18} />
@@ -432,22 +431,20 @@ export default function ProductsPage() {
                         <div className="flex items-center p-1 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 shadow-xs">
                             <button
                                 onClick={() => setViewMode("table")}
-                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                                    viewMode === "table"
-                                        ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-sm"
-                                        : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
-                                }`}
+                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${viewMode === "table"
+                                    ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-sm"
+                                    : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                                    }`}
                                 title="High-density table"
                             >
                                 <TableIcon size={14} /> Table
                             </button>
                             <button
                                 onClick={() => setViewMode("grid")}
-                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                                    viewMode === "grid"
-                                        ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-sm"
-                                        : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
-                                }`}
+                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${viewMode === "grid"
+                                    ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-sm"
+                                    : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                                    }`}
                                 title="Visual product cards"
                             >
                                 <LayoutGrid size={14} /> Cards
@@ -477,41 +474,37 @@ export default function ProductsPage() {
                     </span>
                     <button
                         onClick={() => setStockFilter("ALL")}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                            stockFilter === "ALL"
-                                ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/20"
-                                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-                        }`}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${stockFilter === "ALL"
+                            ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/20"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                            }`}
                     >
                         All ({products.length})
                     </button>
                     <button
                         onClick={() => setStockFilter("HEALTHY")}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                            stockFilter === "HEALTHY"
-                                ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
-                                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-                        }`}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${stockFilter === "HEALTHY"
+                            ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                            }`}
                     >
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> In Stock
                     </button>
                     <button
                         onClick={() => setStockFilter("LOW")}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                            stockFilter === "LOW"
-                                ? "bg-amber-600 text-white shadow-md shadow-amber-500/20"
-                                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-                        }`}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${stockFilter === "LOW"
+                            ? "bg-amber-600 text-white shadow-md shadow-amber-500/20"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                            }`}
                     >
                         <span className="w-1.5 h-1.5 rounded-full bg-amber-400" /> Low Stock (≤10)
                     </button>
                     <button
                         onClick={() => setStockFilter("OUT")}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                            stockFilter === "OUT"
-                                ? "bg-rose-600 text-white shadow-md shadow-rose-500/20"
-                                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-                        }`}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${stockFilter === "OUT"
+                            ? "bg-rose-600 text-white shadow-md shadow-rose-500/20"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                            }`}
                     >
                         <span className="w-1.5 h-1.5 rounded-full bg-rose-400" /> Out of Stock
                     </button>
@@ -524,11 +517,10 @@ export default function ProductsPage() {
                             </span>
                             <button
                                 onClick={() => setSelectedCategory("ALL")}
-                                className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                                    selectedCategory === "ALL"
-                                        ? "bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900"
-                                        : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
-                                }`}
+                                className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${selectedCategory === "ALL"
+                                    ? "bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900"
+                                    : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                                    }`}
                             >
                                 All
                             </button>
@@ -536,11 +528,10 @@ export default function ProductsPage() {
                                 <button
                                     key={cat}
                                     onClick={() => setSelectedCategory(cat)}
-                                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                                        selectedCategory.toLowerCase() === cat.toLowerCase()
-                                            ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800"
-                                            : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
-                                    }`}
+                                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${selectedCategory.toLowerCase() === cat.toLowerCase()
+                                        ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800"
+                                        : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                                        }`}
                                 >
                                     {cat}
                                 </button>
@@ -633,9 +624,8 @@ export default function ProductsPage() {
                                         </div>
                                         <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
                                             <div
-                                                className={`h-full rounded-full transition-all duration-500 ${
-                                                    isOut ? "bg-rose-500 w-full" : isLow ? "bg-amber-400 w-1/4" : "bg-emerald-500 w-3/4"
-                                                }`}
+                                                className={`h-full rounded-full transition-all duration-500 ${isOut ? "bg-rose-500 w-full" : isLow ? "bg-amber-400 w-1/4" : "bg-emerald-500 w-3/4"
+                                                    }`}
                                             />
                                         </div>
                                     </div>
@@ -718,9 +708,8 @@ export default function ProductsPage() {
                                             <td className="py-4 px-3">
                                                 <div className="flex items-center gap-2">
                                                     <span
-                                                        className={`w-2 h-2 rounded-full ${
-                                                            isOut ? "bg-rose-500 animate-pulse" : isLow ? "bg-amber-500 animate-pulse" : "bg-emerald-500"
-                                                        }`}
+                                                        className={`w-2 h-2 rounded-full ${isOut ? "bg-rose-500 animate-pulse" : isLow ? "bg-amber-500 animate-pulse" : "bg-emerald-500"
+                                                            }`}
                                                     />
                                                     <span className={`font-black ${isOut ? "text-rose-500" : isLow ? "text-amber-500" : "text-slate-800 dark:text-slate-200"}`}>
                                                         {fmtQty(product.quantity)}
