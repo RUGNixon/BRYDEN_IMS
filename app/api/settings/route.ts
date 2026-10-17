@@ -53,10 +53,10 @@ export async function GET() {
             email: row.admin_email || "admin@brydenims.com",
             updatedAt: row.updated_at,
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error("GET /api/settings error:", error);
         return NextResponse.json(
-            { error: "Failed to fetch settings." },
+            { error: error?.message || "Failed to fetch settings." },
             { status: 500 }
         );
     }

@@ -173,10 +173,10 @@ export async function POST(req: Request) {
 
         setSessionCookie(response, token, expiresAt);
         return response;
-    } catch (error) {
+    } catch (error: any) {
         console.error("POST /api/auth/login error:", error);
         return NextResponse.json(
-            { error: "An unexpected error occurred during sign-in. Please try again." },
+            { error: error?.message || "An unexpected error occurred during sign-in. Please try again." },
             { status: 500 }
         );
     }

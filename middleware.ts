@@ -47,7 +47,8 @@ export function middleware(request: NextRequest) {
         !pathname.startsWith("/api/auth/") &&
         !pathname.startsWith("/api/settings") &&
         !pathname.startsWith("/api/db-init") &&
-        !pathname.startsWith("/api/db-migrate")
+        !pathname.startsWith("/api/db-migrate") &&
+        !pathname.startsWith("/api/health")
     ) {
         // If an API request comes without session cookie, block with 401
         if (!hasSession) {
