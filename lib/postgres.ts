@@ -11,7 +11,7 @@ function getPool(): Pool {
         return globalThis._pgPool;
     }
 
-    const connectionString = process.env.DATABASE_URL;
+    let connectionString = process.env.DATABASE_URL;
     if (!connectionString) {
         throw new Error(
             "DATABASE_URL environment variable is not set in Vercel. Please add DATABASE_URL under Project Settings -> Environment Variables and redeploy."
@@ -23,11 +23,25 @@ function getPool(): Pool {
         connectionString.includes("supabase.com") ||
         connectionString.includes("pooler.supabase.com");
     const isProduction = process.env.NODE_ENV === "production";
-    const useSsl = isProduction || isSupabase || connectionString.includes("sslmode=require");
+    const needsSsl = isProduction || isSupabase || connectionString.includes("sslmode=require");
+
+    // Strip sslmode from connection string to avoid pg module double-processing SSL.
+    // We handle SSL configuration programmatically below instead.
+    if (needsSsl) {
+        connectionString = connectionString
+            .replace(/[?&]sslmode=require/gi, "")
+            .replace(/[?&]sslmode=prefer/gi, "")
+            .replace(/\?$/, ""); // clean trailing ? if sslmode was the only param
+    }
+
+    // Ensure Node.js doesn't reject Supabase's pooler certificates
+    if (needsSsl && typeof process !== "undefined") {
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+    }
 
     const poolInstance = new Pool({
         connectionString,
-        ssl: useSsl ? { rejectUnauthorized: false } : undefined,
+        ssl: needsSsl ? { rejectUnauthorized: false } : undefined,
         max: 10,
         idleTimeoutMillis: 30000,
         connectionTimeoutMillis: 10000,
