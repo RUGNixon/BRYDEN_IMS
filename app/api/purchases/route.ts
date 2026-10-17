@@ -1,9 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/postgres";
 
+// Ensure purchases table and all columns exist
+async function ensurePurchasesTable() {
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS purchases (
+            id SERIAL PRIMARY KEY,
+            supplier_name TEXT NOT NULL,
+            product_name TEXT NOT NULL,
+            size TEXT NOT NULL DEFAULT '',
+            purchase_price NUMERIC(10,2) NOT NULL DEFAULT 0,
+            quantity INTEGER NOT NULL DEFAULT 0,
+            date TEXT NOT NULL
+        );
+        ALTER TABLE purchases ADD COLUMN IF NOT EXISTS selling_price NUMERIC(10,2);
+        ALTER TABLE purchases ADD COLUMN IF NOT EXISTS phone TEXT;
+        ALTER TABLE purchases ADD COLUMN IF NOT EXISTS email TEXT;
+    `);
+}
+
 // GET all purchases
 export async function GET() {
     try {
+        await ensurePurchasesTable();
         const result = await pool.query(
             `SELECT id, supplier_name AS "supplierName", product_name AS "productName",
                     size, purchase_price AS "purchasePrice",
@@ -21,6 +40,7 @@ export async function GET() {
 
 // POST new purchase — upserts product inventory + sets selling price
 export async function POST(req: NextRequest) {
+    await ensurePurchasesTable();
     const client = await pool.connect();
     try {
         const { supplierName, productName, size, purchasePrice, sellingPrice, quantity, date, phone, email } =

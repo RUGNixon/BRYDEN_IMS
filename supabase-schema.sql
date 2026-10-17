@@ -21,8 +21,11 @@ CREATE TABLE IF NOT EXISTS purchases (
     product_name TEXT NOT NULL,
     size TEXT NOT NULL DEFAULT '',
     purchase_price NUMERIC(10,2) NOT NULL DEFAULT 0,
+    selling_price NUMERIC(10,2),
     quantity INTEGER NOT NULL DEFAULT 0,
-    date TEXT NOT NULL
+    date TEXT NOT NULL,
+    phone TEXT,
+    email TEXT
 );
 
 -- 3. SALES TABLE
@@ -79,7 +82,9 @@ CREATE TABLE IF NOT EXISTS expenses (
     person_name TEXT NOT NULL,
     description TEXT NOT NULL DEFAULT '',
     amount NUMERIC(10,2) NOT NULL DEFAULT 0,
-    date TEXT NOT NULL
+    date TEXT NOT NULL,
+    phone TEXT,
+    email TEXT
 );
 
 -- 6. NOTES TABLE

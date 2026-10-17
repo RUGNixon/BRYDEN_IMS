@@ -49,6 +49,10 @@ export async function GET() {
             ALTER TABLE sales ADD COLUMN IF NOT EXISTS phone TEXT;
             ALTER TABLE sales ADD COLUMN IF NOT EXISTS email TEXT;
 
+            ALTER TABLE purchases ADD COLUMN IF NOT EXISTS selling_price NUMERIC(10,2);
+            ALTER TABLE purchases ADD COLUMN IF NOT EXISTS phone TEXT;
+            ALTER TABLE purchases ADD COLUMN IF NOT EXISTS email TEXT;
+
             CREATE TABLE IF NOT EXISTS expenses (
                 id SERIAL PRIMARY KEY,
                 person_name TEXT NOT NULL,
@@ -56,6 +60,9 @@ export async function GET() {
                 amount NUMERIC(10,2) NOT NULL DEFAULT 0,
                 date TEXT NOT NULL
             );
+
+            ALTER TABLE expenses ADD COLUMN IF NOT EXISTS phone TEXT;
+            ALTER TABLE expenses ADD COLUMN IF NOT EXISTS email TEXT;
 
             -- Create trigger for self-populating profits and VAT
             CREATE OR REPLACE FUNCTION calculate_sales_profit()

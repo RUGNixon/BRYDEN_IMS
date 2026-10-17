@@ -1,9 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/postgres";
 
+// Ensure sales table and all columns exist
+async function ensureSalesTable() {
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS sales (
+            id SERIAL PRIMARY KEY,
+            client_name TEXT NOT NULL,
+            product_name TEXT NOT NULL,
+            size TEXT NOT NULL DEFAULT '',
+            quantity INTEGER NOT NULL DEFAULT 0,
+            selling_price NUMERIC(10,2) NOT NULL DEFAULT 0,
+            status BOOLEAN NOT NULL DEFAULT FALSE,
+            "order" BOOLEAN NOT NULL DEFAULT FALSE,
+            date TEXT NOT NULL
+        );
+        ALTER TABLE sales ADD COLUMN IF NOT EXISTS profits NUMERIC(10,2) NOT NULL DEFAULT 0;
+        ALTER TABLE sales ADD COLUMN IF NOT EXISTS vat NUMERIC(10,2) NOT NULL DEFAULT 0;
+        ALTER TABLE sales ADD COLUMN IF NOT EXISTS phone TEXT;
+        ALTER TABLE sales ADD COLUMN IF NOT EXISTS email TEXT;
+    `);
+}
+
 // GET all sales
 export async function GET() {
     try {
+        await ensureSalesTable();
         const result = await pool.query(
             `SELECT id, client_name AS "clientName", product_name AS "productName",
                     size, quantity,
@@ -23,6 +45,7 @@ export async function GET() {
 
 // POST new sale — also decrements product stock in a transaction
 export async function POST(req: NextRequest) {
+    await ensureSalesTable();
     const client = await pool.connect();
     try {
         const { clientName, productName, size, quantity, sellingPrice, status, order, phone, email } =

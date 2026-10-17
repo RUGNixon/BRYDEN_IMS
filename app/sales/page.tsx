@@ -250,13 +250,16 @@ export default function SalesPage() {
                 fetch("/api/sales"),
                 fetch("/api/products"),
             ]);
-            if (!salesRes.ok || !productsRes.ok) throw new Error("Fetch failed");
+            if (!salesRes.ok || !productsRes.ok) {
+                const err = !salesRes.ok ? await salesRes.json().catch(() => ({})) : await productsRes.json().catch(() => ({}));
+                throw new Error(err.error || `HTTP ${!salesRes.ok ? salesRes.status : productsRes.status}`);
+            }
             const [salesData, productsData] = await Promise.all([salesRes.json(), productsRes.json()]);
-            setSales(salesData);
-            setProducts(productsData);
-        } catch (error) {
+            setSales(Array.isArray(salesData) ? salesData : []);
+            setProducts(Array.isArray(productsData) ? productsData : []);
+        } catch (error: any) {
             console.error("Error fetching sales data:", error);
-            showToast("error", "Error", "Failed to retrieve sales records.");
+            showToast("error", "Error", error?.message || "Failed to retrieve sales records.");
         } finally {
             setIsLoading(false);
         }

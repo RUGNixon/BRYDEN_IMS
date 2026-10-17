@@ -209,12 +209,15 @@ export default function PurchasePage() {
     const fetchPurchases = useCallback(async () => {
         try {
             const res = await fetch("/api/purchases");
-            if (!res.ok) throw new Error("Fetch failed");
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({}));
+                throw new Error(errData.error || `HTTP ${res.status}`);
+            }
             const data = await res.json();
-            setPurchases(data);
-        } catch (error) {
+            setPurchases(Array.isArray(data) ? data : []);
+        } catch (error: any) {
             console.error("Error fetching purchases:", error);
-            showToast("error", "Error", "Failed to retrieve purchases records.");
+            showToast("error", "Error", error?.message || "Failed to retrieve purchases records.");
         } finally {
             setIsLoading(false);
         }
